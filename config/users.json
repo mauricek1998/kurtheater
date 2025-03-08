@@ -1,25 +1,25 @@
 {
     "users": {
         "max.mustermann": {
-            "password": "scrypt:32768:8:1$ksm4gQWUnsiALVfE$ecb2d58b45a4cebaf06cf7aee34bdcb1333360efa4e67dbea7e99d1c457f51d1e776580186c6194fa8b714a62ea051b983d19597d4b47d13dca84d4dd4d94f15",
+            "password": "pbkdf2:sha256:600000$KeIkqMFnM5YSGy4c$55be88729b89c941f8ce142223688055ac94b2f56fe6417bbd71ef0b6a66ccb1",
             "name": "Max Mustermann",
             "roles": ["Bistro", "Vorfuehrer"],
             "is_supervisor": true
         },
         "anna.schmidt": {
-            "password": "scrypt:32768:8:1$ksm4gQWUnsiALVfE$ecb2d58b45a4cebaf06cf7aee34bdcb1333360efa4e67dbea7e99d1c457f51d1e776580186c6194fa8b714a62ea051b983d19597d4b47d13dca84d4dd4d94f15",
+            "password": "pbkdf2:sha256:600000$KeIkqMFnM5YSGy4c$55be88729b89c941f8ce142223688055ac94b2f56fe6417bbd71ef0b6a66ccb1",
             "name": "Anna Schmidt",
             "roles": ["Bistro"],
             "is_supervisor": false
         },
         "ranna.schmidt": {
-            "password": "scrypt:32768:8:1$ksm4gQWUnsiALVfE$ecb2d58b45a4cebaf06cf7aee34bdcb1333360efa4e67dbea7e99d1c457f51d1e776580186c6194fa8b714a62ea051b983d19597d4b47d13dca84d4dd4d94f15",
+            "password": "pbkdf2:sha256:600000$KeIkqMFnM5YSGy4c$55be88729b89c941f8ce142223688055ac94b2f56fe6417bbd71ef0b6a66ccb1",
             "name": "Ranna Schmidt",
             "roles": ["Bistro", "Vorfuehrer"],
             "is_supervisor": true
         },
         "admin": {
-            "password": "scrypt:32768:8:1$ksm4gQWUnsiALVfE$ecb2d58b45a4cebaf06cf7aee34bdcb1333360efa4e67dbea7e99d1c457f51d1e776580186c6194fa8b714a62ea051b983d19597d4b47d13dca84d4dd4d94f15",
+            "password": "pbkdf2:sha256:600000$KeIkqMFnM5YSGy4c$55be88729b89c941f8ce142223688055ac94b2f56fe6417bbd71ef0b6a66ccb1",
             "name": "Administrator",
             "roles": ["Bistro", "Vorfuehrer"],
             "is_supervisor": true
