@@ -3,26 +3,55 @@
         "max.mustermann": {
             "password": "pbkdf2:sha256:600000$KeIkqMFnM5YSGy4c$55be88729b89c941f8ce142223688055ac94b2f56fe6417bbd71ef0b6a66ccb1",
             "name": "Max Mustermann",
-            "roles": ["Bistro", "Vorfuehrer"],
+            "roles": [
+                "Bistro",
+                "Vorfuehrer"
+            ],
             "is_supervisor": true
         },
         "anna.schmidt": {
             "password": "pbkdf2:sha256:600000$KeIkqMFnM5YSGy4c$55be88729b89c941f8ce142223688055ac94b2f56fe6417bbd71ef0b6a66ccb1",
             "name": "Anna Schmidt",
-            "roles": ["Bistro"],
+            "roles": [
+                "Bistro"
+            ],
             "is_supervisor": false
         },
         "ranna.schmidt": {
             "password": "pbkdf2:sha256:600000$KeIkqMFnM5YSGy4c$55be88729b89c941f8ce142223688055ac94b2f56fe6417bbd71ef0b6a66ccb1",
             "name": "Ranna Schmidt",
-            "roles": ["Bistro", "Vorfuehrer"],
+            "roles": [
+                "Bistro",
+                "Vorfuehrer"
+            ],
             "is_supervisor": true
         },
         "admin": {
             "password": "pbkdf2:sha256:600000$KeIkqMFnM5YSGy4c$55be88729b89c941f8ce142223688055ac94b2f56fe6417bbd71ef0b6a66ccb1",
             "name": "Administrator",
-            "roles": ["Bistro", "Vorfuehrer"],
+            "roles": [
+                "Bistro",
+                "Vorfuehrer"
+            ],
+            "is_supervisor": true
+        },
+        "laurenz.paurenz": {
+            "password": "pbkdf2:sha256:600000$dqaIMsuQKmd6LE56$fe9775e438805032fe6b3935b2d8ce0cd7215ba868cf7f949a8430025f591c3c",
+            "name": "Laurenz Paurenz",
+            "roles": [
+                "Bistro",
+                "Vorfuehrer"
+            ],
+            "is_supervisor": false
+        },
+        "Paul": {
+            "password": "pbkdf2:sha256:600000$icEyQGHBfft8b39d$021c47489796a99621648ea39487075743c4c443fc2a1abfffd061b1ced1de98",
+            "name": "Zachi",
+            "roles": [
+                "Bistro",
+                "Vorfuehrer"
+            ],
             "is_supervisor": true
         }
     }
-} 
+}

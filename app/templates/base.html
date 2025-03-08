@@ -47,6 +47,8 @@
              class="hover:text-orange-300 transition-colors">Startseite</a>
           <a href="{{ url_for('main.supervisor') }}" 
              class="hover:text-orange-300 transition-colors">Dienstpläne verwalten</a>
+          <a href="{{ url_for('main.user_management') }}" 
+             class="hover:text-orange-300 transition-colors">Benutzer verwalten</a>
           {% else %}
           <a href="{{ url_for('main.employee_drafts') }}" 
              class="hover:text-orange-300 transition-colors">Verfügbarkeit eintragen</a>

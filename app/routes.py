@@ -5,7 +5,7 @@ from datetime import datetime
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from .scheduler import generate_initial_plan
-from .auth import verify_password, get_user
+from .auth import verify_password, get_user, load_users, add_user, save_users, hash_password
 
 bp = Blueprint('main', __name__)
 
@@ -411,3 +411,85 @@ def plan_list():
                         'display_name': f"{month}/{year}"
                     })
     return render_template('plan_list.html', plan_files=sorted(final_plans, key=lambda x: x['display_name']))
+
+@bp.route('/user_management', methods=['GET', 'POST'])
+@login_required
+def user_management():
+    # Nur Supervisoren dürfen auf die Benutzerverwaltung zugreifen
+    if not current_user.is_supervisor:
+        flash('Sie haben keine Berechtigung für diese Seite.', 'error')
+        return redirect(url_for('main.index'))
+    
+    users_data = load_users()
+    all_users = []
+    
+    for username, user_data in users_data.items():
+        all_users.append({
+            'username': username,
+            'name': user_data['name'],
+            'roles': user_data['roles'],
+            'is_supervisor': user_data['is_supervisor']
+        })
+    
+    # Sortiere Benutzer nach Namen
+    all_users.sort(key=lambda x: x['name'])
+    
+    if request.method == 'POST':
+        action = request.form.get('action')
+        
+        # Neuen Benutzer anlegen
+        if action == 'create':
+            username = request.form.get('username')
+            name = request.form.get('name')
+            password = request.form.get('password')
+            roles = request.form.getlist('roles')
+            is_supervisor = 'is_supervisor' in request.form
+            
+            if not username or not name or not password:
+                flash('Bitte füllen Sie alle Pflichtfelder aus.', 'error')
+            elif username in users_data:
+                flash(f'Der Benutzername {username} existiert bereits.', 'error')
+            else:
+                success, message = add_user(username, password, name, roles, is_supervisor)
+                if success:
+                    flash(message, 'success')
+                    return redirect(url_for('main.user_management'))
+                else:
+                    flash(message, 'error')
+        
+        # Benutzer aktualisieren
+        elif action == 'update':
+            username = request.form.get('username')
+            name = request.form.get('name')
+            password = request.form.get('password')
+            roles = request.form.getlist('roles')
+            is_supervisor = 'is_supervisor' in request.form
+            
+            if username not in users_data:
+                flash(f'Der Benutzer {username} existiert nicht.', 'error')
+            else:
+                users_data[username]['name'] = name
+                users_data[username]['roles'] = roles
+                users_data[username]['is_supervisor'] = is_supervisor
+                
+                # Passwort nur aktualisieren, wenn eines eingegeben wurde
+                if password:
+                    users_data[username]['password'] = hash_password(password)
+                
+                save_users(users_data)
+                flash(f'Benutzer {username} wurde aktualisiert.', 'success')
+                return redirect(url_for('main.user_management'))
+        
+        # Benutzer löschen
+        elif action == 'delete':
+            username = request.form.get('username')
+            
+            if username not in users_data:
+                flash(f'Der Benutzer {username} existiert nicht.', 'error')
+            else:
+                del users_data[username]
+                save_users(users_data)
+                flash(f'Benutzer {username} wurde gelöscht.', 'success')
+                return redirect(url_for('main.user_management'))
+    
+    return render_template('user_management.html', users=all_users)
