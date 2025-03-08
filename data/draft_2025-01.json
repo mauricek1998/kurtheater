@@ -1,0 +1,635 @@
+{
+    "days": {
+        "2025-01-01": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-02": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-03": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-04": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-05": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-06": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-07": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-08": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-09": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-10": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-11": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-12": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-13": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-14": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-15": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-16": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-17": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-18": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-19": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-20": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-21": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-22": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-23": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-24": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-25": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-26": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-27": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-28": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-29": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-30": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-01-31": {
+            "availability": [],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": false,
+                    "type": "normal"
+                }
+            }
+        }
+    },
+    "month": 1,
+    "status": "final",
+    "year": 2025,
+    "assignments": {
+        "2025-01-01": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-02": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-03": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-04": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "mittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-05": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "mittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-06": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-07": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-08": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-09": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-10": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-11": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            },
+            "mittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2025-01-12": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            },
+            "mittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2025-01-13": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-14": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-15": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-16": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-17": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-18": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "mittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-19": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "mittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-20": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-21": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-22": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-23": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-24": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-25": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "mittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-26": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "mittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-27": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-28": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-29": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-30": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2025-01-31": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        }
+    },
+    "total_hours": {
+        "Ranna Schmidt": 18
+    }
+}

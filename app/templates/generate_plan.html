@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Finalen Plan generieren</h2>
+<form method="post" action="{{ url_for('main.generate_plan') }}">
+    <label for="draft_select">Wähle einen Entwurf:</label>
+    <select id="draft_select" name="draft_filename" required>
+        {% for draft in drafts %}
+        <option value="{{ draft }}">{{ draft }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <button type="submit">Plan generieren</button>
+</form>
+{% endblock %}

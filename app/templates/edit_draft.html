@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">Entwurf bearbeiten: {{ draft_filename }}</h2>
+<div id="calendar"></div>
+<form id="draftForm" method="post" action="{{ url_for('main.edit_draft', draft_filename=draft_filename) }}">
+  <!-- Hidden Input zum Übertragen des aktualisierten Drafts -->
+  <input type="hidden" id="draft_data" name="draft_data" value='{{ draft | tojson }}'>
+  <button type="button" onclick="saveDraft()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Entwurf speichern</button>
+</form>
+{% endblock %}
+{% block scripts %}
+<script>
+  // Setze den globalen Draft, damit die JS-Funktionen darauf zugreifen können.
+  document.addEventListener("DOMContentLoaded", function() {
+    window.draftGlobal = JSON.parse('{{ draft | tojson | safe }}');
+    renderSupervisorCalendar(window.draftGlobal);
+  });
+</script>
+{% endblock %}

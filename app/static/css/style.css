@@ -1,0 +1,161 @@
+/* Allgemeine Stile */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+    color: #333;
+}
+
+header, footer {
+    background: #333333;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+header h1, footer p {
+    margin: 0;
+}
+
+nav a {
+    color: #fff;
+    margin-right: 15px;
+    text-decoration: none;
+}
+
+main {
+    padding: 20px;
+}
+
+/* Tabellenstil */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+/* Button-Stile */
+button {
+    padding: 8px 12px;
+    margin: 5px;
+    border: none;
+    background-color: #007BFF;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button.remove-day {
+    background-color: #dc3545;
+}
+
+button.remove-day:hover {
+    background-color: #a71d2a;
+}
+
+/* Flash-Messages */
+#flash-messages {
+    list-style-type: none;
+    padding: 0;
+}
+
+#flash-messages li {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+#flash-messages li.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+#flash-messages li.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Kalender-Stile */
+.calendar-day {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    background: #fff;
+    display: inline-block;
+    vertical-align: top;
+    width: 200px;
+}
+
+.calendar-day h3 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    text-align: center;
+}
+
+.shifts-container {
+    margin-bottom: 5px;
+}
+
+.shift-container {
+    margin-bottom: 5px;
+}
+
+/* Supervisor: Schicht-Schaltflächen */
+.shift-btn, .type-toggle {
+    margin: 2px;
+    padding: 5px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.shift-btn.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.shift-btn.inactive {
+    background-color: #ddd;
+    color: #555;
+}
+
+.shift-btn.sv {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.type-toggle {
+    background-color: #f39c12;
+    color: white;
+    font-size: 10px;
+    padding: 3px 5px;
+}
+
+/* Mitarbeiter: Schicht-Schaltflächen */
+.emp-shift-btn {
+    background-color: #ddd;
+    color: #333;
+    margin: 2px;
+    padding: 5px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.emp-shift-btn.selected {
+    background-color: #4CAF50;
+    color: white;
+}

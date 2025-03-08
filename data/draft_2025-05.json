@@ -1,0 +1,2088 @@
+{
+    "days": {
+        "2025-05-01": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-02": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-03": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "sv"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-04": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-05": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-06": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-07": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-08": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-09": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-10": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-11": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-12": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-13": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-14": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-15": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-16": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-17": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-18": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-19": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-20": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-21": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-22": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-23": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-24": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-25": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-26": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-27": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-28": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-29": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-30": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2025-05-31": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Administrator",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                },
+                {
+                    "name": "Anna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro"
+                    ]
+                },
+                {
+                    "name": "Max Mustermann",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        }
+    },
+    "month": 5,
+    "status": "final",
+    "year": 2025,
+    "assignments": {
+        "2025-05-01": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": [
+                    "Badministrator",
+                    "Anna Schmidt"
+                ]
+            }
+        },
+        "2025-05-02": {
+            "abends": {
+                "Vorfuehrer": "Spack Mustermann",
+                "Bistro": [
+                    "Badministrator",
+                    "Anna Schmidt"
+                ]
+            }
+        },
+        "2025-05-03": {
+            "abends": {
+                "Bistro": [
+                    "Ranna Schmidt",
+                    "Spack Mustermann"
+                ]
+            },
+            "mittags": {
+                "Vorfuehrer": "Sanna",
+                "Bistro": [
+                    "lack",
+                    "Badministrator"
+                ]
+            },
+            "nachmittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": [
+                    "Spack Mustermann",
+                    "Anna Schmidt"
+                ]
+            }
+        },
+        "2025-05-04": {
+            "abends": {
+                "Vorfuehrer": "Badministrator",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Spack Mustermann"
+                ]
+            },
+            "mittags": {
+                "Vorfuehrer": "Badministrator",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Ranna Schmidt"
+                ]
+            },
+            "nachmittags": {
+                "Vorfuehrer": "Badministrator",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Anna Schmidt"
+                ]
+            }
+        },
+        "2025-05-05": {
+            "abends": {
+                "Vorfuehrer": "Badministrator",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Ranna Schmidt"
+                ]
+            }
+        },
+        "2025-05-06": {
+            "abends": {
+                "Vorfuehrer": "Spack Mustermann",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Ranna Schmidt"
+                ]
+            }
+        },
+        "2025-05-07": {
+            "abends": {
+                "Vorfuehrer": "Badministrator",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Spack Mustermann"
+                ]
+            }
+        },
+        "2025-05-08": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Badministrator"
+                ]
+            }
+        },
+        "2025-05-09": {
+            "abends": {
+                "Vorfuehrer": "Spack Mustermann",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Ranna Schmidt"
+                ]
+            }
+        },
+        "2025-05-10": {
+            "abends": {
+                "Vorfuehrer": "Badministrator",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Spack Mustermann"
+                ]
+            },
+            "mittags": {
+                "Vorfuehrer": "Badministrator",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Ranna Schmidt"
+                ]
+            },
+            "nachmittags": {
+                "Vorfuehrer": "Badministrator",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Spack Mustermann"
+                ]
+            }
+        },
+        "2025-05-11": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Spack Mustermann"
+                ]
+            },
+            "mittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Spack Mustermann"
+                ]
+            },
+            "nachmittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Badministrator"
+                ]
+            }
+        },
+        "2025-05-12": {
+            "abends": {
+                "Vorfuehrer": "Spack Mustermann",
+                "Bistro": [
+                    "Badministrator",
+                    "Anna Schmidt"
+                ]
+            }
+        },
+        "2025-05-13": {
+            "abends": {
+                "Vorfuehrer": "Spack Mustermann",
+                "Bistro": [
+                    "Ranna Schmidt",
+                    "Badministrator"
+                ]
+            }
+        },
+        "2025-05-14": {
+            "abends": {
+                "Vorfuehrer": "lat",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Badministrator"
+                ]
+            }
+        },
+        "2025-05-15": {
+            "abends": {
+                "Vorfuehrer": "Spack Mustermann",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Badministrator"
+                ]
+            }
+        },
+        "2025-05-16": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "TikTik"
+                ]
+            }
+        },
+        "2025-05-17": {
+            "abends": {
+                "Vorfuehrer": "Badministrator",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Spack Mustermann"
+                ]
+            },
+            "mittags": {
+                "Vorfuehrer": "Badministrator",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Gunner Tit"
+                ]
+            },
+            "nachmittags": {
+                "Vorfuehrer": "BadministratorTr",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Spack Mustermann"
+                ]
+            }
+        },
+        "2025-05-18": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": [
+                    "Spack Mustermann",
+                    "Anna Schmidt"
+                ]
+            },
+            "mittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": [
+                    "Spack Mustermann",
+                    "Anna Schmidt"
+                ]
+            },
+            "nachmittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": [
+                    "Spack Mustermann",
+                    "Badministrator"
+                ]
+            }
+        },
+        "2025-05-19": {
+            "abends": {
+                "Vorfuehrer": "Badministrator",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Spack Mustermann"
+                ]
+            }
+        },
+        "2025-05-20": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Spack Mustermann"
+                ]
+            }
+        },
+        "2025-05-21": {
+            "abends": {
+                "Vorfuehrer": "Badministrator",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Spack Mustermann"
+                ]
+            }
+        },
+        "2025-05-22": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Badministrator"
+                ]
+            }
+        },
+        "2025-05-23": {
+            "abends": {
+                "Vorfuehrer": "Spack Mustermann",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Ranna Schmidt"
+                ]
+            }
+        },
+        "2025-05-24": {
+            "abends": {
+                "Vorfuehrer": "Badministrator",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Spack Mustermann"
+                ]
+            },
+            "mittags": {
+                "Vorfuehrer": "Badministrator",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Ranna Schmidt"
+                ]
+            },
+            "nachmittags": {
+                "Vorfuehrer": "Badministrator",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Spack Mustermann"
+                ]
+            }
+        },
+        "2025-05-25": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": [
+                    "Spack Mustermann",
+                    "Anna Schmidt"
+                ]
+            },
+            "mittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": [
+                    "Spack Mustermann",
+                    "Badministrator"
+                ]
+            },
+            "nachmittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": [
+                    "Spack Mustermann",
+                    "Anna Schmidt"
+                ]
+            }
+        },
+        "2025-05-26": {
+            "abends": {
+                "Vorfuehrer": "Badministrator",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Spack Mustermann"
+                ]
+            }
+        },
+        "2025-05-27": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Spack Mustermann"
+                ]
+            }
+        },
+        "2025-05-28": {
+            "abends": {
+                "Vorfuehrer": "Badministrator",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Spack Mustermann"
+                ]
+            }
+        },
+        "2025-05-29": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": [
+                    "Badministrator",
+                    "Anna Schmidt"
+                ]
+            }
+        },
+        "2025-05-30": {
+            "abends": {
+                "Vorfuehrer": "Spack Mustermann",
+                "Bistro": [
+                    "Ranna Schmidt",
+                    "Badministrator"
+                ]
+            }
+        },
+        "2025-05-31": {
+            "abends": {
+                "Vorfuehrer": "Spack Mustermann",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Ranna Schmidt"
+                ]
+            },
+            "mittags": {
+                "Vorfuehrer": "Spack Mustermann",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Badministrator"
+                ]
+            },
+            "nachmittags": {
+                "Vorfuehrer": "Spack Mustermann",
+                "Bistro": [
+                    "Anna Schmidt",
+                    "Ranna Schmidt"
+                ]
+            }
+        }
+    },
+    "total_hours": {
+        "Ranna Schmidt": 78,
+        "Anna Schmidt": 88,
+        "Badministrator": 81,
+        "Spack Mustermann": 84,
+        "lack": 2,
+        "Sanna": 3,
+        "Gunner Tit": 2,
+        "lat": 3,
+        "BadministratorTr": 3,
+        "TikTik": 2
+    }
+}

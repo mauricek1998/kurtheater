@@ -1,0 +1,615 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mx-auto p-2 sm:p-4">
+  <!-- Ansichts-Umschalter -->
+  <div class="mb-4 flex justify-end">
+    <button id="toggleView" 
+            class="px-4 py-2 bg-[--ci-orange] text-white rounded-lg shadow hover:bg-[#E65000] transition-colors text-sm sm:text-base">
+      Wann arbeite ich?
+    </button>
+  </div>
+
+  <!-- Scrollbare Container für den Kalender -->
+  <div class="overflow-x-auto">
+    <div id="calendar" class="min-w-[800px] sm:min-w-[1024px]"></div>
+    <div id="personalView" class="hidden">
+      <!-- Persönliche Übersicht wird hier dynamisch eingefügt -->
+    </div>
+  </div>
+  
+  {% if is_supervisor %}
+  <!-- Speichern-Button (nur für Supervisoren sichtbar) -->
+  <div class="fixed bottom-4 right-4">
+    <button id="saveChanges" 
+            class="px-4 py-2 sm:px-6 sm:py-3 bg-green-600 text-white rounded-lg shadow-lg hover:bg-green-700 transition-colors hidden">
+      Änderungen speichern
+    </button>
+  </div>
+  {% endif %}
+</div>
+
+<script>
+  // planData und isSupervisor werden aus Flask als JSON übergeben
+  const planData = JSON.parse('{{ plan | tojson | safe }}');
+  const isSupervisor = JSON.parse('{{ is_supervisor | tojson | safe }}');
+  
+  // Globale Konstanten für Monats- und Tagesnamen
+  const monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni",
+                     "Juli", "August", "September", "Oktober", "November", "Dezember"];
+  const weekDays = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+  
+  // Aus der URL (Query-Parameter) holen wir den Plan-Dateinamen
+  const params = new URLSearchParams(window.location.search);
+  const planFilename = params.get('plan_filename') || '';
+  
+  let year, month;
+  const match = planFilename.match(/plan_(\d{4})-(\d{2})\.json/);
+  if (match) {
+    year = parseInt(match[1]);
+    month = parseInt(match[2]); // 1-indexiert
+  } else {
+    const keys = Object.keys(planData.assignments);
+    if (keys.length > 0) {
+      const parts = keys[0].split("-");
+      year = parseInt(parts[0]);
+      month = parseInt(parts[1]);
+    } else {
+      const now = new Date();
+      year = now.getFullYear();
+      month = now.getMonth() + 1;
+    }
+  }
+  
+  // Berechne die minimale Breite anhand des längsten Mitarbeitennamens
+  let maxNameLength = 0;
+  for (const name in planData.total_hours) {
+    if (name.length > maxNameLength) {
+      maxNameLength = name.length;
+    }
+  }
+  
+  // Erzeuge ein Mapping für Mitarbeiterfarben
+  const defaultColors = ["#7FB3D5", "#F5B041", "#82E0AA", "#F1948A", "#BB8FCE", "#85C1E9", "#F7DC6F", "#F0B27A"];
+  const employeeColors = {};
+  let colorIndex = 0;
+  
+  // Funktion zum Generieren einer zufälligen Pastellfarbe
+  function generatePastelColor() {
+    const hue = Math.floor(Math.random() * 360);
+    return `hsl(${hue}, 70%, 80%)`;
+  }
+  
+  // Funktion zum Zuweisen einer Farbe
+  function getEmployeeColor(name) {
+    if (!employeeColors[name]) {
+      if (colorIndex < defaultColors.length) {
+        employeeColors[name] = defaultColors[colorIndex++];
+      } else {
+        employeeColors[name] = generatePastelColor();
+      }
+    }
+    return employeeColors[name];
+  }
+  
+  // Initialisiere die Farben für alle bekannten Mitarbeiter
+  for (const name in planData.total_hours) {
+    getEmployeeColor(name);
+  }
+  
+  // Tracking für Namensänderungen
+  let pendingChanges = new Map();
+  const saveButton = document.getElementById('saveChanges');
+  
+  // Funktion zum Erstellen eines bearbeitbaren Namens-Spans
+  function createEditableNameSpan(name, originalColor, date, shift, role) {
+    const span = document.createElement('span');
+    span.textContent = name;
+    span.className = 'inline-block px-1 py-0.5 rounded text-white cursor-pointer text-xs sm:text-sm break-words max-w-full';
+    span.style.backgroundColor = originalColor;
+    span.style.wordBreak = 'break-word';
+    span.style.hyphens = 'auto';
+    
+    if (isSupervisor) {
+      span.title = "Doppelklick zum Bearbeiten";
+      span.addEventListener('dblclick', function() {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = span.textContent;
+        input.className = 'px-1 py-0.5 rounded text-black w-full';
+        input.style.minWidth = maxNameLength + "ch";
+        
+        input.addEventListener('blur', async function() {
+          const newName = input.value.trim();
+          if (newName && newName !== name) {
+            try {
+              const response = await fetch('/update_plan_name', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  plan_filename: planFilename,
+                  old_name: name,
+                  new_name: newName,
+                  date: date,
+                  shift: shift,
+                  role: role
+                })
+              });
+              
+              if (response.ok) {
+                span.textContent = newName;
+                const newColor = getEmployeeColor(newName);
+                span.style.backgroundColor = newColor;
+                location.reload(); // Seite neu laden, um die aktualisierten Stunden zu sehen
+              } else {
+                const error = await response.json();
+                alert(`Fehler beim Speichern: ${error.error}`);
+                span.textContent = name;
+                span.style.backgroundColor = originalColor;
+              }
+            } catch (error) {
+              alert(`Fehler beim Speichern: ${error.message}`);
+              span.textContent = name;
+              span.style.backgroundColor = originalColor;
+            }
+          } else {
+            span.textContent = name;
+            span.style.backgroundColor = originalColor;
+          }
+          span.style.display = 'inline-block';
+        });
+        
+        input.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            input.blur();
+          }
+        });
+        
+        span.style.display = 'none';
+        span.parentNode.insertBefore(input, span);
+        input.focus();
+      });
+    }
+    
+    return span;
+  }
+  
+  // Funktion zum Speichern der Änderungen
+  async function saveChanges() {
+    for (const [oldName, newName] of pendingChanges) {
+      try {
+        const response = await fetch('/update_plan_name', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            plan_filename: planFilename,
+            old_name: oldName,
+            new_name: newName
+          })
+        });
+        
+        if (response.ok) {
+          // Aktualisiere die Farbe auf die des neuen Namens
+          const newColor = getEmployeeColor(newName);
+          document.querySelectorAll(`span[data-original-name="${oldName}"]`).forEach(span => {
+            span.style.backgroundColor = newColor;
+            span.dataset.originalName = newName;
+          });
+        } else {
+          const error = await response.json();
+          alert(`Fehler beim Speichern: ${error.error}`);
+        }
+      } catch (error) {
+        alert(`Fehler beim Speichern: ${error.message}`);
+      }
+    }
+    
+    pendingChanges.clear();
+    saveButton.classList.add('hidden');
+    location.reload(); // Seite neu laden, um alle Änderungen zu sehen
+  }
+  
+  if (isSupervisor) {
+    saveButton.addEventListener('click', saveChanges);
+  }
+  
+  // Hilfsfunktion: Generiert den Kalender
+  function generateCalendar(year, month, assignments) {
+    const calendarContainer = document.getElementById('calendar');
+    calendarContainer.innerHTML = '';
+    
+    // Funktion zum Finden des ersten Samstags im Monat
+    function isFirstSaturday(date) {
+      return date.getDay() === 6 && // Samstag
+             date.getDate() <= 7;   // Erster Samstag (innerhalb der ersten 7 Tage)
+    }
+    
+    // Monatsüberschrift
+    const header = document.createElement('h2');
+    header.textContent = monthNames[month - 1] + " " + year;
+    header.className = "text-2xl sm:text-4xl font-bold text-center mb-4 sm:mb-6 sticky top-0 bg-gray-50";
+    calendarContainer.appendChild(header);
+    
+    // Wochentage-Header
+    const weekHeader = document.createElement('div');
+    weekHeader.className = "grid grid-cols-7 gap-1 sm:gap-2 mb-2 sm:mb-4 sticky top-12 sm:top-16 bg-gray-50 z-10";
+    weekDays.forEach(day => {
+      const dayDiv = document.createElement('div');
+      dayDiv.textContent = day;
+      dayDiv.className = "text-center font-semibold p-1 sm:p-2 text-xs sm:text-sm";
+      weekHeader.appendChild(dayDiv);
+    });
+    calendarContainer.appendChild(weekHeader);
+    
+    // Kalender-Grid
+    const grid = document.createElement('div');
+    grid.className = "grid grid-cols-7 gap-1 sm:gap-2";
+    
+    // Berechne die minimale Zellenbreite basierend auf der Textlänge
+    const minCellWidth = Math.max(120, (maxNameLength + 6) * 6); // Reduzierte Breite für Mobile
+    grid.style.gridTemplateColumns = `repeat(7, minmax(${minCellWidth}px, 1fr))`;
+    
+    const firstDate = new Date(year, month - 1, 1);
+    const startingDay = firstDate.getDay();
+    const daysInMonth = new Date(year, month, 0).getDate();
+    
+    // Leere Zellen für Tage vor Monatsbeginn
+    for (let i = 0; i < startingDay; i++) {
+      const emptyCell = document.createElement('div');
+      emptyCell.className = "border rounded p-2 min-h-52 bg-gray-200";
+      grid.appendChild(emptyCell);
+    }
+    
+    // Tage des Monats
+    for (let day = 1; day <= daysInMonth; day++) {
+      const dayStr = day < 10 ? "0" + day : "" + day;
+      const monthStr = month < 10 ? "0" + month : "" + month;
+      const dateStr = year + "-" + monthStr + "-" + dayStr;
+      const currentDate = new Date(year, month - 1, day);
+      
+      const cell = document.createElement('div');
+      const isFirstSat = isFirstSaturday(currentDate);
+      cell.className = `border rounded p-1 sm:p-2 min-h-40 sm:min-h-52 flex flex-col text-xs sm:text-sm ${isFirstSat ? 'bg-red-50' : 'bg-white'}`;
+      
+      const cellHeader = document.createElement('div');
+      cellHeader.className = "mb-1 sm:mb-2 relative";
+      
+      // Füge das traurige Emoji für den ersten Samstag hinzu
+      if (isFirstSat) {
+        const sadEmoji = document.createElement('div');
+        sadEmoji.className = "absolute right-0 top-0 text-lg";
+        sadEmoji.textContent = "😢";
+        sadEmoji.title = "Erster Samstag im Monat";
+        cellHeader.appendChild(sadEmoji);
+      }
+      
+      const dateSpan = document.createElement('span');
+      dateSpan.textContent = day;
+      dateSpan.className = `font-bold text-base sm:text-lg ${isFirstSat ? 'text-red-600' : ''}`;
+      
+      const dateObj = new Date(year, month - 1, day);
+      const weekdaySpan = document.createElement('span');
+      weekdaySpan.textContent = " " + weekDays[dateObj.getDay()];
+      weekdaySpan.className = `text-xs sm:text-sm ml-1 ${isFirstSat ? 'text-red-600' : 'text-gray-600'}`;
+      
+      cellHeader.appendChild(dateSpan);
+      cellHeader.appendChild(weekdaySpan);
+      cell.appendChild(cellHeader);
+      
+      const shifts = ['mittags', 'nachmittags', 'abends'];
+      shifts.forEach(shiftKey => {
+        const shiftDiv = document.createElement('div');
+        shiftDiv.className = "border-t pt-1 sm:pt-2 mb-1 sm:mb-2";
+        
+        const shiftTitle = document.createElement('div');
+        shiftTitle.textContent = shiftKey;
+        shiftTitle.className = "text-xs font-bold uppercase mb-0.5 sm:mb-1";
+        shiftDiv.appendChild(shiftTitle);
+        
+        if (assignments[dateStr] && assignments[dateStr][shiftKey]) {
+          const assignment = assignments[dateStr][shiftKey];
+          if (assignment.Vorfuehrer !== undefined) {
+            const normalDiv = document.createElement('div');
+            normalDiv.className = "flex flex-row justify-between items-start mb-1";
+            
+            const vfBox = document.createElement('div');
+            vfBox.className = "w-1/2 pr-1";
+            const vfTitle = document.createElement('div');
+            vfTitle.textContent = "Vorfuehrer:";
+            vfTitle.className = "text-xs font-semibold";
+            vfBox.appendChild(vfTitle);
+            
+            const vfSpan = createEditableNameSpan(
+              assignment.Vorfuehrer, 
+              getEmployeeColor(assignment.Vorfuehrer),
+              dateStr,
+              shiftKey,
+              'Vorfuehrer'
+            );
+            vfSpan.dataset.originalName = assignment.Vorfuehrer;
+            vfBox.appendChild(vfSpan);
+            normalDiv.appendChild(vfBox);
+            
+            const bistroBox = document.createElement('div');
+            bistroBox.className = "w-1/2 pl-1";
+            const bistroTitle = document.createElement('div');
+            bistroTitle.textContent = "Bistro:";
+            bistroTitle.className = "text-xs font-semibold";
+            bistroBox.appendChild(bistroTitle);
+            const bistroContainer = document.createElement('div');
+            
+            if (typeof assignment.Bistro === 'string') {
+              const bistroSpan = createEditableNameSpan(
+                assignment.Bistro,
+                getEmployeeColor(assignment.Bistro),
+                dateStr,
+                shiftKey,
+                'Bistro'
+              );
+              bistroSpan.dataset.originalName = assignment.Bistro;
+              bistroContainer.appendChild(bistroSpan);
+            } else if (Array.isArray(assignment.Bistro)) {
+              assignment.Bistro.forEach(emp => {
+                const empSpan = createEditableNameSpan(
+                  emp,
+                  getEmployeeColor(emp),
+                  dateStr,
+                  shiftKey,
+                  'Bistro'
+                );
+                empSpan.dataset.originalName = emp;
+                bistroContainer.appendChild(empSpan);
+              });
+            } else {
+              const unassigned = document.createElement('span');
+              unassigned.textContent = "Nicht besetzt";
+              unassigned.className = "text-red-600 text-xs";
+              bistroContainer.appendChild(unassigned);
+            }
+            bistroBox.appendChild(bistroContainer);
+            normalDiv.appendChild(bistroBox);
+            shiftDiv.appendChild(normalDiv);
+          } else {
+            const svDiv = document.createElement('div');
+            svDiv.className = "flex flex-col";
+            const svTitle = document.createElement('div');
+            svTitle.textContent = "Bistro (SV):";
+            svTitle.className = "text-xs font-semibold";
+            svDiv.appendChild(svTitle);
+            const bistroContainer = document.createElement('div');
+            
+            if (typeof assignment.Bistro === 'string') {
+              const bistroSpan = createEditableNameSpan(
+                assignment.Bistro,
+                getEmployeeColor(assignment.Bistro),
+                dateStr,
+                shiftKey,
+                'Bistro'
+              );
+              bistroSpan.dataset.originalName = assignment.Bistro;
+              bistroContainer.appendChild(bistroSpan);
+            } else if (Array.isArray(assignment.Bistro)) {
+              assignment.Bistro.forEach(emp => {
+                const empSpan = createEditableNameSpan(
+                  emp,
+                  getEmployeeColor(emp),
+                  dateStr,
+                  shiftKey,
+                  'Bistro'
+                );
+                empSpan.dataset.originalName = emp;
+                bistroContainer.appendChild(empSpan);
+              });
+            } else {
+              const unassigned = document.createElement('span');
+              unassigned.textContent = "Nicht besetzt";
+              unassigned.className = "text-red-600 text-xs";
+              bistroContainer.appendChild(unassigned);
+            }
+            svDiv.appendChild(bistroContainer);
+            shiftDiv.appendChild(svDiv);
+          }
+        } else {
+          shiftDiv.style.backgroundColor = "#E5E7EB";
+          const noShift = document.createElement('div');
+          noShift.textContent = "Keine Schicht";
+          noShift.className = "text-xs text-gray-500";
+          shiftDiv.appendChild(noShift);
+        }
+        
+        cell.appendChild(shiftDiv);
+      });
+      
+      grid.appendChild(cell);
+    }
+    
+    calendarContainer.appendChild(grid);
+    
+    // Stundenliste als Balkendiagramm
+    const hoursContainer = document.createElement('div');
+    hoursContainer.className = "mt-4 sm:mt-8 bg-white p-2 sm:p-4 rounded shadow";
+    
+    const hoursDiv = document.createElement('div');
+    hoursDiv.className = "w-full";
+    
+    const hoursTitle = document.createElement('h3');
+    hoursTitle.textContent = "Arbeitsstunden pro Mitarbeiter";
+    hoursTitle.className = "text-lg sm:text-xl font-semibold mb-4 text-center";
+    hoursDiv.appendChild(hoursTitle);
+    
+    // Sortiere die Mitarbeiter nach Stunden
+    const sortedEmployees = Object.entries(planData.total_hours)
+      .sort(([,a], [,b]) => b - a);
+    
+    // Finde die maximalen Stunden für die Skalierung
+    const maxHours = sortedEmployees[0][1];
+    
+    const chartContainer = document.createElement('div');
+    chartContainer.className = "space-y-2";
+    
+    sortedEmployees.forEach(([name, hours], index) => {
+      const barContainer = document.createElement('div');
+      barContainer.className = "flex items-center gap-2 text-xs sm:text-sm";
+      
+      // Name und Stunden
+      const labelDiv = document.createElement('div');
+      labelDiv.className = "w-24 sm:w-32 truncate";
+      labelDiv.title = name;
+      labelDiv.textContent = name;
+      
+      // Balken-Container
+      const barWrapper = document.createElement('div');
+      barWrapper.className = "flex-1 bg-gray-200 rounded-full h-6 relative";
+      
+      // Fortschrittsbalken
+      const bar = document.createElement('div');
+      bar.className = "h-full rounded-full transition-all duration-500";
+      bar.style.width = `${(hours / maxHours) * 100}%`;
+      bar.style.backgroundColor = getEmployeeColor(name);
+      
+      // Stundenzahl
+      const hoursLabel = document.createElement('div');
+      hoursLabel.className = "absolute inset-y-0 right-2 flex items-center text-xs font-bold";
+      hoursLabel.textContent = `${hours} Std`;
+      
+      // "King" Krone für den Spitzenreiter
+      if (index === 0) {
+        const crown = document.createElement('div');
+        crown.className = "absolute -top-3 right-0 text-lg";
+        crown.textContent = "👑";
+        crown.title = "Meiste Arbeitsstunden";
+        barWrapper.appendChild(crown);
+      }
+      
+      barWrapper.appendChild(bar);
+      barWrapper.appendChild(hoursLabel);
+      
+      barContainer.appendChild(labelDiv);
+      barContainer.appendChild(barWrapper);
+      chartContainer.appendChild(barContainer);
+    });
+    
+    hoursDiv.appendChild(chartContainer);
+    hoursContainer.appendChild(hoursDiv);
+    calendarContainer.appendChild(hoursContainer);
+  }
+  
+  // Funktion zum Generieren der persönlichen Übersicht
+  function generatePersonalView(assignments) {
+    const container = document.getElementById('personalView');
+    container.innerHTML = '';
+    
+    const currentUser = '{{ current_user.name }}';  // Dies ist bereits der volle Name
+    const userShiftsByDate = new Map(); // Gruppiere Schichten nach Datum
+    
+    // Sammle alle Schichten des Benutzers
+    for (const [date, dayShifts] of Object.entries(assignments)) {
+      for (const [shiftName, shift] of Object.entries(dayShifts)) {
+        if (!shift) continue;  // Überspringe, falls keine Schicht vorhanden
+        
+        const isVorfuehrer = shift.Vorfuehrer && shift.Vorfuehrer.trim() === currentUser.trim();
+        const isBistro = Array.isArray(shift.Bistro) 
+          ? shift.Bistro.some(name => name.trim() === currentUser.trim())
+          : shift.Bistro && shift.Bistro.trim() === currentUser.trim();
+        
+        if (isVorfuehrer || isBistro) {
+          if (!userShiftsByDate.has(date)) {
+            userShiftsByDate.set(date, []);
+          }
+          userShiftsByDate.get(date).push({
+            shift: shiftName,
+            role: isVorfuehrer ? 'Vorführer' : 'Bistro'
+          });
+        }
+      }
+    }
+    
+    // Sortiere die Daten
+    const sortedDates = Array.from(userShiftsByDate.keys()).sort();
+    
+    // Erstelle die Übersicht
+    const header = document.createElement('h2');
+    header.className = "text-2xl sm:text-3xl font-bold text-center mb-6";
+    header.textContent = `Meine Schichten - ${monthNames[month - 1]} ${year}`;
+    container.appendChild(header);
+    
+    if (sortedDates.length === 0) {
+      const noShifts = document.createElement('p');
+      noShifts.className = "text-center text-gray-600";
+      noShifts.textContent = "Du hast in diesem Monat keine Schichten.";
+      container.appendChild(noShifts);
+      return;
+    }
+    
+    const list = document.createElement('div');
+    list.className = "space-y-3 max-w-2xl mx-auto";
+    
+    sortedDates.forEach(date => {
+      const dateObj = new Date(date);
+      const dayName = weekDays[dateObj.getDay()];
+      const day = dateObj.getDate();
+      
+      const dayContainer = document.createElement('div');
+      dayContainer.className = "bg-white rounded-lg shadow p-4";
+      
+      // Datum als Header
+      const dateHeader = document.createElement('div');
+      dateHeader.className = "font-bold text-lg mb-2";
+      dateHeader.textContent = `${day}. ${monthNames[month - 1]} (${dayName})`;
+      dayContainer.appendChild(dateHeader);
+      
+      // Container für die Schichten des Tages
+      const shiftsContainer = document.createElement('div');
+      shiftsContainer.className = "flex flex-wrap gap-2";
+      
+      userShiftsByDate.get(date).forEach(({shift, role}) => {
+        const shiftBadge = document.createElement('div');
+        shiftBadge.className = "flex items-center bg-gray-100 rounded-lg p-2";
+        
+        const shiftInfo = document.createElement('span');
+        shiftInfo.className = "text-gray-600 mr-2";
+        shiftInfo.textContent = `${shift} - ${role}`;
+        
+        const roleIcon = document.createElement('span');
+        roleIcon.className = "text-xl";
+        roleIcon.textContent = role === 'Vorführer' ? '🎬' : '🍿';
+        roleIcon.title = role;
+        
+        shiftBadge.appendChild(shiftInfo);
+        shiftBadge.appendChild(roleIcon);
+        shiftsContainer.appendChild(shiftBadge);
+      });
+      
+      dayContainer.appendChild(shiftsContainer);
+      list.appendChild(dayContainer);
+    });
+    
+    container.appendChild(list);
+  }
+  
+  // Toggle-Funktionalität
+  const toggleButton = document.getElementById('toggleView');
+  const calendarView = document.getElementById('calendar');
+  const personalView = document.getElementById('personalView');
+  let showingPersonalView = false;
+  
+  toggleButton.addEventListener('click', () => {
+    if (showingPersonalView) {
+      calendarView.classList.remove('hidden');
+      personalView.classList.add('hidden');
+      toggleButton.textContent = 'Wann arbeite ich?';
+    } else {
+      calendarView.classList.add('hidden');
+      personalView.classList.remove('hidden');
+      generatePersonalView(planData.assignments);
+      toggleButton.textContent = 'Zurück zur Übersicht';
+    }
+    showingPersonalView = !showingPersonalView;
+  });
+  
+  generateCalendar(year, month, planData.assignments);
+</script>
+{% endblock %}

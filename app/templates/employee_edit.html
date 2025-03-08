@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">Verfügbarkeit eintragen für: {{ draft_filename }}</h2>
+<form id="employeeForm" method="post" action="{{ url_for('main.employee_edit', draft_filename=draft_filename) }}">
+  <div id="employeeCalendar"></div>
+  <!-- Hidden field to store availability JSON -->
+  <textarea id="employee_data" name="employee_data" style="display:none;"></textarea>
+  <br>
+  <button type="button" onclick="saveEmployeeAvailability()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Verfügbarkeit speichern</button>
+</form>
+{% endblock %}
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const draft = JSON.parse('{{ draft | tojson | safe }}');
+      renderEmployeeCalendarUnified(draft);
+    });
+  </script>
+{% endblock %}

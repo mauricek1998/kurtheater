@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h2 class="text-3xl font-bold text-gray-800 mb-8">Fertige Dienstpläne</h2>
+    
+    {% if plan_files %}
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="space-y-2">
+            {% for plan in plan_files %}
+            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md hover:bg-gray-100">
+                <span class="text-gray-700">{{ plan.display_name }}</span>
+                <a href="{{ url_for('main.plan_view', plan_filename=plan.filename) }}"
+                   class="px-4 py-2 text-sm bg-[--ci-orange] text-white rounded-md hover:bg-[#E65000] transition-colors">
+                    Ansehen
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% else %}
+    <div class="text-center text-gray-600">
+        <p>Es sind noch keine fertigen Dienstpläne verfügbar.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
