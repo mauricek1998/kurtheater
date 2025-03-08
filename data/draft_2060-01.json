@@ -1,0 +1,654 @@
+{
+    "month": 1,
+    "year": 2060,
+    "days": {
+        "2060-01-01": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-02": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-03": {
+            "shifts": {
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-04": {
+            "shifts": {
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-05": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-06": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-07": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-08": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-09": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-10": {
+            "shifts": {
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-11": {
+            "shifts": {
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-12": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-13": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-14": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-15": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-16": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-17": {
+            "shifts": {
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-18": {
+            "shifts": {
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-19": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-20": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-01-21": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-22": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-01-23": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-01-24": {
+            "shifts": {
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-25": {
+            "shifts": {
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-26": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-27": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-28": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-29": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-30": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        },
+        "2060-01-31": {
+            "shifts": {
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": []
+        }
+    },
+    "status": "final",
+    "assignments": {
+        "2060-01-01": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-02": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-03": {
+            "mittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-04": {
+            "mittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-05": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-06": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-07": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-08": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-09": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-10": {
+            "mittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-11": {
+            "mittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-12": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-13": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-14": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-15": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-16": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-17": {
+            "mittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-18": {
+            "mittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-19": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-20": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2060-01-21": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-22": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2060-01-23": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2060-01-24": {
+            "mittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-25": {
+            "mittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-26": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-27": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-28": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-29": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-30": {
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        },
+        "2060-01-31": {
+            "mittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            },
+            "abends": {
+                "Vorfuehrer": "",
+                "Bistro": []
+            }
+        }
+    },
+    "total_hours": {
+        "Ranna Schmidt": 9
+    }
+}

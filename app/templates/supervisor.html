@@ -1,98 +1,121 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="max-w-4xl mx-auto">
-    <h2 class="text-3xl font-bold text-gray-800 mb-8">Dienstpläne verwalten</h2>
+<div class="gh-animate-fade-in">
+    <div class="gh-flex gh-justify-between gh-items-center gh-mb-6">
+        <h2 class="text-2xl font-semibold">Dienstpläne verwalten</h2>
+    </div>
     
-    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-        <h3 class="text-xl font-semibold text-gray-700 mb-4">Neuen Plan erstellen</h3>
-        <form method="post" action="{{ url_for('main.supervisor') }}" class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label for="month" class="block text-sm font-medium text-gray-700 mb-1">Monat (1-12)</label>
-                    <input type="number" id="month" name="month" min="1" max="12" required
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500">
+    <div class="gh-card gh-mb-6">
+        <div class="gh-card-header">
+            <h3 class="gh-card-title">Neuen Plan erstellen</h3>
+        </div>
+        <div class="gh-card-body">
+            <form method="post" action="{{ url_for('main.supervisor') }}">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 gh-mb-4">
+                    <div class="gh-form-group gh-mb-0">
+                        <label for="month">Monat (1-12)</label>
+                        <input type="number" id="month" name="month" min="1" max="12" required
+                               class="gh-form-control">
+                    </div>
+                    <div class="gh-form-group gh-mb-0">
+                        <label for="year">Jahr</label>
+                        <input type="number" id="year" name="year" required
+                               class="gh-form-control">
+                    </div>
                 </div>
-                <div>
-                    <label for="year" class="block text-sm font-medium text-gray-700 mb-1">Jahr</label>
-                    <input type="number" id="year" name="year" required
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500">
-                </div>
-            </div>
-            <button type="submit" 
-                    class="w-full md:w-auto px-6 py-2 bg-[--ci-orange] text-white rounded-md hover:bg-[#E65000] transition-colors">
-                Plan erstellen
-            </button>
-        </form>
+                <button type="submit" class="gh-button gh-button-primary">
+                    <span class="octicon octicon-plus mr-1"></span>
+                    Plan erstellen
+                </button>
+            </form>
+        </div>
     </div>
 
     {% if drafts %}
-    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-        <h3 class="text-xl font-semibold text-gray-700 mb-4">Neue Pläne (noch nicht freigegeben)</h3>
-        <div class="space-y-2">
-            {% for draft in drafts %}
-            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md hover:bg-gray-100">
-                <span class="text-gray-700">{{ draft.display_name }}</span>
-                <div class="flex space-x-2">
-                    <a href="{{ url_for('main.edit_draft', draft_filename=draft.filename) }}"
-                       class="px-4 py-2 text-sm bg-[--ci-orange] text-white rounded-md hover:bg-[#E65000] transition-colors">
-                        Bearbeiten
-                    </a>
-                    <form method="post" action="{{ url_for('main.release_draft', draft_filename=draft.filename) }}" class="inline">
-                        <button type="submit"
-                                class="px-4 py-2 text-sm bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
-                            Für Mitarbeiter freigeben
-                        </button>
-                    </form>
-                    <form method="post" action="{{ url_for('main.delete_draft', draft_filename=draft.filename) }}" class="inline">
-                        <button type="submit" onclick="return confirm('Wirklich löschen?')"
-                                class="px-4 py-2 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
-                            Löschen
-                        </button>
-                    </form>
-                </div>
-            </div>
-            {% endfor %}
+    <div class="gh-card gh-mb-6">
+        <div class="gh-card-header">
+            <h3 class="gh-card-title">Neue Pläne (noch nicht freigegeben)</h3>
+        </div>
+        <div class="gh-card-body gh-p-0">
+            <ul class="gh-p-0 gh-m-0 list-none">
+                {% for draft in drafts %}
+                <li class="border-b border-[var(--color-border-default)] last:border-b-0">
+                    <div class="gh-p-4 hover:bg-[var(--color-canvas-inset)]">
+                        <div class="gh-flex gh-justify-between gh-items-center gh-mb-2">
+                            <div class="gh-flex gh-items-center">
+                                <span class="octicon octicon-file text-accent-fg text-xl mr-3"></span>
+                                <h4 class="font-medium">{{ draft.display_name }}</h4>
+                            </div>
+                            <span class="gh-badge gh-badge-warning">Entwurf</span>
+                        </div>
+                        <div class="gh-flex gh-justify-end gh-gap-2 gh-mt-3">
+                            <a href="{{ url_for('main.edit_draft', draft_filename=draft.filename) }}"
+                               class="gh-button">
+                                <span class="octicon octicon-pencil mr-1"></span>
+                                Bearbeiten
+                            </a>
+                            <form method="post" action="{{ url_for('main.release_draft', draft_filename=draft.filename) }}" class="inline">
+                                <button type="submit" class="gh-button gh-button-success">
+                                    <span class="octicon octicon-check mr-1"></span>
+                                    Für Mitarbeiter freigeben
+                                </button>
+                            </form>
+                            <form method="post" action="{{ url_for('main.delete_draft', draft_filename=draft.filename) }}" class="inline">
+                                <button type="submit" onclick="return confirm('Wirklich löschen?')" class="gh-button gh-button-danger">
+                                    <span class="octicon octicon-trashcan mr-1"></span>
+                                    Löschen
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
     {% endif %}
 
     {% if open_drafts %}
-    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-        <h3 class="text-xl font-semibold text-gray-700 mb-4">Freigegebene Pläne (Zeiterfassung läuft)</h3>
-        <div class="space-y-6">
+    <div class="gh-card gh-mb-6">
+        <div class="gh-card-header">
+            <h3 class="gh-card-title">Freigegebene Pläne (Zeiterfassung läuft)</h3>
+        </div>
+        <div class="gh-card-body gh-p-0">
             {% for draft in open_drafts %}
-            <div class="bg-gray-50 rounded-md p-4">
-                <div class="flex items-center justify-between mb-4">
-                    <span class="text-gray-700 font-semibold text-lg">{{ draft.display_name }}</span>
-                    <div class="flex space-x-2">
-                        <a href="{{ url_for('main.employee_edit', draft_filename=draft.filename) }}"
-                           class="px-4 py-2 text-sm bg-[--ci-orange] text-white rounded-md hover:bg-[#E65000] transition-colors">
-                            Zeiten eintragen
-                        </a>
-                        <form method="post" action="{{ url_for('main.create_final_plan', draft_filename=draft.filename) }}" class="inline">
-                            <button type="submit"
-                                    class="px-4 py-2 text-sm bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
-                                Plan erstellen
-                            </button>
-                        </form>
+            <div class="gh-p-4 {% if not loop.last %}border-b border-[var(--color-border-default)]{% endif %}">
+                <div class="gh-flex gh-justify-between gh-items-center gh-mb-3">
+                    <div class="gh-flex gh-items-center">
+                        <span class="octicon octicon-clock text-success-fg text-xl mr-3"></span>
+                        <h4 class="font-medium">{{ draft.display_name }}</h4>
                     </div>
+                    <span class="gh-badge gh-badge-info">Freigegeben</span>
                 </div>
                 
-                <div class="mt-2">
-                    <h4 class="text-sm font-medium text-gray-600 mb-2">Verfügbarkeiten:</h4>
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                <div class="gh-flex gh-justify-end gh-gap-2 gh-mb-4">
+                    <a href="{{ url_for('main.employee_edit', draft_filename=draft.filename) }}"
+                       class="gh-button">
+                        <span class="octicon octicon-pencil mr-1"></span>
+                        Zeiten eintragen
+                    </a>
+                    <form method="post" action="{{ url_for('main.create_final_plan', draft_filename=draft.filename) }}" class="inline">
+                        <button type="submit" class="gh-button gh-button-success">
+                            <span class="octicon octicon-check-circle mr-1"></span>
+                            Plan erstellen
+                        </button>
+                    </form>
+                </div>
+                
+                <div>
+                    <h5 class="font-medium gh-mb-2">Verfügbarkeiten:</h5>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                         {% for user in all_users %}
-                        <div class="flex items-center space-x-2 p-2 bg-white rounded">
+                        <div class="gh-flex gh-items-center gh-p-2 bg-[var(--color-canvas-inset)] rounded border border-[var(--color-border-default)]">
                             {% if draft.availability_status[user.name] %}
-                            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
+                            <span class="octicon octicon-check text-[var(--color-success-fg)] mr-2 text-lg"></span>
                             {% else %}
-                            <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                            </svg>
+                            <span class="octicon octicon-x text-[var(--color-danger-fg)] mr-2 text-lg"></span>
                             {% endif %}
-                            <span class="text-sm">{{ user.name }}</span>
+                            <span class="gh-text-small">{{ user.name }}</span>
                         </div>
                         {% endfor %}
                     </div>
@@ -104,18 +127,28 @@
     {% endif %}
 
     {% if final_plans %}
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <h3 class="text-xl font-semibold text-gray-700 mb-4">Fertige Pläne</h3>
-        <div class="space-y-2">
-            {% for plan in final_plans %}
-            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md hover:bg-gray-100">
-                <span class="text-gray-700">{{ plan.display_name }}</span>
-                <a href="{{ url_for('main.plan_view', plan_filename=plan.filename) }}"
-                   class="px-4 py-2 text-sm bg-[--ci-orange] text-white rounded-md hover:bg-[#E65000] transition-colors">
-                    Ansehen
-                </a>
-            </div>
-            {% endfor %}
+    <div class="gh-card">
+        <div class="gh-card-header">
+            <h3 class="gh-card-title">Fertige Pläne</h3>
+        </div>
+        <div class="gh-card-body gh-p-0">
+            <ul class="gh-p-0 gh-m-0 list-none">
+                {% for plan in final_plans %}
+                <li class="border-b border-[var(--color-border-default)] last:border-b-0">
+                    <div class="gh-flex gh-justify-between gh-items-center gh-p-4 hover:bg-[var(--color-canvas-inset)]">
+                        <div class="gh-flex gh-items-center">
+                            <span class="octicon octicon-calendar-check text-success-fg text-xl mr-3"></span>
+                            <h4 class="font-medium">{{ plan.display_name }}</h4>
+                        </div>
+                        <a href="{{ url_for('main.plan_view', plan_filename=plan.filename) }}"
+                           class="gh-button gh-button-primary">
+                            <span class="octicon octicon-eye mr-1"></span>
+                            Ansehen
+                        </a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
     {% endif %}

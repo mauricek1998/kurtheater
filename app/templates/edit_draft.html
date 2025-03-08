@@ -1,19 +1,440 @@
 {% extends "base.html" %}
 {% block content %}
-<h2 class="text-2xl font-bold mb-4">Entwurf bearbeiten: {{ draft_filename }}</h2>
-<div id="calendar"></div>
-<form id="draftForm" method="post" action="{{ url_for('main.edit_draft', draft_filename=draft_filename) }}">
-  <!-- Hidden Input zum Übertragen des aktualisierten Drafts -->
-  <input type="hidden" id="draft_data" name="draft_data" value='{{ draft | tojson }}'>
-  <button type="button" onclick="saveDraft()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Entwurf speichern</button>
-</form>
+<div class="gh-animate-fade-in">
+  <!-- Header mit Titel und Aktionsbuttons -->
+  <div class="gh-flex gh-justify-between gh-items-center gh-mb-6">
+    <h2 class="text-2xl font-semibold">Entwurf bearbeiten: {{ draft_filename }}</h2>
+    <div class="gh-flex gh-gap-2">
+      <button type="button" onclick="saveDraft()" class="gh-button gh-button-success">
+        <span class="octicon octicon-check mr-2"></span>
+        Entwurf speichern
+      </button>
+    </div>
+  </div>
+  
+  <!-- Hauptcontainer für den Kalender -->
+  <div class="gh-card gh-mb-6">
+    <div class="gh-card-header gh-flex gh-justify-between gh-items-center">
+      <h3 class="gh-card-title">Monatsübersicht</h3>
+      <div class="gh-flex gh-items-center gh-gap-4">
+        <!-- Legende -->
+        <div class="gh-flex gh-items-center gh-gap-3">
+          <div class="gh-flex gh-items-center">
+            <div class="w-3 h-3 bg-[var(--color-success-subtle)] rounded mr-1"></div>
+            <span class="text-xs">Verfügbar</span>
+          </div>
+          <div class="gh-flex gh-items-center">
+            <div class="w-3 h-3 border border-dashed border-[var(--color-border-default)] rounded mr-1"></div>
+            <span class="text-xs">Nicht verfügbar</span>
+          </div>
+          <div class="gh-flex gh-items-center">
+            <div class="w-3 h-3 bg-[var(--color-attention-fg)] rounded mr-1"></div>
+            <span class="text-xs">SV-Schicht</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Kalender-Container -->
+    <div class="gh-card-body gh-p-0">
+      <!-- Original-Kalender-Container für die bestehende JavaScript-Funktionalität -->
+      <div id="calendar" class="border border-[var(--color-border-default)] rounded-md overflow-hidden"></div>
+    </div>
+  </div>
+  
+  <!-- Verstecktes Formular für die Datenübertragung -->
+  <form id="draftForm" method="post" action="{{ url_for('main.edit_draft', draft_filename=draft_filename) }}">
+    <input type="hidden" id="draft_data" name="draft_data" value='{{ draft | tojson }}'>
+  </form>
+</div>
+
+<!-- CSS für den Kalender -->
+<style>
+  /* Überschreibe Standard-Kalender-Styling */
+  #calendar {
+    background-color: var(--color-canvas-subtle);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Stelle sicher, dass alle Zellen im Kalender den gleichen Hintergrund haben */
+  #calendar div {
+    background-color: var(--color-canvas-subtle) !important;
+  }
+  
+  /* Überschreibe weiße Hintergründe in Zellen */
+  #calendar .cell, 
+  #calendar .day-cell, 
+  #calendar .header-cell {
+    background-color: var(--color-canvas-subtle) !important;
+    border-color: var(--color-border-default) !important;
+    color: var(--color-fg-default) !important;
+  }
+  
+  /* Überschreibe Hover-Effekte */
+  #calendar .cell:hover, 
+  #calendar .day-cell:hover {
+    background-color: var(--color-canvas-inset) !important;
+  }
+  
+  /* Einheitliche Größe für alle Zellen */
+  #calendar .cell, 
+  #calendar .day-cell {
+    min-height: 120px !important;
+    height: auto !important;
+    width: calc(100% / 7) !important;
+    box-sizing: border-box !important;
+    padding: 8px !important;
+    position: relative !important;
+    overflow: visible !important;
+  }
+  
+  /* Wochentage-Header */
+  #calendar .header-row {
+    display: flex !important;
+    width: 100% !important;
+    background-color: var(--color-canvas-inset) !important;
+    border-bottom: 1px solid var(--color-border-default) !important;
+  }
+  
+  #calendar .header-cell {
+    flex: 1 !important;
+    text-align: center !important;
+    padding: 8px !important;
+    font-weight: bold !important;
+    border-right: 1px solid var(--color-border-default) !important;
+  }
+  
+  #calendar .header-cell:last-child {
+    border-right: none !important;
+  }
+  
+  /* Kalenderzeilen */
+  #calendar .row {
+    display: flex !important;
+    width: 100% !important;
+    flex-wrap: nowrap !important;
+    min-height: 120px !important;
+  }
+  
+  /* Anpassungen für Verfügbarkeitsanzeige */
+  #calendar .available {
+    background-color: var(--color-success-subtle) !important;
+    border-color: var(--color-success-fg) !important;
+  }
+  
+  #calendar .unavailable {
+    background-color: var(--color-danger-subtle) !important;
+    border-color: var(--color-danger-fg) !important;
+  }
+  
+  #calendar .assigned {
+    background-color: var(--color-attention-subtle) !important;
+    border-color: var(--color-attention-fg) !important;
+  }
+  
+  /* Datum in der Zelle */
+  #calendar .date-display {
+    position: absolute !important;
+    top: 4px !important;
+    right: 4px !important;
+    font-weight: bold !important;
+    font-size: 14px !important;
+  }
+  
+  /* Wochenende hervorheben */
+  #calendar .weekend {
+    background-color: var(--color-canvas-inset) !important;
+  }
+  
+  /* Leere Zellen */
+  #calendar .empty-cell {
+    background-color: var(--color-canvas-inset) !important;
+    opacity: 0.5 !important;
+  }
+  
+  /* Schichten-Styling */
+  .shift-container {
+    margin-bottom: 8px;
+    background-color: var(--color-canvas-inset);
+    border-radius: 4px;
+    padding: 4px;
+    border: 1px solid var(--color-border-default);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    /* Feste Höhe für alle Schicht-Container */
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .shifts-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .shift-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 4px 6px;
+    border-radius: 3px;
+    margin-bottom: 2px;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--color-fg-default);
+    background-color: var(--color-canvas-subtle);
+    border: 1px solid var(--color-border-default);
+    transition: all 0.2s ease;
+    /* Feste Höhe für alle Schicht-Buttons */
+    height: 24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  /* Neue Styling-Klassen für die Schicht-Buttons */
+  .shift-btn.active {
+    background-color: var(--color-success-subtle);
+    border-color: var(--color-success-fg);
+    border-width: 1px;
+    border-style: solid;
+  }
+  
+  .shift-btn.inactive {
+    background-color: transparent;
+    border-color: var(--color-border-default);
+    border-width: 1px;
+    border-style: dashed;
+  }
+  
+  .shift-btn.dashed {
+    background-color: transparent;
+    border-color: var(--color-border-default);
+    border-width: 1px;
+    border-style: dashed;
+    opacity: 0.7;
+  }
+  
+  .shift-btn.dashed:hover {
+    opacity: 1;
+    background-color: var(--color-canvas-inset);
+  }
+  
+  .shift-btn.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  
+  .shift-btn.sv-active {
+    background-color: var(--color-attention-fg);
+    border-color: var(--color-attention-emphasis);
+    color: var(--color-fg-on-emphasis);
+    border-width: 1px;
+    border-style: solid;
+  }
+  
+  .type-toggle {
+    font-size: 11px;
+    padding: 2px 4px;
+    background-color: var(--color-canvas-subtle);
+    border: 1px solid var(--color-border-default);
+    border-radius: 3px;
+    cursor: pointer;
+    color: var(--color-fg-default);
+    width: 100%;
+    margin-top: 2px;
+    /* Feste Höhe für alle Toggle-Buttons */
+    height: 22px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  /* Platzhalter für fehlende Toggle-Buttons, um die Höhe konsistent zu halten */
+  .shift-container.dashed::after {
+    content: "";
+    display: block;
+    height: 22px;
+    margin-top: 2px;
+    visibility: hidden; /* Versteckt, aber nimmt weiterhin Platz ein */
+  }
+  
+  .type-toggle:hover {
+    background-color: var(--color-canvas-inset);
+  }
+  
+  /* Stelle sicher, dass die Zellen immer mindestens so groß wie ihr Inhalt sind */
+  #calendar .day-cell {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+  }
+  
+  #calendar .shifts-container {
+    flex-grow: 1 !important;
+    width: 100% !important;
+  }
+</style>
 {% endblock %}
+
 {% block scripts %}
 <script>
   // Setze den globalen Draft, damit die JS-Funktionen darauf zugreifen können.
   document.addEventListener("DOMContentLoaded", function() {
     window.draftGlobal = JSON.parse('{{ draft | tojson | safe }}');
     renderSupervisorCalendar(window.draftGlobal);
+    
+    // Zusätzliches Styling nach dem Rendern
+    setTimeout(function() {
+      // Entferne alle weißen Hintergründe
+      const allElements = document.querySelectorAll('#calendar *');
+      allElements.forEach(el => {
+        if (getComputedStyle(el).backgroundColor === 'rgb(255, 255, 255)') {
+          el.style.backgroundColor = 'var(--color-canvas-subtle)';
+        }
+        
+        // Stelle sicher, dass Ränder konsistent sind
+        if (el.style.border) {
+          el.style.borderColor = 'var(--color-border-default)';
+        }
+        
+        // Stelle sicher, dass Text lesbar ist
+        if (el.style.color === 'rgb(0, 0, 0)') {
+          el.style.color = 'var(--color-fg-default)';
+        }
+      });
+      
+      // Verbessere die Kalenderstruktur
+      enhanceCalendarStructure();
+      
+      // Korrigiere die Ausrichtung der Kalenderboxen
+      fixCalendarAlignment();
+      
+      // Passe die Zellenhöhe an den Inhalt an
+      adjustCellHeights();
+    }, 500);
+    
+    // Funktion zur Verbesserung der Kalenderstruktur
+    function enhanceCalendarStructure() {
+      // Finde alle Kalenderzeilen
+      const rows = document.querySelectorAll('#calendar .row');
+      
+      // Füge Wochentage-Header hinzu, falls nicht vorhanden
+      const headerRow = document.querySelector('#calendar .header-row');
+      if (!headerRow) {
+        const newHeaderRow = document.createElement('div');
+        newHeaderRow.className = 'header-row';
+        
+        const weekdays = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+        weekdays.forEach(day => {
+          const headerCell = document.createElement('div');
+          headerCell.className = 'header-cell';
+          headerCell.textContent = day;
+          newHeaderRow.appendChild(headerCell);
+        });
+        
+        const calendar = document.getElementById('calendar');
+        if (calendar.firstChild) {
+          calendar.insertBefore(newHeaderRow, calendar.firstChild);
+        } else {
+          calendar.appendChild(newHeaderRow);
+        }
+      }
+      
+      // Stelle sicher, dass alle Zeilen die gleiche Anzahl von Zellen haben
+      rows.forEach(row => {
+        const cells = row.querySelectorAll('.cell, .day-cell');
+        
+        // Markiere Wochenenden
+        cells.forEach((cell, index) => {
+          if (index === 0 || index === 6) { // Sonntag oder Samstag
+            cell.classList.add('weekend');
+          }
+          
+          // Füge Datum-Anzeige hinzu, falls nicht vorhanden
+          if (!cell.querySelector('.date-display')) {
+            const dateText = cell.textContent.trim().split(' ')[0];
+            if (dateText && !isNaN(parseInt(dateText))) {
+              const dateDisplay = document.createElement('div');
+              dateDisplay.className = 'date-display';
+              dateDisplay.textContent = dateText;
+              cell.appendChild(dateDisplay);
+            }
+          }
+          
+          // Verbessere die Darstellung der Schicht-Buttons
+          const typeToggles = cell.querySelectorAll('.type-toggle');
+          typeToggles.forEach(toggle => {
+            toggle.textContent = "In SV umwandeln";
+            toggle.classList.add('gh-text-small');
+          });
+        });
+      });
+    }
+    
+    // Funktion zur Korrektur der Kalenderausrichtung
+    function fixCalendarAlignment() {
+      // Stelle sicher, dass jede Zeile genau 7 Zellen hat
+      const rows = document.querySelectorAll('#calendar .row');
+      
+      rows.forEach(row => {
+        // Setze explizite Breite und Display-Eigenschaften
+        row.style.display = 'flex';
+        row.style.width = '100%';
+        row.style.flexWrap = 'nowrap';
+        
+        const cells = row.querySelectorAll('.cell, .day-cell');
+        
+        // Stelle sicher, dass jede Zelle die richtige Breite hat
+        cells.forEach(cell => {
+          cell.style.width = 'calc(100% / 7)';
+          cell.style.flexShrink = '0';
+          cell.style.flexGrow = '0';
+          cell.style.boxSizing = 'border-box';
+          
+          // Stelle sicher, dass die Zelle einen Rand hat
+          cell.style.border = '1px solid var(--color-border-default)';
+          
+          // Stelle sicher, dass die Zelle einen Innenabstand hat
+          cell.style.padding = '8px';
+        });
+      });
+      
+      // Korrigiere die Anordnung der Schicht-Container
+      const shiftContainers = document.querySelectorAll('.shift-container');
+      shiftContainers.forEach(container => {
+        container.style.marginBottom = '8px';
+      });
+    }
+    
+    // Funktion zur Anpassung der Zellenhöhe an den Inhalt
+    function adjustCellHeights() {
+      const rows = document.querySelectorAll('#calendar .row');
+      
+      rows.forEach(row => {
+        // Finde die maximale Höhe der Zellen in dieser Zeile
+        let maxHeight = 120; // Mindesthöhe
+        const cells = row.querySelectorAll('.cell, .day-cell');
+        
+        cells.forEach(cell => {
+          const contentHeight = cell.scrollHeight;
+          if (contentHeight > maxHeight) {
+            maxHeight = contentHeight;
+          }
+        });
+        
+        // Setze die Höhe aller Zellen in dieser Zeile auf die maximale Höhe
+        cells.forEach(cell => {
+          cell.style.height = maxHeight + 'px';
+        });
+        
+        // Setze auch die Höhe der Zeile
+        row.style.height = maxHeight + 'px';
+      });
+    }
   });
 </script>
 {% endblock %}

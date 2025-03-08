@@ -1,25 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="max-w-4xl mx-auto">
-    <h2 class="text-3xl font-bold text-gray-800 mb-8">Fertige Dienstpläne</h2>
+<div class="gh-animate-fade-in">
+    <div class="gh-flex gh-justify-between gh-items-center gh-mb-6">
+        <h2 class="text-2xl font-semibold">Fertige Dienstpläne</h2>
+    </div>
     
     {% if plan_files %}
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <div class="space-y-2">
-            {% for plan in plan_files %}
-            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md hover:bg-gray-100">
-                <span class="text-gray-700">{{ plan.display_name }}</span>
-                <a href="{{ url_for('main.plan_view', plan_filename=plan.filename) }}"
-                   class="px-4 py-2 text-sm bg-[--ci-orange] text-white rounded-md hover:bg-[#E65000] transition-colors">
-                    Ansehen
-                </a>
-            </div>
-            {% endfor %}
+    <div class="gh-card">
+        <div class="gh-card-header">
+            <h3 class="gh-card-title">Verfügbare Pläne</h3>
+        </div>
+        <div class="gh-card-body gh-p-0">
+            <ul class="gh-p-0 gh-m-0 list-none">
+                {% for plan in plan_files %}
+                <li class="border-b border-gray-200 last:border-b-0">
+                    <div class="gh-flex gh-justify-between gh-items-center gh-p-4 hover:bg-canvas-subtle">
+                        <div class="gh-flex gh-items-center">
+                            <span class="octicon octicon-calendar text-accent-fg text-xl mr-3"></span>
+                            <div>
+                                <h4 class="font-medium">{{ plan.display_name }}</h4>
+                                <p class="gh-text-small gh-text-muted">Erstellt: {{ plan.created_at|default('Unbekannt') }}</p>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('main.plan_view', plan_filename=plan.filename) }}"
+                           class="gh-button gh-button-primary">
+                            <span class="octicon octicon-eye mr-1"></span>
+                            Ansehen
+                        </a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
     {% else %}
-    <div class="text-center text-gray-600">
-        <p>Es sind noch keine fertigen Dienstpläne verfügbar.</p>
+    <div class="gh-card">
+        <div class="gh-card-body gh-text-center">
+            <span class="octicon octicon-info text-accent-fg text-4xl block mb-4"></span>
+            <h3 class="text-xl font-semibold mb-2">Keine Pläne verfügbar</h3>
+            <p class="gh-text-muted">Es sind noch keine fertigen Dienstpläne verfügbar.</p>
+        </div>
     </div>
     {% endif %}
 </div>

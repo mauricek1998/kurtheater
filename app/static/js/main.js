@@ -1,124 +1,253 @@
 (function() {
     // Alle Funktionen in einem IIFE gekapselt, um globale Duplikate zu vermeiden
   
-    // Supervisor-Kalenderfunktionen (unverändert)
+    // Supervisor-Kalenderfunktionen (angepasst für tabellarischen Kalender)
     window.renderSupervisorCalendar = function(draft) {
       var calendarDiv = document.getElementById("calendar");
       calendarDiv.innerHTML = ""; // Vorherigen Inhalt löschen
+      
+      // Sortiere die Tage nach Datum
       var days = Object.keys(draft.days).sort();
-      days.forEach(function(dateStr) {
-        var dayData = draft.days[dateStr];
-        var dayDiv = document.createElement("div");
-        dayDiv.className = "calendar-day";
-        
-        // Header mit Datum
-        var header = document.createElement("h3");
-        header.textContent = dateStr;
-        dayDiv.appendChild(header);
-        
-        // Container für bereits vorhandene Schichten
-        var shiftsContainer = document.createElement("div");
-        shiftsContainer.className = "shifts-container";
-        
-        // Für jede existierende Schicht an diesem Tag
-        var shifts = dayData.shifts;
-        for (var shiftName in shifts) {
-          if (shifts.hasOwnProperty(shiftName)) {
-            var shiftData = shifts[shiftName];
-            var shiftContainer = document.createElement("div");
-            shiftContainer.className = "shift-container";
-            
-            var shiftBtn = document.createElement("button");
-            shiftBtn.setAttribute("type", "button");
-            shiftBtn.className = "shift-btn";
-            shiftBtn.textContent = shiftName;
-            shiftBtn.dataset.day = dateStr;
-            shiftBtn.dataset.shift = shiftName;
-            
-            // Klassen setzen: aktiv/inaktiv und ggf. SV
-            if (shiftData.active) {
-              shiftBtn.classList.add("active");
-            } else {
-              shiftBtn.classList.add("inactive");
-            }
-            if (shiftData.type === "sv") {
-              shiftBtn.classList.add("sv");
-            }
-            
-            // Klick: aktiven Zustand umschalten
-            shiftBtn.addEventListener("click", function() {
-              var day = this.dataset.day;
-              var shift = this.dataset.shift;
-              var currentState = draft.days[day].shifts[shift].active;
-              draft.days[day].shifts[shift].active = !currentState;
-              if (draft.days[day].shifts[shift].active) {
-                this.classList.remove("inactive");
-                this.classList.add("active");
-              } else {
-                this.classList.remove("active");
-                this.classList.add("inactive");
-              }
-            });
-            
-            // Button zum Umschalten des Schichttyps (normal ↔ sv)
-            var typeToggle = document.createElement("button");
-            typeToggle.setAttribute("type", "button");
-            typeToggle.className = "type-toggle";
-            typeToggle.textContent = "Toggle Type";
-            typeToggle.dataset.day = dateStr;
-            typeToggle.dataset.shift = shiftName;
-            typeToggle.addEventListener("click", function(e) {
-              e.stopPropagation();
-              var day = this.dataset.day;
-              var shift = this.dataset.shift;
-              var currentType = draft.days[day].shifts[shift].type;
-              draft.days[day].shifts[shift].type = (currentType === "normal") ? "sv" : "normal";
-              var parentDiv = this.parentElement;
-              var shiftButton = parentDiv.querySelector("button.shift-btn[data-shift='" + shift + "']");
-              if (draft.days[day].shifts[shift].type === "sv") {
-                shiftButton.classList.add("sv");
-              } else {
-                shiftButton.classList.remove("sv");
-              }
-            });
-            
-            shiftContainer.appendChild(shiftBtn);
-            shiftContainer.appendChild(typeToggle);
-            shiftsContainer.appendChild(shiftContainer);
-          }
-        }
-        
-        // Anzeige von vordefinierten Schichtoptionen (z. B. "mittags", "nachmittags", "abends"),
-        // die noch nicht vorhanden sind – durch Anklicken werden sie dem Entwurf hinzugefügt.
-        var allowedShifts = ["mittags", "nachmittags", "abends"];
-        var optionsContainer = document.createElement("div");
-        optionsContainer.className = "shift-options";
-        allowedShifts.forEach(function(shiftOption) {
-          if (!(shiftOption in dayData.shifts)) {
-            var optionBtn = document.createElement("button");
-            optionBtn.setAttribute("type", "button");
-            optionBtn.className = "shift-option-btn";
-            optionBtn.textContent = shiftOption;
-            optionBtn.dataset.day = dateStr;
-            optionBtn.dataset.shift = shiftOption;
-            optionBtn.addEventListener("click", function() {
-              var day = this.dataset.day;
-              var shift = this.dataset.shift;
-              // Neuen Schichteintrag mit Standardwerten hinzufügen
-              draft.days[day].shifts[shift] = { active: true, type: "normal" };
-              // Neu rendern, damit die Änderung sichtbar wird
-              renderSupervisorCalendar(draft);
-            });
-            optionsContainer.appendChild(optionBtn);
-          }
-        });
-        
-        dayDiv.appendChild(shiftsContainer);
-        if (optionsContainer.childElementCount > 0) {
-          dayDiv.appendChild(optionsContainer);
-        }
-        calendarDiv.appendChild(dayDiv);
+      
+      // Extrahiere Monat und Jahr aus dem ersten Datum (Format: "YYYY-MM-DD")
+      if (days.length === 0) return;
+      
+      var firstDate = new Date(days[0]);
+      var year = firstDate.getFullYear();
+      var month = firstDate.getMonth();
+      
+      // Erstelle einen Kalender für den Monat
+      var firstDayOfMonth = new Date(year, month, 1);
+      var lastDayOfMonth = new Date(year, month + 1, 0);
+      
+      // Bestimme den Wochentag des ersten Tags im Monat (0 = Sonntag, 1 = Montag, ...)
+      var firstDayWeekday = firstDayOfMonth.getDay();
+      
+      // Erstelle den Header mit den Wochentagen
+      var headerRow = document.createElement("div");
+      headerRow.className = "header-row";
+      
+      var weekdays = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+      weekdays.forEach(function(day) {
+        var headerCell = document.createElement("div");
+        headerCell.className = "header-cell";
+        headerCell.textContent = day;
+        headerRow.appendChild(headerCell);
       });
+      
+      calendarDiv.appendChild(headerRow);
+      
+      // Erstelle die Kalenderwochen
+      var currentDate = new Date(firstDayOfMonth);
+      // Gehe zum ersten Tag der Woche (Sonntag), in der der Monat beginnt
+      currentDate.setDate(currentDate.getDate() - firstDayWeekday);
+      
+      // Erstelle 6 Wochen (max. Anzahl Wochen, die ein Monat haben kann)
+      for (var week = 0; week < 6; week++) {
+        var weekRow = document.createElement("div");
+        weekRow.className = "row";
+        
+        // Erstelle 7 Tage pro Woche
+        for (var dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++) {
+          var dateStr = currentDate.toISOString().split('T')[0]; // Format: "YYYY-MM-DD"
+          var dayCell = document.createElement("div");
+          dayCell.className = "day-cell";
+          
+          // Markiere Tage außerhalb des aktuellen Monats
+          if (currentDate.getMonth() !== month) {
+            dayCell.classList.add("empty-cell");
+          }
+          
+          // Markiere Wochenenden
+          if (dayOfWeek === 0 || dayOfWeek === 6) {
+            dayCell.classList.add("weekend");
+          }
+          
+          // Füge das Datum hinzu
+          var dateDisplay = document.createElement("div");
+          dateDisplay.className = "date-display";
+          dateDisplay.textContent = currentDate.getDate();
+          dayCell.appendChild(dateDisplay);
+          
+          // Füge Schichten hinzu, wenn der Tag im Draft existiert
+          if (draft.days[dateStr]) {
+            var dayData = draft.days[dateStr];
+            var shiftsContainer = document.createElement("div");
+            shiftsContainer.className = "shifts-container";
+            
+            // Definiere die Reihenfolge der Schichten
+            var orderedShifts = ["mittags", "nachmittags", "abends"];
+            
+            // Für jede Schicht in der definierten Reihenfolge
+            orderedShifts.forEach(function(shiftName) {
+              // Prüfe, ob die Schicht für diesen Tag existiert
+              if (dayData.shifts.hasOwnProperty(shiftName)) {
+                var shiftData = dayData.shifts[shiftName];
+                var shiftContainer = document.createElement("div");
+                shiftContainer.className = "shift-container";
+                
+                var shiftBtn = document.createElement("button");
+                shiftBtn.setAttribute("type", "button");
+                shiftBtn.className = "shift-btn";
+                shiftBtn.textContent = shiftName;
+                shiftBtn.dataset.day = dateStr;
+                shiftBtn.dataset.shift = shiftName;
+                
+                // Neue Darstellung: Aktiv = grün, Inaktiv = gestrichelt, SV = golden
+                if (shiftData.active) {
+                  if (shiftData.type === "sv") {
+                    shiftBtn.classList.add("sv-active");
+                  } else {
+                    shiftBtn.classList.add("active");
+                  }
+                } else {
+                  shiftBtn.classList.add("inactive");
+                }
+                
+                // Klick: aktiven Zustand umschalten
+                shiftBtn.addEventListener("click", function() {
+                  var day = this.dataset.day;
+                  var shift = this.dataset.shift;
+                  var currentState = draft.days[day].shifts[shift].active;
+                  var currentType = draft.days[day].shifts[shift].type;
+                  draft.days[day].shifts[shift].active = !currentState;
+                  
+                  // Finde den Toggle-Button für diese Schicht
+                  var parentDiv = this.parentElement;
+                  var toggleButton = parentDiv.querySelector(".type-toggle");
+                  
+                  if (draft.days[day].shifts[shift].active) {
+                    this.classList.remove("inactive");
+                    if (currentType === "sv") {
+                      this.classList.add("sv-active");
+                    } else {
+                      this.classList.add("active");
+                    }
+                    
+                    // Zeige den Toggle-Button an, wenn die Schicht aktiv ist
+                    if (toggleButton) {
+                      toggleButton.style.display = "block";
+                    }
+                  } else {
+                    this.classList.remove("active", "sv-active");
+                    this.classList.add("inactive");
+                    
+                    // Verstecke den Toggle-Button, wenn die Schicht inaktiv ist
+                    if (toggleButton) {
+                      toggleButton.style.display = "none";
+                    }
+                  }
+                });
+                
+                // Button zum Umschalten des Schichttyps (normal ↔ sv)
+                var typeToggle = document.createElement("button");
+                typeToggle.setAttribute("type", "button");
+                typeToggle.className = "type-toggle";
+                typeToggle.textContent = "In SV umwandeln";
+                typeToggle.dataset.day = dateStr;
+                typeToggle.dataset.shift = shiftName;
+                
+                // Verstecke den Toggle-Button, wenn die Schicht inaktiv ist
+                if (!shiftData.active) {
+                  typeToggle.style.display = "none";
+                }
+                
+                typeToggle.addEventListener("click", function(e) {
+                  e.stopPropagation();
+                  var day = this.dataset.day;
+                  var shift = this.dataset.shift;
+                  var currentType = draft.days[day].shifts[shift].type;
+                  var isActive = draft.days[day].shifts[shift].active;
+                  draft.days[day].shifts[shift].type = (currentType === "normal") ? "sv" : "normal";
+                  
+                  var parentDiv = this.parentElement;
+                  var shiftButton = parentDiv.querySelector("button.shift-btn[data-shift='" + shift + "']");
+                  
+                  if (draft.days[day].shifts[shift].type === "sv") {
+                    if (isActive) {
+                      shiftButton.classList.remove("active");
+                      shiftButton.classList.add("sv-active");
+                    }
+                  } else {
+                    shiftButton.classList.remove("sv-active");
+                    if (isActive) {
+                      shiftButton.classList.add("active");
+                    }
+                  }
+                });
+                
+                shiftContainer.appendChild(shiftBtn);
+                shiftContainer.appendChild(typeToggle);
+                shiftsContainer.appendChild(shiftContainer);
+              } else {
+                // Schicht existiert noch nicht, füge sie als gestrichelte Option hinzu
+                var shiftContainer = document.createElement("div");
+                shiftContainer.className = "shift-container dashed";
+                
+                var optionBtn = document.createElement("button");
+                optionBtn.setAttribute("type", "button");
+                optionBtn.className = "shift-btn dashed";
+                optionBtn.textContent = shiftName;
+                optionBtn.dataset.day = dateStr;
+                optionBtn.dataset.shift = shiftName;
+                
+                optionBtn.addEventListener("click", function() {
+                  var day = this.dataset.day;
+                  var shift = this.dataset.shift;
+                  // Neuen Schichteintrag mit Standardwerten hinzufügen
+                  draft.days[day].shifts[shift] = { active: true, type: "normal" };
+                  // Neu rendern, damit die Änderung sichtbar wird
+                  renderSupervisorCalendar(draft);
+                });
+                
+                shiftContainer.appendChild(optionBtn);
+                shiftsContainer.appendChild(shiftContainer);
+              }
+            });
+            
+            dayCell.appendChild(shiftsContainer);
+          } else {
+            // Für Tage, die nicht im Draft existieren, zeige trotzdem die möglichen Schichten an
+            var shiftsContainer = document.createElement("div");
+            shiftsContainer.className = "shifts-container";
+            
+            // Definiere die Reihenfolge der Schichten
+            var orderedShifts = ["mittags", "nachmittags", "abends"];
+            
+            // Für jede Schicht in der definierten Reihenfolge
+            orderedShifts.forEach(function(shiftName) {
+              // Schicht existiert noch nicht, füge sie als gestrichelte Option hinzu
+              var shiftContainer = document.createElement("div");
+              shiftContainer.className = "shift-container dashed";
+              
+              var optionBtn = document.createElement("button");
+              optionBtn.setAttribute("type", "button");
+              optionBtn.className = "shift-btn dashed disabled";
+              optionBtn.textContent = shiftName;
+              optionBtn.dataset.day = dateStr;
+              optionBtn.dataset.shift = shiftName;
+              
+              shiftContainer.appendChild(optionBtn);
+              shiftsContainer.appendChild(shiftContainer);
+            });
+            
+            dayCell.appendChild(shiftsContainer);
+          }
+          
+          weekRow.appendChild(dayCell);
+          
+          // Gehe zum nächsten Tag
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+        
+        calendarDiv.appendChild(weekRow);
+        
+        // Wenn wir den letzten Tag des Monats überschritten haben und die Woche beendet ist,
+        // können wir aufhören (es sei denn, wir sind noch in der ersten Woche des nächsten Monats)
+        if (currentDate > lastDayOfMonth && currentDate.getDay() === 0) {
+          break;
+        }
+      }
     };
   
     window.saveDraft = function() {
@@ -253,31 +382,14 @@
         table.appendChild(row);
       });
       
-      // Globaler Clear-All Button (deselektiert alle Schichten aller Tage)
-      var globalClearBtn = document.createElement("button");
-      globalClearBtn.setAttribute("type", "button");
-      globalClearBtn.className = "clear-all-btn";
-      globalClearBtn.textContent = "Alle Schichten deselecten";
-      globalClearBtn.addEventListener("click", function() {
-        Object.keys(window.employeeAvailability).forEach(function(day) {
-          window.employeeAvailability[day] = [];
-        });
-        // Neu rendern, um die UI zu aktualisieren
-        renderEmployeeCalendarUnified(draft);
-      });
-      
       calendarDiv.appendChild(table);
-      calendarDiv.appendChild(globalClearBtn);
     };
   
     window.saveEmployeeAvailability = function() {
-      var empDataField = document.getElementById("employee_data");
-      empDataField.value = JSON.stringify(window.employeeAvailability);
+      var dataField = document.getElementById("employee_data");
+      dataField.value = JSON.stringify(window.employeeAvailability);
       document.getElementById("employeeForm").submit();
     };
-  
-    // Falls Du den bisherigen Kalender nicht mehr benötigst, kannst Du renderEmployeeCalendar ersetzen:
-    // window.renderEmployeeCalendar = renderEmployeeCalendarUnified;
   
   })();
   

@@ -1,49 +1,68 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="max-w-4xl mx-auto">
-    <h2 class="text-3xl font-bold text-gray-800 mb-8">Dienstpläne</h2>
+<div class="gh-animate-fade-in">
+    <div class="gh-flex gh-justify-between gh-items-center gh-mb-6">
+        <h2 class="text-2xl font-semibold">Verfügbarkeit eintragen</h2>
+    </div>
     
     {% set open_drafts = drafts|selectattr('status', 'equalto', 'open')|list %}
-    {% set final_plans = drafts|selectattr('status', 'equalto', 'final')|list %}
     
     {% if open_drafts %}
-    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-        <h3 class="text-xl font-semibold text-gray-700 mb-4">Verfügbarkeit eintragen</h3>
-        <div class="space-y-2">
-            {% for draft in open_drafts %}
-            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md hover:bg-gray-100">
-                <span class="text-gray-700">{{ draft.display_name }}</span>
-                <a href="{{ url_for('main.employee_edit', draft_filename=draft.filename) }}"
-                   class="px-4 py-2 text-sm bg-[--ci-orange] text-white rounded-md hover:bg-[#E65000] transition-colors">
-                    Verfügbarkeit eintragen
+    <div class="gh-card">
+        <div class="gh-card-header">
+            <h3 class="gh-card-title">Offene Dienstpläne</h3>
+        </div>
+        <div class="gh-card-body gh-p-0">
+            <ul class="gh-p-0 gh-m-0 list-none">
+                {% for draft in open_drafts %}
+                <li class="border-b border-gray-200 last:border-b-0">
+                    <div class="gh-flex gh-justify-between gh-items-center gh-p-4 hover:bg-canvas-subtle">
+                        <div class="gh-flex gh-items-center">
+                            <span class="octicon octicon-pencil text-accent-fg text-xl mr-3"></span>
+                            <h4 class="font-medium">{{ draft.display_name }}</h4>
+                        </div>
+                        <a href="{{ url_for('main.employee_edit', draft_filename=draft.filename) }}"
+                           class="gh-button gh-button-primary">
+                            <span class="octicon octicon-clock mr-1"></span>
+                            Verfügbarkeit eintragen
+                        </a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% else %}
+    <div class="gh-card">
+        <div class="gh-card-body gh-text-center">
+            <span class="octicon octicon-info text-accent-fg text-4xl block mb-4"></span>
+            <h3 class="text-xl font-semibold mb-2">Keine offenen Pläne verfügbar</h3>
+            <p class="gh-text-muted">Aktuell gibt es keine Pläne, für die Sie Ihre Verfügbarkeit eintragen können.</p>
+            <div class="gh-mt-4">
+                <a href="{{ url_for('main.plan_list') }}" class="gh-button gh-button-primary">
+                    <span class="octicon octicon-eye mr-2"></span>
+                    Fertige Dienstpläne ansehen
                 </a>
             </div>
-            {% endfor %}
         </div>
     </div>
     {% endif %}
-
-    {% if final_plans %}
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <h3 class="text-xl font-semibold text-gray-700 mb-4">Fertige Dienstpläne</h3>
-        <div class="space-y-2">
-            {% for plan in final_plans %}
-            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md hover:bg-gray-100">
-                <span class="text-gray-700">{{ plan.display_name }}</span>
-                <a href="{{ url_for('main.plan_view', plan_filename=plan.filename) }}"
-                   class="px-4 py-2 text-sm bg-[--ci-orange] text-white rounded-md hover:bg-[#E65000] transition-colors">
-                    Ansehen
-                </a>
-            </div>
-            {% endfor %}
+    
+    <div class="gh-card gh-mt-6">
+        <div class="gh-card-header">
+            <h3 class="gh-card-title">Hinweis</h3>
+        </div>
+        <div class="gh-card-body">
+            <p class="gh-text-muted">
+                Bitte tragen Sie Ihre Verfügbarkeit für alle offenen Pläne ein. 
+                Die fertigen Dienstpläne können Sie unter 
+                <a href="{{ url_for('main.plan_list') }}" class="text-accent-fg hover:underline">Dienstpläne ansehen</a> einsehen.
+            </p>
+            <p class="gh-text-muted gh-mt-2">
+                <span class="octicon octicon-clock text-attention-fg"></span>
+                Die Verfügbarkeiten müssen bis zum 22. des Monats eingetragen sein, da dann die Pläne automatisch erstellt werden.
+            </p>
         </div>
     </div>
-    {% endif %}
-
-    {% if not open_drafts and not final_plans %}
-    <div class="text-center text-gray-600">
-        <p>Aktuell gibt es keine Pläne, für die Sie Ihre Verfügbarkeit eintragen können.</p>
-    </div>
-    {% endif %}
 </div>
 {% endblock %}

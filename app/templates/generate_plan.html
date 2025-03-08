@@ -1,14 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Finalen Plan generieren</h2>
-<form method="post" action="{{ url_for('main.generate_plan') }}">
-    <label for="draft_select">Wähle einen Entwurf:</label>
-    <select id="draft_select" name="draft_filename" required>
-        {% for draft in drafts %}
-        <option value="{{ draft }}">{{ draft }}</option>
-        {% endfor %}
-    </select>
-    <br>
-    <button type="submit">Plan generieren</button>
-</form>
+<div class="gh-animate-fade-in">
+    <div class="gh-flex gh-justify-between gh-items-center gh-mb-6">
+        <h2 class="text-2xl font-semibold">Finalen Plan generieren</h2>
+    </div>
+    
+    <div class="gh-card">
+        <div class="gh-card-header">
+            <h3 class="gh-card-title">Entwurf auswählen</h3>
+        </div>
+        <div class="gh-card-body">
+            <form method="post" action="{{ url_for('main.generate_plan') }}">
+                <div class="gh-form-group">
+                    <label for="draft_select">Wähle einen Entwurf:</label>
+                    <select id="draft_select" name="draft_filename" required class="gh-form-control">
+                        {% for draft in drafts %}
+                        <option value="{{ draft }}">{{ draft }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="gh-flex gh-justify-end gh-mt-4">
+                    <button type="submit" class="gh-button gh-button-primary">
+                        <span class="octicon octicon-gear mr-2"></span>
+                        Plan generieren
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

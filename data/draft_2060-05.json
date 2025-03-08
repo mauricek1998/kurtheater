@@ -1,0 +1,694 @@
+{
+    "month": 5,
+    "year": 2060,
+    "days": {
+        "2060-05-01": {
+            "shifts": {
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "abends",
+                        "mittags"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-02": {
+            "shifts": {
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "mittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-03": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-04": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-05": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-06": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-07": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-08": {
+            "shifts": {
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-09": {
+            "shifts": {
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-10": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-11": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-12": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-13": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-14": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-15": {
+            "shifts": {
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-16": {
+            "shifts": {
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-17": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-18": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-19": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-20": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-21": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-22": {
+            "shifts": {
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-23": {
+            "shifts": {
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-24": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-25": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-26": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-27": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-28": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-29": {
+            "shifts": {
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-30": {
+            "shifts": {
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        },
+        "2060-05-31": {
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            },
+            "availability": [
+                {
+                    "name": "Armer",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Vorfuehrer"
+                    ]
+                }
+            ]
+        }
+    },
+    "status": "open"
+}

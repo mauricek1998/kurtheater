@@ -52,6 +52,14 @@
                 "Vorfuehrer"
             ],
             "is_supervisor": true
+        },
+        "armer.schlucker": {
+            "password": "pbkdf2:sha256:600000$vlu0fdOG00gVZtyk$2a3b8750fee0709e26e918ccfde68921fe55b573c22ac401f8ee769198461b7f",
+            "name": "Armer",
+            "roles": [
+                "Vorfuehrer"
+            ],
+            "is_supervisor": false
         }
     }
 }

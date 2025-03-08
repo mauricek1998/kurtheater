@@ -104,10 +104,12 @@
   function createEditableNameSpan(name, originalColor, date, shift, role) {
     const span = document.createElement('span');
     span.textContent = name;
-    span.className = 'inline-block px-1 py-0.5 rounded text-white cursor-pointer text-xs sm:text-sm break-words max-w-full';
+    span.className = 'inline-block px-1 py-0.5 rounded text-white cursor-pointer text-xs sm:text-sm w-full text-center';
     span.style.backgroundColor = originalColor;
-    span.style.wordBreak = 'break-word';
-    span.style.hyphens = 'auto';
+    span.style.minHeight = '24px';
+    span.style.display = 'flex';
+    span.style.alignItems = 'center';
+    span.style.justifyContent = 'center';
     
     if (isSupervisor) {
       span.title = "Doppelklick zum Bearbeiten";
@@ -230,12 +232,12 @@
     // Monatsüberschrift
     const header = document.createElement('h2');
     header.textContent = monthNames[month - 1] + " " + year;
-    header.className = "text-2xl sm:text-4xl font-bold text-center mb-4 sm:mb-6 sticky top-0 bg-gray-50";
+    header.className = "text-2xl sm:text-4xl font-bold text-center mb-4 sm:mb-6 sticky top-0 bg-[var(--color-canvas-default)]";
     calendarContainer.appendChild(header);
     
     // Wochentage-Header
     const weekHeader = document.createElement('div');
-    weekHeader.className = "grid grid-cols-7 gap-1 sm:gap-2 mb-2 sm:mb-4 sticky top-12 sm:top-16 bg-gray-50 z-10";
+    weekHeader.className = "grid grid-cols-7 gap-1 sm:gap-2 mb-2 sm:mb-4 sticky top-12 sm:top-16 bg-[var(--color-canvas-default)] z-10";
     weekDays.forEach(day => {
       const dayDiv = document.createElement('div');
       dayDiv.textContent = day;
@@ -259,7 +261,7 @@
     // Leere Zellen für Tage vor Monatsbeginn
     for (let i = 0; i < startingDay; i++) {
       const emptyCell = document.createElement('div');
-      emptyCell.className = "border rounded p-2 min-h-52 bg-gray-200";
+      emptyCell.className = "border border-[var(--color-border-default)] rounded p-2 min-h-52 bg-[var(--color-canvas-subtle)]";
       grid.appendChild(emptyCell);
     }
     
@@ -272,7 +274,7 @@
       
       const cell = document.createElement('div');
       const isFirstSat = isFirstSaturday(currentDate);
-      cell.className = `border rounded p-1 sm:p-2 min-h-40 sm:min-h-52 flex flex-col text-xs sm:text-sm ${isFirstSat ? 'bg-red-50' : 'bg-white'}`;
+      cell.className = `border border-[var(--color-border-default)] rounded p-1 sm:p-2 min-h-40 sm:min-h-52 flex flex-col text-xs sm:text-sm ${isFirstSat ? 'bg-red-900' : 'bg-[var(--color-canvas-subtle)]'}`;
       
       const cellHeader = document.createElement('div');
       cellHeader.className = "mb-1 sm:mb-2 relative";
@@ -288,12 +290,12 @@
       
       const dateSpan = document.createElement('span');
       dateSpan.textContent = day;
-      dateSpan.className = `font-bold text-base sm:text-lg ${isFirstSat ? 'text-red-600' : ''}`;
+      dateSpan.className = `font-bold text-base sm:text-lg ${isFirstSat ? 'text-red-300' : ''}`;
       
       const dateObj = new Date(year, month - 1, day);
       const weekdaySpan = document.createElement('span');
       weekdaySpan.textContent = " " + weekDays[dateObj.getDay()];
-      weekdaySpan.className = `text-xs sm:text-sm ml-1 ${isFirstSat ? 'text-red-600' : 'text-gray-600'}`;
+      weekdaySpan.className = `text-xs sm:text-sm ml-1 ${isFirstSat ? 'text-red-300' : 'text-[var(--color-fg-muted)]'}`;
       
       cellHeader.appendChild(dateSpan);
       cellHeader.appendChild(weekdaySpan);
@@ -302,7 +304,7 @@
       const shifts = ['mittags', 'nachmittags', 'abends'];
       shifts.forEach(shiftKey => {
         const shiftDiv = document.createElement('div');
-        shiftDiv.className = "border-t pt-1 sm:pt-2 mb-1 sm:mb-2";
+        shiftDiv.className = "border-t border-[var(--color-border-muted)] pt-1 sm:pt-2 mb-1 sm:mb-2";
         
         const shiftTitle = document.createElement('div');
         shiftTitle.textContent = shiftKey;
@@ -366,7 +368,7 @@
             } else {
               const unassigned = document.createElement('span');
               unassigned.textContent = "Nicht besetzt";
-              unassigned.className = "text-red-600 text-xs";
+              unassigned.className = "text-red-400 text-xs";
               bistroContainer.appendChild(unassigned);
             }
             bistroBox.appendChild(bistroContainer);
@@ -406,17 +408,17 @@
             } else {
               const unassigned = document.createElement('span');
               unassigned.textContent = "Nicht besetzt";
-              unassigned.className = "text-red-600 text-xs";
+              unassigned.className = "text-red-400 text-xs";
               bistroContainer.appendChild(unassigned);
             }
             svDiv.appendChild(bistroContainer);
             shiftDiv.appendChild(svDiv);
           }
         } else {
-          shiftDiv.style.backgroundColor = "#E5E7EB";
+          shiftDiv.style.backgroundColor = "var(--color-canvas-inset)";
           const noShift = document.createElement('div');
           noShift.textContent = "Keine Schicht";
-          noShift.className = "text-xs text-gray-500";
+          noShift.className = "text-xs text-[var(--color-fg-muted)]";
           shiftDiv.appendChild(noShift);
         }
         
@@ -430,7 +432,7 @@
     
     // Stundenliste als Balkendiagramm
     const hoursContainer = document.createElement('div');
-    hoursContainer.className = "mt-4 sm:mt-8 bg-white p-2 sm:p-4 rounded shadow";
+    hoursContainer.className = "mt-4 sm:mt-8 bg-[var(--color-canvas-subtle)] p-2 sm:p-4 rounded border border-[var(--color-border-default)]";
     
     const hoursDiv = document.createElement('div');
     hoursDiv.className = "w-full";
@@ -456,13 +458,13 @@
       
       // Name und Stunden
       const labelDiv = document.createElement('div');
-      labelDiv.className = "w-24 sm:w-32 truncate";
+      labelDiv.className = "w-32 sm:w-40 truncate";
       labelDiv.title = name;
       labelDiv.textContent = name;
       
       // Balken-Container
       const barWrapper = document.createElement('div');
-      barWrapper.className = "flex-1 bg-gray-200 rounded-full h-6 relative";
+      barWrapper.className = "flex-1 bg-[var(--color-canvas-inset)] rounded-full h-6 relative";
       
       // Fortschrittsbalken
       const bar = document.createElement('div');
@@ -538,7 +540,7 @@
     
     if (sortedDates.length === 0) {
       const noShifts = document.createElement('p');
-      noShifts.className = "text-center text-gray-600";
+      noShifts.className = "text-center text-[var(--color-fg-muted)]";
       noShifts.textContent = "Du hast in diesem Monat keine Schichten.";
       container.appendChild(noShifts);
       return;
@@ -553,7 +555,7 @@
       const day = dateObj.getDate();
       
       const dayContainer = document.createElement('div');
-      dayContainer.className = "bg-white rounded-lg shadow p-4";
+      dayContainer.className = "bg-[var(--color-canvas-subtle)] rounded-lg shadow p-4 border border-[var(--color-border-default)]";
       
       // Datum als Header
       const dateHeader = document.createElement('div');
@@ -567,10 +569,10 @@
       
       userShiftsByDate.get(date).forEach(({shift, role}) => {
         const shiftBadge = document.createElement('div');
-        shiftBadge.className = "flex items-center bg-gray-100 rounded-lg p-2";
+        shiftBadge.className = "flex items-center bg-[var(--color-canvas-inset)] rounded-lg p-2";
         
         const shiftInfo = document.createElement('span');
-        shiftInfo.className = "text-gray-600 mr-2";
+        shiftInfo.className = "text-[var(--color-fg-muted)] mr-2";
         shiftInfo.textContent = `${shift} - ${role}`;
         
         const roleIcon = document.createElement('span');

@@ -1,19 +1,119 @@
 {% extends "base.html" %}
 {% block content %}
-<h2 class="text-2xl font-bold mb-4">Verfügbarkeit eintragen für: {{ draft_filename }}</h2>
-<form id="employeeForm" method="post" action="{{ url_for('main.employee_edit', draft_filename=draft_filename) }}">
-  <div id="employeeCalendar"></div>
-  <!-- Hidden field to store availability JSON -->
-  <textarea id="employee_data" name="employee_data" style="display:none;"></textarea>
-  <br>
-  <button type="button" onclick="saveEmployeeAvailability()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Verfügbarkeit speichern</button>
-</form>
+<div class="gh-animate-fade-in">
+  <div class="gh-flex gh-justify-between gh-items-center gh-mb-6">
+    <h2 class="text-2xl font-semibold">Verfügbarkeit eintragen für: {{ draft_filename }}</h2>
+    <button type="button" onclick="saveEmployeeAvailability()" class="gh-button gh-button-success">
+      <span class="octicon octicon-check mr-2"></span>
+      Verfügbarkeit speichern
+    </button>
+  </div>
+  
+  <div class="gh-card">
+    <div class="gh-card-header">
+      <h3 class="gh-card-title">Legende</h3>
+    </div>
+    <div class="gh-card-body gh-p-3">
+      <div class="gh-flex gh-flex-wrap gh-gap-4">
+        <div class="gh-flex gh-items-center">
+          <div class="w-4 h-4 bg-[var(--color-success-subtle)] rounded mr-2"></div>
+          <span>Verfügbar</span>
+        </div>
+        <div class="gh-flex gh-items-center">
+          <div class="w-4 h-4 bg-[var(--color-danger-subtle)] rounded mr-2"></div>
+          <span>Nicht verfügbar</span>
+        </div>
+      </div>
+      <p class="gh-text-small gh-text-muted gh-mt-2">Klicken Sie auf einen Tag im Kalender, um Ihre Verfügbarkeit zu ändern.</p>
+    </div>
+  </div>
+  
+  <!-- Kalender-Container mit angepasstem Styling -->
+  <div id="calendar-container" class="gh-mt-4">
+    <style>
+      /* Überschreibe Standard-Kalender-Styling */
+      #employeeCalendar {
+        background-color: var(--color-canvas-subtle);
+        border-radius: 6px;
+        border: 1px solid var(--color-border-default);
+        overflow: hidden;
+      }
+      
+      /* Stelle sicher, dass alle Zellen im Kalender den gleichen Hintergrund haben */
+      #employeeCalendar div {
+        background-color: var(--color-canvas-subtle) !important;
+      }
+      
+      /* Überschreibe weiße Hintergründe in Zellen */
+      #employeeCalendar .cell, 
+      #employeeCalendar .day-cell, 
+      #employeeCalendar .header-cell {
+        background-color: var(--color-canvas-subtle) !important;
+        border-color: var(--color-border-default) !important;
+      }
+      
+      /* Überschreibe Hover-Effekte */
+      #employeeCalendar .cell:hover, 
+      #employeeCalendar .day-cell:hover {
+        background-color: var(--color-canvas-inset) !important;
+      }
+      
+      /* Stelle sicher, dass Text lesbar ist */
+      #employeeCalendar .cell, 
+      #employeeCalendar .day-cell, 
+      #employeeCalendar .header-cell {
+        color: var(--color-fg-default);
+      }
+      
+      /* Einheitliche Größe für alle Zellen */
+      #employeeCalendar .cell, 
+      #employeeCalendar .day-cell {
+        min-height: 80px;
+        height: auto;
+      }
+      
+      /* Anpassungen für Verfügbarkeitsanzeige */
+      #employeeCalendar .available {
+        background-color: var(--color-success-subtle) !important;
+        border-color: var(--color-success-fg) !important;
+      }
+      
+      #employeeCalendar .unavailable {
+        background-color: var(--color-danger-subtle) !important;
+        border-color: var(--color-danger-fg) !important;
+      }
+    </style>
+    
+    <div id="employeeCalendar"></div>
+  </div>
+  
+  <form id="employeeForm" method="post" action="{{ url_for('main.employee_edit', draft_filename=draft_filename) }}">
+    <!-- Hidden field to store availability JSON -->
+    <textarea id="employee_data" name="employee_data" style="display:none;"></textarea>
+  </form>
+</div>
 {% endblock %}
 {% block scripts %}
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const draft = JSON.parse('{{ draft | tojson | safe }}');
-      renderEmployeeCalendarUnified(draft);
-    });
-  </script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const draft = JSON.parse('{{ draft | tojson | safe }}');
+    renderEmployeeCalendarUnified(draft);
+    
+    // Zusätzliches Styling nach dem Rendern
+    setTimeout(function() {
+      // Entferne alle weißen Hintergründe
+      const allElements = document.querySelectorAll('#employeeCalendar *');
+      allElements.forEach(el => {
+        if (getComputedStyle(el).backgroundColor === 'rgb(255, 255, 255)') {
+          el.style.backgroundColor = 'var(--color-canvas-subtle)';
+        }
+        
+        // Stelle sicher, dass Ränder konsistent sind
+        if (el.style.border) {
+          el.style.borderColor = 'var(--color-border-default)';
+        }
+      });
+    }, 500);
+  });
+</script>
 {% endblock %}

@@ -2,7 +2,7 @@ import os
 import json
 import calendar
 from datetime import datetime
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 from .scheduler import generate_initial_plan
 from .auth import verify_password, get_user, load_users, add_user, save_users, hash_password
@@ -493,3 +493,57 @@ def user_management():
                 return redirect(url_for('main.user_management'))
     
     return render_template('user_management.html', users=all_users)
+
+# API-Route für die automatische Planerstellung
+@bp.route('/api/create_all_plans', methods=['POST'])
+@login_required
+def create_all_plans():
+    if not current_user.is_supervisor:
+        return jsonify({'success': False, 'error': 'Keine Berechtigung'}), 403
+    
+    try:
+        # Finde alle freigegebenen Pläne
+        open_drafts = []
+        for filename in os.listdir(DATA_DIR):
+            if filename.endswith('.json'):
+                draft_path = os.path.join(DATA_DIR, filename)
+                try:
+                    with open(draft_path, 'r') as f:
+                        draft = json.load(f)
+                    if draft.get('status') == 'open':
+                        open_drafts.append(filename)
+                except Exception as e:
+                    continue
+        
+        # Erstelle finale Pläne für alle freigegebenen Entwürfe
+        created_plans = []
+        for draft_filename in open_drafts:
+            draft_path = os.path.join(DATA_DIR, draft_filename)
+            try:
+                with open(draft_path, 'r') as f:
+                    draft = json.load(f)
+                
+                # Generiere den finalen Plan
+                assignments, total_hours, _ = generate_initial_plan(draft_path)
+                
+                # Aktualisiere den Status und füge die Zuweisungen hinzu
+                draft['status'] = 'final'
+                draft['assignments'] = assignments
+                draft['total_hours'] = total_hours
+                draft['created_at'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                
+                # Speichere den finalen Plan
+                with open(draft_path, 'w') as f:
+                    json.dump(draft, f, indent=4)
+                
+                created_plans.append(draft_filename)
+            except Exception as e:
+                continue
+        
+        return jsonify({
+            'success': True, 
+            'message': f'{len(created_plans)} Pläne wurden erfolgreich erstellt', 
+            'created_plans': created_plans
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
