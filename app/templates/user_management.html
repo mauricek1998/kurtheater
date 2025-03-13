@@ -9,6 +9,25 @@
         </button>
     </div>
     
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="gh-mb-4">
+        {% for category, message in messages %}
+        <div class="gh-alert gh-alert-{{ category }}">
+            {% if category == 'success' %}
+            <span class="octicon octicon-check-circle mr-2"></span>
+            {% elif category == 'error' %}
+            <span class="octicon octicon-alert mr-2"></span>
+            {% else %}
+            <span class="octicon octicon-info mr-2"></span>
+            {% endif %}
+            <span>{{ message }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+    
     <!-- Benutzer-Tabelle -->
     <div class="gh-card gh-mb-4">
         <div class="gh-card-header">
@@ -38,7 +57,7 @@
                 </div>
                 <div class="gh-flex gh-justify-end gh-gap-2 gh-mt-3 gh-pt-2 border-t border-gray-200">
                     <button onclick="openEditModal('{{ user.username }}', '{{ user.name }}', {{ user.roles|tojson }}, {{ user.is_supervisor|tojson }})" 
-                            class="gh-button">
+                            class="gh-button gh-button-outline">
                         <span class="octicon octicon-pencil mr-1"></span>
                         Bearbeiten
                     </button>
@@ -86,7 +105,7 @@
                         <td>
                             <div class="gh-flex gh-gap-2">
                                 <button onclick="openEditModal('{{ user.username }}', '{{ user.name }}', {{ user.roles|tojson }}, {{ user.is_supervisor|tojson }})" 
-                                        class="gh-button">
+                                        class="gh-button gh-button-outline">
                                     <span class="octicon octicon-pencil mr-1"></span>
                                     Bearbeiten
                                 </button>
@@ -115,6 +134,11 @@
                 <div class="gh-modal-body">
                     <input type="hidden" name="action" value="update">
                     <input type="hidden" id="edit_username" name="username">
+                    
+                    <div class="gh-alert gh-alert-info gh-mb-4">
+                        <span class="octicon octicon-info mr-2"></span>
+                        <span>Alle Benutzerdaten werden vollständig ersetzt. Bitte füllen Sie alle Felder aus.</span>
+                    </div>
                     
                     <div class="gh-form-group">
                         <label for="edit_name">Name</label>
@@ -155,7 +179,8 @@
                         Abbrechen
                     </button>
                     <button type="submit" class="gh-button gh-button-primary">
-                        Speichern
+                        <span class="octicon octicon-sync mr-1"></span>
+                        Vollständig aktualisieren
                     </button>
                 </div>
             </form>
@@ -261,17 +286,29 @@
 <script>
     // Benutzer bearbeiten Modal
     function openEditModal(username, name, roles, isSupervisor) {
+        // Formular zurücksetzen
+        const editForm = document.querySelector('#editModal form');
+        editForm.reset();
+        
+        // Benutzerdaten setzen
         document.getElementById('edit_username').value = username;
         document.getElementById('edit_name').value = name;
         document.getElementById('edit_password').value = '';
         
+        // Rollen zurücksetzen und dann setzen
+        document.getElementById('edit_role_bistro').checked = false;
+        document.getElementById('edit_role_vorfuehrer').checked = false;
+        
         // Rollen setzen
-        document.getElementById('edit_role_bistro').checked = roles.includes('Bistro');
-        document.getElementById('edit_role_vorfuehrer').checked = roles.includes('Vorfuehrer');
+        if (roles && Array.isArray(roles)) {
+            document.getElementById('edit_role_bistro').checked = roles.includes('Bistro');
+            document.getElementById('edit_role_vorfuehrer').checked = roles.includes('Vorfuehrer');
+        }
         
         // Supervisor-Status setzen
         document.getElementById('edit_is_supervisor').checked = isSupervisor;
         
+        // Modal anzeigen
         document.getElementById('editModal').classList.remove('hidden');
         // Verhindere Scrollen des Hintergrunds
         document.body.style.overflow = 'hidden';
@@ -283,14 +320,29 @@
         document.body.style.overflow = '';
     }
     
+    // Bestätigung vor dem Aktualisieren
+    function confirmUpdate(event) {
+        const form = event.target;
+        const username = document.getElementById('edit_username').value;
+        
+        if (!confirm(`Sind Sie sicher, dass Sie alle Daten für Benutzer "${username}" vollständig ersetzen möchten?`)) {
+            event.preventDefault();
+        }
+    }
+    
+    // Event-Listener für das Bearbeitungsformular hinzufügen
+    document.addEventListener('DOMContentLoaded', function() {
+        const editForm = document.querySelector('#editModal form');
+        if (editForm) {
+            editForm.addEventListener('submit', confirmUpdate);
+        }
+    });
+    
     // Benutzer erstellen Modal
     function openCreateModal() {
-        document.getElementById('create_username').value = '';
-        document.getElementById('create_name').value = '';
-        document.getElementById('create_password').value = '';
-        document.getElementById('create_role_bistro').checked = false;
-        document.getElementById('create_role_vorfuehrer').checked = false;
-        document.getElementById('create_is_supervisor').checked = false;
+        // Formular zurücksetzen
+        const createForm = document.querySelector('#createModal form');
+        createForm.reset();
         
         document.getElementById('createModal').classList.remove('hidden');
         // Verhindere Scrollen des Hintergrunds

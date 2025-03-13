@@ -444,7 +444,7 @@
         },
         "2025-01-09": {
             "abends": {
-                "Vorfuehrer": "",
+                "Vorfuehrer": "Armer",
                 "Bistro": []
             }
         },
@@ -456,30 +456,39 @@
         },
         "2025-01-11": {
             "abends": {
-                "Vorfuehrer": "Ranna Schmidt",
+                "Vorfuehrer": "Banna bidt",
                 "Bistro": []
             },
             "mittags": {
-                "Vorfuehrer": "Ranna Schmidt",
+                "Vorfuehrer": "Banna bidt",
                 "Bistro": []
             },
             "nachmittags": {
-                "Vorfuehrer": "Ranna Schmidt",
+                "Vorfuehrer": "Banna bidt",
                 "Bistro": []
             }
         },
         "2025-01-12": {
             "abends": {
                 "Vorfuehrer": "Ranna Schmidt",
-                "Bistro": []
+                "Bistro": [
+                    "peber",
+                    "owle"
+                ]
             },
             "mittags": {
                 "Vorfuehrer": "Ranna Schmidt",
-                "Bistro": []
+                "Bistro": [
+                    "pistroirus",
+                    "lackamat"
+                ]
             },
             "nachmittags": {
                 "Vorfuehrer": "Ranna Schmidt",
-                "Bistro": []
+                "Bistro": [
+                    "sabbel",
+                    "jj"
+                ]
             }
         },
         "2025-01-13": {
@@ -548,14 +557,17 @@
         },
         "2025-01-21": {
             "abends": {
-                "Vorfuehrer": "",
+                "Vorfuehrer": "kack",
                 "Bistro": []
             }
         },
         "2025-01-22": {
             "abends": {
-                "Vorfuehrer": "",
-                "Bistro": []
+                "Vorfuehrer": "kacko",
+                "Bistro": [
+                    "taco",
+                    "Esteban"
+                ]
             }
         },
         "2025-01-23": {
@@ -630,6 +642,30 @@
         }
     },
     "total_hours": {
-        "Ranna Schmidt": 18
+        "Ranna Schmidt": 9,
+        "Banna bidt": 9,
+        "kack": 3,
+        "kacko": 3,
+        "taco": 2,
+        "Esteban": 2,
+        "pistroirus": 2,
+        "lackamat": 2,
+        "sabbel": 2,
+        "peber": 2,
+        "owle": 2,
+        "jj": 2,
+        "Armer": 3
+    },
+    "notes": {
+        "2025-01-12": {
+            "abends": "ahhhh beginnt um 19:00!",
+            "day": "botiz"
+        },
+        "2025-01-22": {
+            "day": "Keine Leute gefunden ahh!"
+        },
+        "2025-01-15": {
+            "day": "lotiz"
+        }
     }
 }

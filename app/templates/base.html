@@ -276,9 +276,9 @@
         const headerCountdownDisplay = document.getElementById('header-countdown-display');
         if (headerCountdownDisplay) {
           if (days > 0) {
-            headerCountdownDisplay.textContent = `${days}T ${hours}h`;
+            headerCountdownDisplay.textContent = `${days}T ${hours}h ${minutes}m ${seconds}s`;
           } else {
-            headerCountdownDisplay.textContent = `${hours}h ${minutes}m`;
+            headerCountdownDisplay.textContent = `${hours}h ${minutes}m ${seconds}s`;
           }
         }
         

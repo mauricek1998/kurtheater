@@ -1,6 +1,7 @@
 import os
 import json
 import calendar
+import re
 from datetime import datetime
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
@@ -224,6 +225,21 @@ def delete_draft(draft_filename):
         flash("Plan nicht gefunden.", "error")
     return redirect(url_for('main.supervisor'))
 
+@bp.route('/supervisor/delete_final_plan/<plan_filename>', methods=['POST'])
+@login_required
+def delete_final_plan(plan_filename):
+    if not current_user.is_supervisor:
+        flash('Sie haben keine Berechtigung für diese Aktion.', 'error')
+        return redirect(url_for('main.index'))
+    
+    plan_path = os.path.join(DATA_DIR, plan_filename)
+    if os.path.exists(plan_path):
+        os.remove(plan_path)
+        flash(f"Fertiger Plan wurde gelöscht.", "success")
+    else:
+        flash("Plan nicht gefunden.", "error")
+    return redirect(url_for('main.supervisor'))
+
 @bp.route('/supervisor/edit_draft/<draft_filename>', methods=['GET', 'POST'])
 @login_required
 def edit_draft(draft_filename):
@@ -341,13 +357,14 @@ def update_plan_name():
     
     data = request.get_json()
     plan_filename = data.get('plan_filename')
-    old_name = data.get('old_name')
+    old_name = data.get('old_name', '')  # Kann leer sein für neue Mitarbeiter
     new_name = data.get('new_name')
     date = data.get('date')
     shift = data.get('shift')
     role = data.get('role')
     
-    if not all([plan_filename, old_name, new_name, date, shift, role]):
+    # Prüfe, ob die erforderlichen Parameter vorhanden sind
+    if not all([plan_filename, new_name, date, shift, role]):
         return {"success": False, "error": "Fehlende Parameter"}, 400
     
     plan_path = os.path.join(DATA_DIR, plan_filename)
@@ -358,40 +375,117 @@ def update_plan_name():
         with open(plan_path, 'r') as f:
             plan = json.load(f)
         
-        # Aktualisiere nur die spezifische Schicht
+        # Stelle sicher, dass die Schicht existiert
+        if date not in plan['assignments'] or shift not in plan['assignments'][date]:
+            return {"success": False, "error": "Schicht nicht gefunden"}, 404
+        
+        # Aktualisiere die spezifische Schicht
         if role == 'Vorfuehrer':
-            if plan['assignments'][date][shift]['Vorfuehrer'] == old_name:
+            # Wenn es ein neuer Mitarbeiter ist oder der alte Name übereinstimmt
+            if not old_name or plan['assignments'][date][shift].get('Vorfuehrer', '') == old_name:
                 plan['assignments'][date][shift]['Vorfuehrer'] = new_name
-        elif role == 'Bistro':
-            bistro = plan['assignments'][date][shift]['Bistro']
-            if isinstance(bistro, list):
-                plan['assignments'][date][shift]['Bistro'] = [
-                    new_name if name == old_name else name 
-                    for name in bistro
-                ]
-            elif bistro == old_name:
-                plan['assignments'][date][shift]['Bistro'] = new_name
+        elif role.startswith('Bistro'):
+            # Prüfe, ob es sich um einen Bistro-Eintrag mit Index handelt
+            bistro_match = re.match(r'Bistro\[(\d+)\]', role)
+            if bistro_match:
+                # Bistro mit Index (z.B. Bistro[0], Bistro[1])
+                index = int(bistro_match.group(1))
+                bistro = plan['assignments'][date][shift].get('Bistro', [])
+                
+                # Konvertiere String zu Liste, falls nötig
+                if isinstance(bistro, str):
+                    bistro = [bistro]
+                
+                # Erweitere die Liste, falls der Index größer ist als die aktuelle Länge
+                while len(bistro) <= index:
+                    bistro.append('')
+                
+                # Aktualisiere den Eintrag an der angegebenen Position
+                bistro[index] = new_name
+                plan['assignments'][date][shift]['Bistro'] = bistro
+            else:
+                # Einfacher Bistro-Eintrag ohne Index
+                bistro = plan['assignments'][date][shift].get('Bistro', '')
+                if isinstance(bistro, list):
+                    plan['assignments'][date][shift]['Bistro'] = [
+                        new_name if name == old_name or not old_name and not name else name 
+                        for name in bistro
+                    ]
+                elif not old_name or bistro == old_name:
+                    plan['assignments'][date][shift]['Bistro'] = new_name
         
         # Aktualisiere die Gesamtstunden
         # Berechne die Stunden für diese spezifische Schicht
         shift_type = plan['assignments'][date][shift].get('type', 'normal')
-        if role == 'Vorfuehrer':
+        if role.startswith('Vorfuehrer'):
             hours = 3 if shift_type == 'normal' else 0
         else:  # Bistro
             hours = 2 if shift_type == 'normal' else 5
         
-        # Ziehe die Stunden vom alten Namen ab und füge sie dem neuen Namen hinzu
-        plan['total_hours'][old_name] = plan['total_hours'].get(old_name, 0) - hours
-        plan['total_hours'][new_name] = plan['total_hours'].get(new_name, 0) + hours
+        # Initialisiere total_hours, falls es noch nicht existiert
+        if 'total_hours' not in plan:
+            plan['total_hours'] = {}
         
-        # Entferne den alten Namen aus total_hours wenn keine Stunden mehr vorhanden
-        if plan['total_hours'][old_name] <= 0:
-            del plan['total_hours'][old_name]
+        # Ziehe die Stunden vom alten Namen ab, wenn vorhanden
+        if old_name and old_name in plan['total_hours']:
+            plan['total_hours'][old_name] = plan['total_hours'].get(old_name, 0) - hours
+            # Entferne den alten Namen aus total_hours wenn keine Stunden mehr vorhanden
+            if plan['total_hours'][old_name] <= 0:
+                del plan['total_hours'][old_name]
+        
+        # Füge die Stunden dem neuen Namen hinzu
+        plan['total_hours'][new_name] = plan['total_hours'].get(new_name, 0) + hours
         
         with open(plan_path, 'w') as f:
             json.dump(plan, f, indent=4)
         
         return {"success": True}, 200
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return {"success": False, "error": str(e)}, 500
+
+@bp.route('/update_plan_note', methods=['POST'])
+@login_required
+def update_plan_note():
+    # Nur Supervisoren dürfen Notizen anlegen
+    if not current_user.is_supervisor:
+        return {"success": False, "error": "Keine Berechtigung"}, 403
+        
+    data = request.get_json()
+    plan_filename = data.get('plan_filename')
+    date = data.get('date')
+    key = data.get('key')  # 'day' für Tagesnotizen
+    note = data.get('note', '')
+    
+    if not all([plan_filename, date, key]):
+        return {"success": False, "error": "Fehlende Parameter"}, 400
+    
+    plan_path = os.path.join(DATA_DIR, plan_filename)
+    if not os.path.exists(plan_path):
+        return {"success": False, "error": "Plan nicht gefunden"}, 404
+    
+    try:
+        with open(plan_path, 'r', encoding='utf-8') as f:
+            plan_data = json.load(f)
+        
+        # Initialisiere das Notizen-Objekt, falls es noch nicht existiert
+        if 'notes' not in plan_data:
+            plan_data['notes'] = {}
+        
+        # Initialisiere das Datum-Objekt, falls es noch nicht existiert
+        if date not in plan_data['notes']:
+            plan_data['notes'][date] = {}
+        
+        # Speichere die Notiz
+        plan_data['notes'][date][key] = note
+        
+        # Speichere die aktualisierten Daten
+        with open(plan_path, 'w', encoding='utf-8') as f:
+            json.dump(plan_data, f, ensure_ascii=False, indent=2)
+        
+        return {"success": True}, 200
+    
     except Exception as e:
         return {"success": False, "error": str(e)}, 500
 
@@ -468,16 +562,26 @@ def user_management():
             if username not in users_data:
                 flash(f'Der Benutzer {username} existiert nicht.', 'error')
             else:
-                users_data[username]['name'] = name
-                users_data[username]['roles'] = roles
-                users_data[username]['is_supervisor'] = is_supervisor
+                # Vollständiges Ersetzen aller Benutzerdaten
+                # Behalte nur die Benutzer-ID (username) bei
+                updated_user = {
+                    'name': name,
+                    'roles': roles,
+                    'is_supervisor': is_supervisor
+                }
                 
                 # Passwort nur aktualisieren, wenn eines eingegeben wurde
                 if password:
-                    users_data[username]['password'] = hash_password(password)
+                    updated_user['password'] = hash_password(password)
+                else:
+                    # Behalte das alte Passwort bei
+                    updated_user['password'] = users_data[username]['password']
+                
+                # Ersetze den alten Benutzereintrag vollständig
+                users_data[username] = updated_user
                 
                 save_users(users_data)
-                flash(f'Benutzer {username} wurde aktualisiert.', 'success')
+                flash(f'Benutzer {username} wurde vollständig aktualisiert.', 'success')
                 return redirect(url_for('main.user_management'))
         
         # Benutzer löschen

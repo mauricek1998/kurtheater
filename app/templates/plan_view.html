@@ -1,37 +1,574 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container mx-auto p-2 sm:p-4">
-  <!-- Ansichts-Umschalter -->
-  <div class="mb-4 flex justify-end">
-    <button id="toggleView" 
-            class="px-4 py-2 bg-[--ci-orange] text-white rounded-lg shadow hover:bg-[#E65000] transition-colors text-sm sm:text-base">
-      Wann arbeite ich?
-    </button>
+<div class="gh-animate-fade-in">
+  <!-- Header mit Titel und Umschalter -->
+  <div class="gh-flex gh-justify-between gh-items-center gh-mb-6">
+    <h2 class="text-2xl font-semibold">Dienstplan: {{ plan.display_name }}</h2>
   </div>
 
   <!-- Scrollbare Container für den Kalender -->
-  <div class="overflow-x-auto">
-    <div id="calendar" class="min-w-[800px] sm:min-w-[1024px]"></div>
-    <div id="personalView" class="hidden">
-      <!-- Persönliche Übersicht wird hier dynamisch eingefügt -->
+  <div class="gh-overflow-x-auto">
+    <div id="calendar" class="gh-min-w-full"></div>
+  </div>
+  
+  <!-- Popup für Tagesdetails -->
+  <div id="dayDetailsPopup" class="gh-popup-overlay">
+    <div class="gh-popup">
+      <div class="gh-popup-header">
+        <h3 class="gh-popup-title" id="popupTitle">Tagesdetails</h3>
+        <button class="gh-popup-close" onclick="closeDayDetails()">&times;</button>
+      </div>
+      <div class="gh-popup-body" id="popupContent">
+        <!-- Inhalt wird dynamisch eingefügt -->
+      </div>
     </div>
   </div>
   
   {% if is_supervisor %}
   <!-- Speichern-Button (nur für Supervisoren sichtbar) -->
   <div class="fixed bottom-4 right-4">
-    <button id="saveChanges" 
-            class="px-4 py-2 sm:px-6 sm:py-3 bg-green-600 text-white rounded-lg shadow-lg hover:bg-green-700 transition-colors hidden">
+    <button id="saveChanges" class="gh-button gh-button-success hidden">
+      <span class="octicon octicon-check mr-2"></span>
       Änderungen speichern
     </button>
   </div>
   {% endif %}
+  
+  <style>
+    /* Stile für die Namensabzeichen */
+    .gh-name-badge {
+      display: block;
+      padding: 4px 6px;
+      margin: 2px 0;
+      border: 2px solid;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      width: 100%;
+      min-height: 24px;
+      height: 24px; /* Feste Höhe für alle Namensabzeichen */
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      white-space: normal;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      line-height: 1.1;
+      hyphens: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative; /* Für den Bearbeiten-Indikator */
+    }
+    
+    /* Bearbeiten-Indikator für Supervisoren */
+    .gh-name-badge.supervisor-editable::after {
+      content: "✎";
+      position: absolute;
+      right: 4px;
+      font-size: 10px;
+      opacity: 0.7;
+    }
+    
+    .gh-name-badge:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 0 5px var(--color-accent-fg);
+      transform: translateY(-1px);
+    }
+    
+    .gh-name-badge.supervisor-editable:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Stil für gestrichelte Namensbox (für fehlende Mitarbeiter) */
+    .gh-name-badge-empty {
+      display: flex;
+      padding: 4px 6px;
+      margin: 2px 0;
+      border: 2px dashed var(--color-danger-fg);
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      width: 100%;
+      min-height: 24px;
+      height: 24px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-danger-fg);
+      background-color: rgba(248, 81, 73, 0.1);
+    }
+    
+    .gh-name-badge-empty:hover {
+      background-color: rgba(248, 81, 73, 0.2);
+      transform: translateY(-1px);
+    }
+    
+    /* Stil für den Warnindikator (fehlende Mitarbeiter) */
+    .gh-warning-indicator {
+      position: absolute;
+      top: 8px; /* Gleiche Höhe wie der Notizhinweis */
+      right: 40px; /* Rechts statt links, mit Abstand zum Notizhinweis */
+      transform: none; /* Entferne die Transformation */
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: transparent; /* Transparent statt ausgefüllt */
+      border-radius: 50%;
+      border: 2px solid var(--color-danger-fg);
+      font-size: 16px; /* Größere Schrift */
+      font-weight: bold; /* Fett */
+      z-index: 3;
+      color: var(--color-danger-fg); /* Farbe des Textes anpassen */
+      box-shadow: 0 0 8px rgba(248, 81, 73, 0.7);
+      animation: pulse-warning 1.5s infinite;
+    }
+    
+    @keyframes pulse-warning {
+      0% {
+        box-shadow: 0 0 0 0 rgba(248, 81, 73, 0.7);
+        transform: scale(1);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(248, 81, 73, 0);
+        transform: scale(1.1);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(248, 81, 73, 0);
+        transform: scale(1);
+      }
+    }
+    
+    /* Stil für den Notiz-Indikator */
+    .gh-note-indicator {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: transparent; /* Transparent statt ausgefüllt */
+      border-radius: 50%;
+      border: 2px solid #FFD700; /* Gelb statt rot */
+      font-size: 16px; /* Größere Schrift */
+      font-weight: bold; /* Fett */
+      z-index: 2;
+      color: #FFD700; /* Farbe des Textes anpassen */
+      box-shadow: 0 0 5px #FFD700; /* Gelb statt rot */
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(255, 235, 59, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 6px rgba(255, 235, 59, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 235, 59, 0);
+      }
+    }
+    
+    .gh-note-indicator:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 8px rgba(255, 235, 59, 1);
+    }
+    
+    /* Stile für das Notiz-Popup */
+    .gh-note-popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1100;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    
+    .gh-note-popup-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .gh-note-popup {
+      background-color: var(--color-canvas-default);
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      width: 90%;
+      max-width: 500px;
+      max-height: 80vh;
+      overflow-y: auto;
+      transform: scale(0.9);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    
+    .gh-note-popup-overlay.active .gh-note-popup {
+      transform: scale(1);
+      opacity: 1;
+    }
+    
+    .gh-note-popup-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid var(--color-border-default);
+      background-color: var(--color-attention-subtle);
+    }
+    
+    .gh-note-popup-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0;
+      color: var(--color-attention-fg);
+    }
+    
+    .gh-note-popup-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      color: var(--color-fg-muted);
+      transition: opacity 0.2s ease;
+    }
+    
+    .gh-note-popup-close:hover {
+      opacity: 0.7;
+    }
+    
+    .gh-note-popup-body {
+      padding: 16px;
+    }
+    
+    /* Stile für die Kalenderansicht */
+    .gh-calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 8px;
+    }
+    
+    @media (min-width: 1200px) {
+      .gh-calendar-grid {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+      }
+    }
+    
+    @media (max-width: 1199px) and (min-width: 992px) {
+      .gh-calendar-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+    
+    @media (max-width: 991px) and (min-width: 768px) {
+      .gh-calendar-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    
+    @media (max-width: 767px) and (min-width: 576px) {
+      .gh-calendar-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    
+    @media (max-width: 575px) {
+      .gh-calendar-grid {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+      }
+      
+      .gh-hidden-sm {
+        display: none !important;
+      }
+    }
+    
+    @media (min-width: 576px) and (max-width: 767px) {
+      .gh-hidden-md {
+        display: none !important;
+      }
+    }
+    
+    @media (min-width: 768px) and (max-width: 1199px) {
+      .gh-hidden-lg {
+        display: none !important;
+      }
+    }
+    
+    /* Stil für Tage, an denen der Benutzer arbeitet */
+    .gh-user-working-day {
+      border: 2px solid gold !important;
+      box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+    }
+    
+    .gh-calendar-cell {
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+      background-color: var(--color-canvas-subtle);
+      padding: 8px;
+      min-height: 100px;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    
+    .gh-calendar-cell:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .gh-calendar-cell-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--color-border-muted);
+      flex-shrink: 0;
+    }
+    
+    .gh-calendar-date {
+      font-weight: 600;
+      font-size: 16px;
+    }
+    
+    .gh-calendar-weekday {
+      font-size: 12px;
+      color: var(--color-fg-muted);
+    }
+    
+    .gh-shift-container {
+      border-top: 1px solid var(--color-border-muted);
+      padding-top: 8px;
+      margin-bottom: 12px;
+      height: 90px; /* Kleinere Höhe für alle Schichtcontainer */
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto; /* Scrollbar bei Überlauf */
+    }
+    
+    .gh-shift-content {
+      flex-grow: 1;
+      overflow-y: auto;
+    }
+    
+    .gh-shift-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      color: var(--color-accent-fg);
+      flex-shrink: 0;
+    }
+    
+    .gh-role-title {
+      font-size: 10px;
+      font-weight: 600;
+      margin-bottom: 2px;
+      color: var(--color-fg-muted);
+    }
+    
+    .gh-first-saturday {
+      background-color: var(--color-danger-subtle);
+      border-color: var(--color-danger-fg);
+    }
+    
+    .gh-first-saturday .gh-calendar-date,
+    .gh-first-saturday .gh-calendar-weekday {
+      color: var(--color-danger-fg);
+    }
+    
+    /* Stile für die Stundenübersicht */
+    .gh-hours-container {
+      margin-top: 24px;
+      background-color: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+      padding: 16px;
+      max-width: 100%;
+      overflow-x: auto;
+    }
+    
+    .gh-hours-title {
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    
+    .gh-hours-bar-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      width: 100%;
+      min-width: 300px;
+    }
+    
+    .gh-hours-name {
+      width: 120px;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .gh-hours-bar-wrapper {
+      flex: 1;
+      height: 24px;
+      background-color: var(--color-canvas-inset);
+      border-radius: 12px;
+      position: relative;
+    }
+    
+    .gh-hours-bar {
+      height: 100%;
+      border-radius: 12px;
+      transition: width 0.5s ease;
+    }
+    
+    .gh-hours-value {
+      position: absolute;
+      right: 8px;
+      top: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    
+    /* Stile für das Popup */
+    .gh-popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    
+    .gh-popup-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .gh-popup {
+      background-color: var(--color-canvas-default);
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      transform: scale(0.9);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    
+    .gh-popup-overlay.active .gh-popup {
+      transform: scale(1);
+      opacity: 1;
+    }
+    
+    .gh-popup-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid var(--color-border-default);
+    }
+    
+    .gh-popup-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0;
+    }
+    
+    .gh-popup-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      color: var(--color-fg-muted);
+      transition: opacity 0.2s ease;
+    }
+    
+    .gh-popup-close:hover {
+      opacity: 0.7;
+    }
+    
+    .gh-popup-body {
+      padding: 16px;
+    }
+    
+    @media (max-width: 640px) {
+      .gh-calendar-grid {
+        gap: 4px;
+      }
+      
+      .gh-calendar-cell {
+        padding: 4px;
+        min-height: 150px;
+      }
+      
+      .gh-calendar-date {
+        font-size: 14px;
+      }
+      
+      .gh-shift-title {
+        font-size: 10px;
+      }
+      
+      .gh-name-badge {
+        font-size: 10px;
+        padding: 2px 4px;
+        min-height: 20px;
+      }
+      
+      .gh-shift-container {
+        height: 70px;
+        margin-bottom: 8px;
+      }
+      
+      .gh-hours-name {
+        width: 80px;
+      }
+    }
+  </style>
 </div>
 
 <script>
   // planData und isSupervisor werden aus Flask als JSON übergeben
   const planData = JSON.parse('{{ plan | tojson | safe }}');
   const isSupervisor = JSON.parse('{{ is_supervisor | tojson | safe }}');
+  
+  // Notizen-Objekt initialisieren, falls es noch nicht existiert
+  if (!planData.notes) {
+    planData.notes = {};
+  }
   
   // Globale Konstanten für Monats- und Tagesnamen
   const monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni",
@@ -60,7 +597,7 @@
     }
   }
   
-  // Berechne die minimale Breite anhand des längsten Mitarbeitennamens
+  // Berechne die minimale Breite anhand des längsten Mitarbeiternamens
   let maxNameLength = 0;
   for (const name in planData.total_hours) {
     if (name.length > maxNameLength) {
@@ -102,22 +639,25 @@
   
   // Funktion zum Erstellen eines bearbeitbaren Namens-Spans
   function createEditableNameSpan(name, originalColor, date, shift, role) {
-    const span = document.createElement('span');
+    const span = document.createElement('div'); // Verwende div statt span für bessere Blockdarstellung
     span.textContent = name;
-    span.className = 'inline-block px-1 py-0.5 rounded text-white cursor-pointer text-xs sm:text-sm w-full text-center';
-    span.style.backgroundColor = originalColor;
-    span.style.minHeight = '24px';
-    span.style.display = 'flex';
-    span.style.alignItems = 'center';
-    span.style.justifyContent = 'center';
+    span.className = 'gh-name-badge';
+    span.dataset.role = role;
+    
+    // Verwende Outline-Stil statt Hintergrundfarbe
+    span.style.borderColor = originalColor;
+    span.style.color = originalColor;
     
     if (isSupervisor) {
-      span.title = "Doppelklick zum Bearbeiten";
-      span.addEventListener('dblclick', function() {
+      span.title = "Klicken zum Bearbeiten";
+      span.classList.add('supervisor-editable'); // Klasse für Bearbeiten-Indikator
+      
+      // Funktion zum Bearbeiten des Namens
+      function editName() {
         const input = document.createElement('input');
         input.type = 'text';
         input.value = span.textContent;
-        input.className = 'px-1 py-0.5 rounded text-black w-full';
+        input.className = 'gh-form-control gh-w-full';
         input.style.minWidth = maxNameLength + "ch";
         
         input.addEventListener('blur', async function() {
@@ -142,24 +682,28 @@
               if (response.ok) {
                 span.textContent = newName;
                 const newColor = getEmployeeColor(newName);
-                span.style.backgroundColor = newColor;
+                span.style.borderColor = newColor;
+                span.style.color = newColor;
                 location.reload(); // Seite neu laden, um die aktualisierten Stunden zu sehen
               } else {
                 const error = await response.json();
                 alert(`Fehler beim Speichern: ${error.error}`);
                 span.textContent = name;
-                span.style.backgroundColor = originalColor;
+                span.style.borderColor = originalColor;
+                span.style.color = originalColor;
               }
             } catch (error) {
               alert(`Fehler beim Speichern: ${error.message}`);
               span.textContent = name;
-              span.style.backgroundColor = originalColor;
+              span.style.borderColor = originalColor;
+              span.style.color = originalColor;
             }
           } else {
             span.textContent = name;
-            span.style.backgroundColor = originalColor;
+            span.style.borderColor = originalColor;
+            span.style.color = originalColor;
           }
-          span.style.display = 'inline-block';
+          span.style.display = 'block'; // Blockdarstellung wiederherstellen
         });
         
         input.addEventListener('keypress', function(e) {
@@ -171,7 +715,13 @@
         span.style.display = 'none';
         span.parentNode.insertBefore(input, span);
         input.focus();
-      });
+      }
+      
+      // Einfacher Klick zum Bearbeiten
+      span.addEventListener('click', editName);
+      
+      // Doppelklick zum Bearbeiten (als Fallback)
+      span.addEventListener('dblclick', editName);
     }
     
     return span;
@@ -197,7 +747,8 @@
           // Aktualisiere die Farbe auf die des neuen Namens
           const newColor = getEmployeeColor(newName);
           document.querySelectorAll(`span[data-original-name="${oldName}"]`).forEach(span => {
-            span.style.backgroundColor = newColor;
+            span.style.borderColor = newColor;
+            span.style.color = newColor;
             span.dataset.originalName = newName;
           });
         } else {
@@ -212,6 +763,517 @@
     pendingChanges.clear();
     saveButton.classList.add('hidden');
     location.reload(); // Seite neu laden, um alle Änderungen zu sehen
+  }
+  
+  // Funktion zum Anzeigen der Tagesdetails
+  function showDayDetails(dateStr) {
+    const popup = document.getElementById('dayDetailsPopup');
+    const popupTitle = document.getElementById('popupTitle');
+    const popupContent = document.getElementById('popupContent');
+    
+    // Datum formatieren
+    const dateParts = dateStr.split('-');
+    const year = parseInt(dateParts[0]);
+    const month = parseInt(dateParts[1]);
+    const day = parseInt(dateParts[2]);
+    const date = new Date(year, month - 1, day);
+    const dayName = weekDays[date.getDay()];
+    
+    // Titel setzen
+    popupTitle.textContent = `${day}. ${monthNames[month - 1]} ${year} (${dayName})`;
+    
+    // Inhalt leeren
+    popupContent.innerHTML = '';
+    
+    // Prüfen, ob es Schichten für diesen Tag gibt
+    if (!planData.assignments[dateStr]) {
+      popupContent.innerHTML = '<p class="gh-text-muted">Keine Schichten für diesen Tag.</p>';
+      popup.classList.add('active');
+      return;
+    }
+    
+    // Notiz-Button hinzufügen (nur für Supervisoren)
+    if (isSupervisor) {
+      const noteButtonContainer = document.createElement('div');
+      noteButtonContainer.className = 'gh-flex gh-justify-end gh-mb-4';
+      
+      const noteButton = document.createElement('button');
+      noteButton.className = 'gh-button gh-button-sm gh-button-outline';
+      
+      // Prüfen, ob es bereits eine Notiz für diesen Tag gibt
+      const hasNote = planData.notes && 
+                     planData.notes[dateStr] && 
+                     planData.notes[dateStr].day && 
+                     planData.notes[dateStr].day.trim() !== '';
+      
+      if (hasNote) {
+        noteButton.innerHTML = '<span class="octicon octicon-pencil mr-1"></span>Notiz bearbeiten';
+        noteButton.classList.add('gh-button-attention');
+      } else {
+        noteButton.innerHTML = '<span class="octicon octicon-plus mr-1"></span>Notiz hinzufügen';
+      }
+      
+      noteButton.addEventListener('click', function() {
+        showNotePopup(dateStr);
+      });
+      
+      noteButtonContainer.appendChild(noteButton);
+      popupContent.appendChild(noteButtonContainer);
+    }
+    
+    // Notiz anzeigen, falls vorhanden
+    if (planData.notes && planData.notes[dateStr] && planData.notes[dateStr].day && planData.notes[dateStr].day.trim() !== '') {
+      const noteContainer = document.createElement('div');
+      noteContainer.className = 'gh-p-3 gh-mb-4 gh-bg-attention-subtle gh-rounded border border-[var(--color-attention-fg)]';
+      
+      const noteHeader = document.createElement('div');
+      noteHeader.className = 'gh-flex gh-items-center gh-mb-2';
+      
+      const noteIcon = document.createElement('span');
+      noteIcon.className = 'text-attention-fg mr-2 font-bold';
+      noteIcon.textContent = '!'; // Ausrufezeichen statt Icon
+      noteHeader.appendChild(noteIcon);
+      
+      const noteLabel = document.createElement('div');
+      noteLabel.className = 'font-medium text-attention-fg';
+      noteLabel.textContent = 'Notiz:';
+      noteHeader.appendChild(noteLabel);
+      
+      noteContainer.appendChild(noteHeader);
+      
+      const noteText = document.createElement('div');
+      noteText.className = 'gh-text-small gh-whitespace-pre-wrap';
+      noteText.textContent = planData.notes[dateStr].day;
+      noteContainer.appendChild(noteText);
+      
+      popupContent.appendChild(noteContainer);
+    }
+    
+    // Schichten anzeigen
+    const shifts = ['mittags', 'nachmittags', 'abends'];
+    shifts.forEach(shiftKey => {
+      const shiftContainer = document.createElement('div');
+      shiftContainer.className = 'gh-mb-4';
+      
+      const shiftTitle = document.createElement('h4');
+      shiftTitle.className = 'font-semibold text-lg gh-mb-2';
+      shiftTitle.textContent = shiftKey;
+      shiftContainer.appendChild(shiftTitle);
+      
+      if (planData.assignments[dateStr][shiftKey]) {
+        const assignment = planData.assignments[dateStr][shiftKey];
+        
+        // Prüfe, ob es eine normale oder SV-Schicht ist
+        if (assignment.Vorfuehrer !== undefined) {
+          // Normale Schicht mit Vorführer und Bistro
+          const rolesContainer = document.createElement('div');
+          rolesContainer.className = 'gh-flex gh-flex-col gh-gap-2';
+          
+          // Vorführer
+          const vfContainer = document.createElement('div');
+          const vfTitle = document.createElement('div');
+          vfTitle.textContent = 'Vorführer:';
+          vfTitle.className = 'font-medium';
+          vfContainer.appendChild(vfTitle);
+          
+          // Prüfe, ob ein Vorführer zugewiesen ist
+          if (assignment.Vorfuehrer && assignment.Vorfuehrer.trim() !== '') {
+            const vfName = createEditableNameSpan(assignment.Vorfuehrer, getEmployeeColor(assignment.Vorfuehrer), dateStr, shiftKey, 'Vorfuehrer');
+            vfContainer.appendChild(vfName);
+          } else {
+            // Leere Box für fehlenden Vorführer
+            const emptyVfBadge = createEmptyNameBadge(dateStr, shiftKey, 'Vorfuehrer');
+            vfContainer.appendChild(emptyVfBadge);
+          }
+          
+          rolesContainer.appendChild(vfContainer);
+          
+          // Bistro
+          const bistroContainer = document.createElement('div');
+          const bistroTitle = document.createElement('div');
+          bistroTitle.textContent = 'Bistro:';
+          bistroTitle.className = 'font-medium';
+          bistroContainer.appendChild(bistroTitle);
+          
+          const bistroNamesContainer = document.createElement('div');
+          bistroNamesContainer.className = 'gh-flex gh-flex-col gh-gap-2';
+          
+          // Prüfe, ob Bistro-Mitarbeiter zugewiesen sind
+          if (typeof assignment.Bistro === 'string') {
+            if (assignment.Bistro && assignment.Bistro.trim() !== '') {
+              const bistroName = createEditableNameSpan(assignment.Bistro, getEmployeeColor(assignment.Bistro), dateStr, shiftKey, 'Bistro');
+              bistroNamesContainer.appendChild(bistroName);
+            }
+            
+            // Füge eine leere Box hinzu, wenn weniger als 2 Bistro-Mitarbeiter
+            bistroNamesContainer.appendChild(createEmptyNameBadge(dateStr, shiftKey, 'Bistro', 1));
+          } else if (Array.isArray(assignment.Bistro)) {
+            // Zeige vorhandene Bistro-Mitarbeiter
+            assignment.Bistro.forEach((emp, index) => {
+              if (emp && emp.trim() !== '') {
+                const empName = createEditableNameSpan(emp, getEmployeeColor(emp), dateStr, shiftKey, `Bistro[${index}]`);
+                bistroNamesContainer.appendChild(empName);
+              }
+            });
+            
+            // Füge leere Boxen hinzu, wenn weniger als 2 Bistro-Mitarbeiter
+            const filledBistroCount = assignment.Bistro.filter(name => name && name.trim() !== '').length;
+            for (let i = filledBistroCount; i < 2; i++) {
+              bistroNamesContainer.appendChild(createEmptyNameBadge(dateStr, shiftKey, 'Bistro', i));
+            }
+          } else {
+            // Keine Bistro-Mitarbeiter zugewiesen, füge 2 leere Boxen hinzu
+            bistroNamesContainer.appendChild(createEmptyNameBadge(dateStr, shiftKey, 'Bistro', 0));
+            bistroNamesContainer.appendChild(createEmptyNameBadge(dateStr, shiftKey, 'Bistro', 1));
+          }
+          
+          bistroContainer.appendChild(bistroNamesContainer);
+          rolesContainer.appendChild(bistroContainer);
+          shiftContainer.appendChild(rolesContainer);
+        } else {
+          // SV-Schicht (nur Bistro)
+          const svContainer = document.createElement('div');
+          const svTitle = document.createElement('div');
+          svTitle.textContent = 'Bistro (SV):';
+          svTitle.className = 'font-medium';
+          svContainer.appendChild(svTitle);
+          
+          const bistroNamesContainer = document.createElement('div');
+          bistroNamesContainer.className = 'gh-flex gh-flex-col gh-gap-2';
+          
+          // Prüfe, ob Bistro-Mitarbeiter zugewiesen sind
+          if (typeof assignment.Bistro === 'string') {
+            if (assignment.Bistro && assignment.Bistro.trim() !== '') {
+              const bistroName = createEditableNameSpan(assignment.Bistro, getEmployeeColor(assignment.Bistro), dateStr, shiftKey, 'Bistro');
+              bistroNamesContainer.appendChild(bistroName);
+            }
+            
+            // Füge eine leere Box hinzu, wenn weniger als 2 Bistro-Mitarbeiter
+            bistroNamesContainer.appendChild(createEmptyNameBadge(dateStr, shiftKey, 'Bistro', 1));
+          } else if (Array.isArray(assignment.Bistro)) {
+            // Zeige vorhandene Bistro-Mitarbeiter
+            assignment.Bistro.forEach((emp, index) => {
+              if (emp && emp.trim() !== '') {
+                const empName = createEditableNameSpan(emp, getEmployeeColor(emp), dateStr, shiftKey, `Bistro[${index}]`);
+                bistroNamesContainer.appendChild(empName);
+              }
+            });
+            
+            // Füge leere Boxen hinzu, wenn weniger als 2 Bistro-Mitarbeiter
+            const filledBistroCount = assignment.Bistro.filter(name => name && name.trim() !== '').length;
+            for (let i = filledBistroCount; i < 2; i++) {
+              bistroNamesContainer.appendChild(createEmptyNameBadge(dateStr, shiftKey, 'Bistro', i));
+            }
+          } else {
+            // Keine Bistro-Mitarbeiter zugewiesen, füge 2 leere Boxen hinzu
+            bistroNamesContainer.appendChild(createEmptyNameBadge(dateStr, shiftKey, 'Bistro', 0));
+            bistroNamesContainer.appendChild(createEmptyNameBadge(dateStr, shiftKey, 'Bistro', 1));
+          }
+          
+          svContainer.appendChild(bistroNamesContainer);
+          shiftContainer.appendChild(svContainer);
+        }
+      } else {
+        // Keine Schicht für diesen Tag/Schichttyp
+        const noShift = document.createElement('div');
+        noShift.textContent = 'Keine Schicht';
+        noShift.className = 'gh-text-small gh-text-muted';
+        shiftContainer.appendChild(noShift);
+      }
+      
+      popupContent.appendChild(shiftContainer);
+    });
+    
+    // Popup anzeigen
+    popup.classList.add('active');
+  }
+  
+  // Funktion zum Anzeigen des Notiz-Popups
+  function showNotePopup(dateStr) {
+    // Datum formatieren
+    const dateParts = dateStr.split('-');
+    const year = parseInt(dateParts[0]);
+    const month = parseInt(dateParts[1]);
+    const day = parseInt(dateParts[2]);
+    const date = new Date(year, month - 1, day);
+    const dayName = weekDays[date.getDay()];
+    
+    // Erstelle das Popup, falls es noch nicht existiert
+    let notePopup = document.getElementById('notePopupOverlay');
+    if (!notePopup) {
+      notePopup = document.createElement('div');
+      notePopup.id = 'notePopupOverlay';
+      notePopup.className = 'gh-note-popup-overlay';
+      
+      const notePopupContent = document.createElement('div');
+      notePopupContent.className = 'gh-note-popup';
+      
+      const notePopupHeader = document.createElement('div');
+      notePopupHeader.className = 'gh-note-popup-header';
+      
+      const notePopupTitle = document.createElement('h3');
+      notePopupTitle.id = 'notePopupTitle';
+      notePopupTitle.className = 'gh-note-popup-title';
+      notePopupHeader.appendChild(notePopupTitle);
+      
+      const notePopupClose = document.createElement('button');
+      notePopupClose.className = 'gh-note-popup-close';
+      notePopupClose.innerHTML = '&times;';
+      notePopupClose.onclick = closeNotePopup;
+      notePopupHeader.appendChild(notePopupClose);
+      
+      notePopupContent.appendChild(notePopupHeader);
+      
+      const notePopupBody = document.createElement('div');
+      notePopupBody.id = 'notePopupBody';
+      notePopupBody.className = 'gh-note-popup-body';
+      notePopupContent.appendChild(notePopupBody);
+      
+      notePopup.appendChild(notePopupContent);
+      document.body.appendChild(notePopup);
+      
+      // Schließen des Popups beim Klick auf den Hintergrund
+      notePopup.addEventListener('click', function(event) {
+        if (event.target === this) {
+          closeNotePopup();
+        }
+      });
+    }
+    
+    // Aktualisiere den Titel
+    const notePopupTitle = document.getElementById('notePopupTitle');
+    notePopupTitle.textContent = `Notiz für ${day}. ${monthNames[month - 1]} ${year} (${dayName})`;
+    
+    // Aktualisiere den Inhalt
+    const notePopupBody = document.getElementById('notePopupBody');
+    notePopupBody.innerHTML = '';
+    
+    // Aktuelle Notiz abrufen
+    const currentNote = planData.notes && 
+                       planData.notes[dateStr] && 
+                       planData.notes[dateStr].day 
+                       ? planData.notes[dateStr].day 
+                       : '';
+    
+    const noteTextarea = document.createElement('textarea');
+    noteTextarea.className = 'gh-form-control gh-w-full';
+    noteTextarea.rows = 6;
+    noteTextarea.placeholder = 'Notiz für diesen Tag hinzufügen...';
+    noteTextarea.value = currentNote;
+    notePopupBody.appendChild(noteTextarea);
+    
+    const buttonContainer = document.createElement('div');
+    buttonContainer.className = 'gh-flex gh-justify-end gh-mt-4 gh-gap-2';
+    
+    const cancelButton = document.createElement('button');
+    cancelButton.className = 'gh-button gh-button-outline';
+    cancelButton.innerHTML = '<span class="octicon octicon-x mr-1"></span>Abbrechen';
+    cancelButton.addEventListener('click', closeNotePopup);
+    buttonContainer.appendChild(cancelButton);
+    
+    const saveNoteButton = document.createElement('button');
+    saveNoteButton.className = 'gh-button gh-button-success';
+    saveNoteButton.innerHTML = '<span class="octicon octicon-check mr-1"></span>Speichern';
+    saveNoteButton.addEventListener('click', async function() {
+      const success = await saveNote(dateStr, 'day', noteTextarea.value);
+      if (success) {
+        closeNotePopup();
+        // Aktualisiere die Tagesdetails-Ansicht
+        showDayDetails(dateStr);
+      }
+    });
+    buttonContainer.appendChild(saveNoteButton);
+    
+    notePopupBody.appendChild(buttonContainer);
+    
+    // Popup anzeigen
+    notePopup.classList.add('active');
+    
+    // Fokus auf das Textarea setzen
+    setTimeout(() => {
+      noteTextarea.focus();
+    }, 300);
+  }
+  
+  // Funktion zum Schließen des Notiz-Popups
+  function closeNotePopup() {
+    const notePopup = document.getElementById('notePopupOverlay');
+    if (notePopup) {
+      notePopup.classList.remove('active');
+    }
+  }
+  
+  // Funktion zum Speichern einer Notiz
+  async function saveNote(dateStr, key, note) {
+    try {
+      const response = await fetch('/update_plan_note', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          plan_filename: planFilename,
+          date: dateStr,
+          key: key,
+          note: note
+        })
+      });
+      
+      if (response.ok) {
+        // Notiz im lokalen Objekt aktualisieren
+        if (!planData.notes[dateStr]) {
+          planData.notes[dateStr] = {};
+        }
+        planData.notes[dateStr][key] = note;
+        
+        // Aktualisiere die Anzeige in der Kalenderansicht
+        updateNoteIndicator(dateStr);
+        
+        return true;
+      } else {
+        const error = await response.json();
+        alert(`Fehler beim Speichern der Notiz: ${error.error}`);
+        return false;
+      }
+    } catch (error) {
+      alert(`Fehler beim Speichern der Notiz: ${error.message}`);
+      return false;
+    }
+  }
+  
+  // Funktion zum Aktualisieren des Notiz-Indikators in der Kalenderansicht
+  function updateNoteIndicator(dateStr) {
+    const cell = document.querySelector(`.gh-calendar-cell[data-date="${dateStr}"]`);
+    if (!cell) return;
+    
+    // Prüfe, ob es Notizen für diesen Tag gibt
+    let hasNotes = false;
+    if (planData.notes[dateStr] && planData.notes[dateStr].day && planData.notes[dateStr].day.trim() !== '') {
+      hasNotes = true;
+    }
+    
+    // Entferne vorhandenen Indikator, falls vorhanden
+    const existingIndicator = cell.querySelector('.gh-note-indicator');
+    if (existingIndicator) {
+      existingIndicator.remove();
+    }
+    
+    // Füge Indikator hinzu, wenn Notizen vorhanden sind
+    if (hasNotes) {
+      const noteIndicator = document.createElement('div');
+      noteIndicator.className = 'gh-note-indicator';
+      noteIndicator.innerHTML = '!'; // Ausrufezeichen statt Icon
+      noteIndicator.title = 'Notiz vorhanden';
+      
+      // Füge den Indikator direkt in die Zelle ein (absolute Positionierung)
+      cell.appendChild(noteIndicator);
+    }
+  }
+  
+  // Funktion zum Prüfen, ob die Mindestanzahl an Mitarbeitern für eine Schicht erreicht ist
+  function checkMinimumStaffing(dateStr) {
+    if (!planData.assignments[dateStr]) return true; // Keine Schicht, kein Problem
+    
+    let isFullyStaffed = true;
+    const shifts = ['mittags', 'nachmittags', 'abends'];
+    
+    for (const shiftKey of shifts) {
+      if (!planData.assignments[dateStr][shiftKey]) continue; // Keine Schicht zu dieser Zeit
+      
+      const assignment = planData.assignments[dateStr][shiftKey];
+      
+      // Prüfe, ob es eine normale oder SV-Schicht ist
+      const isSVShift = assignment.Vorfuehrer === undefined;
+      
+      // Prüfe Vorführer (nur für normale Schichten)
+      if (!isSVShift && (!assignment.Vorfuehrer || assignment.Vorfuehrer.trim() === '')) {
+        isFullyStaffed = false;
+      }
+      
+      // Prüfe Bistro (für alle Schichten)
+      let bistroPeople = 0;
+      if (typeof assignment.Bistro === 'string' && assignment.Bistro.trim() !== '') {
+        bistroPeople = 1;
+      } else if (Array.isArray(assignment.Bistro)) {
+        bistroPeople = assignment.Bistro.filter(name => name && name.trim() !== '').length;
+      }
+      
+      // Mindestens 2 Bistro-Mitarbeiter erforderlich
+      if (bistroPeople < 2) {
+        isFullyStaffed = false;
+      }
+    }
+    
+    return isFullyStaffed;
+  }
+  
+  // Funktion zum Erstellen einer leeren Namensbox für fehlende Mitarbeiter
+  function createEmptyNameBadge(dateStr, shiftKey, role, index = null) {
+    const emptyBadge = document.createElement('div');
+    emptyBadge.className = 'gh-name-badge-empty';
+    
+    if (isSupervisor) {
+      // Für Supervisoren: "Mitarbeiter hinzufügen" mit Klick-Funktion
+      emptyBadge.textContent = 'Mitarbeiter hinzufügen';
+      emptyBadge.addEventListener('click', function() {
+        addNewEmployee(dateStr, shiftKey, role, index);
+      });
+    } else {
+      // Für normale Benutzer: Nur ein Fragezeichen
+      emptyBadge.textContent = '?';
+      emptyBadge.style.cursor = 'not-allowed';
+      emptyBadge.title = 'Nur Supervisoren können Mitarbeiter hinzufügen';
+    }
+    
+    return emptyBadge;
+  }
+  
+  // Funktion zum Hinzufügen eines neuen Mitarbeiters
+  async function addNewEmployee(dateStr, shiftKey, role, index = null) {
+    // Erstelle ein Popup zur Eingabe des Namens
+    const nameInput = prompt('Name des Mitarbeiters eingeben:');
+    
+    if (!nameInput || nameInput.trim() === '') return;
+    
+    try {
+      // Bestimme den genauen Rollenparameter basierend auf dem Index
+      let exactRole = role;
+      if (role === 'Bistro' && index !== null) {
+        exactRole = `Bistro[${index}]`;
+      }
+      
+      // Bereite die Daten für die Anfrage vor
+      const requestData = {
+        plan_filename: planFilename,
+        old_name: '', // Leerer String für neue Mitarbeiter
+        new_name: nameInput.trim(),
+        date: dateStr,
+        shift: shiftKey,
+        role: exactRole
+      };
+      
+      console.log('Sende Anfrage mit Daten:', requestData);
+      
+      const response = await fetch('/update_plan_name', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData)
+      });
+      
+      if (response.ok) {
+        // Seite neu laden, um die Änderungen zu sehen
+        location.reload();
+      } else {
+        const errorData = await response.json();
+        console.error('Server-Fehler:', errorData);
+        alert(`Fehler beim Speichern: ${errorData.error || 'Unbekannter Fehler'}`);
+      }
+    } catch (error) {
+      console.error('Client-Fehler:', error);
+      alert(`Fehler beim Speichern: ${error.message}`);
+    }
   }
   
   if (isSupervisor) {
@@ -229,389 +1291,240 @@
              date.getDate() <= 7;   // Erster Samstag (innerhalb der ersten 7 Tage)
     }
     
+    // Funktion zum Prüfen, ob der aktuelle Benutzer an diesem Tag arbeitet
+    function isUserWorkingDay(dateStr) {
+      const currentUser = '{{ current_user.name }}';
+      if (!assignments[dateStr]) return false;
+      
+      for (const shiftKey in assignments[dateStr]) {
+        const shift = assignments[dateStr][shiftKey];
+        if (!shift) continue;
+        
+        // Prüfe, ob der Benutzer als Vorführer arbeitet
+        if (shift.Vorfuehrer && shift.Vorfuehrer.trim() === currentUser.trim()) {
+          return true;
+        }
+        
+        // Prüfe, ob der Benutzer im Bistro arbeitet
+        if (typeof shift.Bistro === 'string' && shift.Bistro.trim() === currentUser.trim()) {
+          return true;
+        } else if (Array.isArray(shift.Bistro) && shift.Bistro.some(name => name.trim() === currentUser.trim())) {
+          return true;
+        }
+      }
+      
+      return false;
+    }
+    
     // Monatsüberschrift
     const header = document.createElement('h2');
     header.textContent = monthNames[month - 1] + " " + year;
-    header.className = "text-2xl sm:text-4xl font-bold text-center mb-4 sm:mb-6 sticky top-0 bg-[var(--color-canvas-default)]";
+    header.className = "text-2xl font-semibold text-center gh-mb-4";
     calendarContainer.appendChild(header);
     
     // Wochentage-Header
     const weekHeader = document.createElement('div');
-    weekHeader.className = "grid grid-cols-7 gap-1 sm:gap-2 mb-2 sm:mb-4 sticky top-12 sm:top-16 bg-[var(--color-canvas-default)] z-10";
+    weekHeader.className = "gh-calendar-grid gh-mb-2";
     weekDays.forEach(day => {
       const dayDiv = document.createElement('div');
       dayDiv.textContent = day;
-      dayDiv.className = "text-center font-semibold p-1 sm:p-2 text-xs sm:text-sm";
+      dayDiv.className = "text-center font-semibold gh-p-2 text-sm";
       weekHeader.appendChild(dayDiv);
     });
     calendarContainer.appendChild(weekHeader);
     
-    // Kalender-Grid
-    const grid = document.createElement('div');
-    grid.className = "grid grid-cols-7 gap-1 sm:gap-2";
-    
-    // Berechne die minimale Zellenbreite basierend auf der Textlänge
-    const minCellWidth = Math.max(120, (maxNameLength + 6) * 6); // Reduzierte Breite für Mobile
-    grid.style.gridTemplateColumns = `repeat(7, minmax(${minCellWidth}px, 1fr))`;
-    
+    // Berechne die Anzahl der Wochen im Monat
     const firstDate = new Date(year, month - 1, 1);
     const startingDay = firstDate.getDay();
     const daysInMonth = new Date(year, month, 0).getDate();
+    const totalDays = startingDay + daysInMonth;
+    const totalWeeks = Math.ceil(totalDays / 7);
     
-    // Leere Zellen für Tage vor Monatsbeginn
-    for (let i = 0; i < startingDay; i++) {
-      const emptyCell = document.createElement('div');
-      emptyCell.className = "border border-[var(--color-border-default)] rounded p-2 min-h-52 bg-[var(--color-canvas-subtle)]";
-      grid.appendChild(emptyCell);
-    }
-    
-    // Tage des Monats
-    for (let day = 1; day <= daysInMonth; day++) {
-      const dayStr = day < 10 ? "0" + day : "" + day;
-      const monthStr = month < 10 ? "0" + month : "" + month;
-      const dateStr = year + "-" + monthStr + "-" + dayStr;
-      const currentDate = new Date(year, month - 1, day);
+    // Erstelle für jede Woche ein eigenes Grid
+    for (let week = 0; week < totalWeeks; week++) {
+      // Wochengrid
+      const weekGrid = document.createElement('div');
+      weekGrid.className = "gh-calendar-grid gh-mb-4";
       
-      const cell = document.createElement('div');
-      const isFirstSat = isFirstSaturday(currentDate);
-      cell.className = `border border-[var(--color-border-default)] rounded p-1 sm:p-2 min-h-40 sm:min-h-52 flex flex-col text-xs sm:text-sm ${isFirstSat ? 'bg-red-900' : 'bg-[var(--color-canvas-subtle)]'}`;
-      
-      const cellHeader = document.createElement('div');
-      cellHeader.className = "mb-1 sm:mb-2 relative";
-      
-      // Füge das traurige Emoji für den ersten Samstag hinzu
-      if (isFirstSat) {
-        const sadEmoji = document.createElement('div');
-        sadEmoji.className = "absolute right-0 top-0 text-lg";
-        sadEmoji.textContent = "😢";
-        sadEmoji.title = "Erster Samstag im Monat";
-        cellHeader.appendChild(sadEmoji);
-      }
-      
-      const dateSpan = document.createElement('span');
-      dateSpan.textContent = day;
-      dateSpan.className = `font-bold text-base sm:text-lg ${isFirstSat ? 'text-red-300' : ''}`;
-      
-      const dateObj = new Date(year, month - 1, day);
-      const weekdaySpan = document.createElement('span');
-      weekdaySpan.textContent = " " + weekDays[dateObj.getDay()];
-      weekdaySpan.className = `text-xs sm:text-sm ml-1 ${isFirstSat ? 'text-red-300' : 'text-[var(--color-fg-muted)]'}`;
-      
-      cellHeader.appendChild(dateSpan);
-      cellHeader.appendChild(weekdaySpan);
-      cell.appendChild(cellHeader);
-      
-      const shifts = ['mittags', 'nachmittags', 'abends'];
-      shifts.forEach(shiftKey => {
-        const shiftDiv = document.createElement('div');
-        shiftDiv.className = "border-t border-[var(--color-border-muted)] pt-1 sm:pt-2 mb-1 sm:mb-2";
+      // Tage in dieser Woche
+      for (let dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++) {
+        const dayIndex = week * 7 + dayOfWeek - startingDay + 1;
         
-        const shiftTitle = document.createElement('div');
-        shiftTitle.textContent = shiftKey;
-        shiftTitle.className = "text-xs font-bold uppercase mb-0.5 sm:mb-1";
-        shiftDiv.appendChild(shiftTitle);
-        
-        if (assignments[dateStr] && assignments[dateStr][shiftKey]) {
-          const assignment = assignments[dateStr][shiftKey];
-          if (assignment.Vorfuehrer !== undefined) {
-            const normalDiv = document.createElement('div');
-            normalDiv.className = "flex flex-row justify-between items-start mb-1";
-            
-            const vfBox = document.createElement('div');
-            vfBox.className = "w-1/2 pr-1";
-            const vfTitle = document.createElement('div');
-            vfTitle.textContent = "Vorfuehrer:";
-            vfTitle.className = "text-xs font-semibold";
-            vfBox.appendChild(vfTitle);
-            
-            const vfSpan = createEditableNameSpan(
-              assignment.Vorfuehrer, 
-              getEmployeeColor(assignment.Vorfuehrer),
-              dateStr,
-              shiftKey,
-              'Vorfuehrer'
-            );
-            vfSpan.dataset.originalName = assignment.Vorfuehrer;
-            vfBox.appendChild(vfSpan);
-            normalDiv.appendChild(vfBox);
-            
-            const bistroBox = document.createElement('div');
-            bistroBox.className = "w-1/2 pl-1";
-            const bistroTitle = document.createElement('div');
-            bistroTitle.textContent = "Bistro:";
-            bistroTitle.className = "text-xs font-semibold";
-            bistroBox.appendChild(bistroTitle);
-            const bistroContainer = document.createElement('div');
-            
-            if (typeof assignment.Bistro === 'string') {
-              const bistroSpan = createEditableNameSpan(
-                assignment.Bistro,
-                getEmployeeColor(assignment.Bistro),
-                dateStr,
-                shiftKey,
-                'Bistro'
-              );
-              bistroSpan.dataset.originalName = assignment.Bistro;
-              bistroContainer.appendChild(bistroSpan);
-            } else if (Array.isArray(assignment.Bistro)) {
-              assignment.Bistro.forEach(emp => {
-                const empSpan = createEditableNameSpan(
-                  emp,
-                  getEmployeeColor(emp),
-                  dateStr,
-                  shiftKey,
-                  'Bistro'
-                );
-                empSpan.dataset.originalName = emp;
-                bistroContainer.appendChild(empSpan);
-              });
-            } else {
-              const unassigned = document.createElement('span');
-              unassigned.textContent = "Nicht besetzt";
-              unassigned.className = "text-red-400 text-xs";
-              bistroContainer.appendChild(unassigned);
-            }
-            bistroBox.appendChild(bistroContainer);
-            normalDiv.appendChild(bistroBox);
-            shiftDiv.appendChild(normalDiv);
-          } else {
-            const svDiv = document.createElement('div');
-            svDiv.className = "flex flex-col";
-            const svTitle = document.createElement('div');
-            svTitle.textContent = "Bistro (SV):";
-            svTitle.className = "text-xs font-semibold";
-            svDiv.appendChild(svTitle);
-            const bistroContainer = document.createElement('div');
-            
-            if (typeof assignment.Bistro === 'string') {
-              const bistroSpan = createEditableNameSpan(
-                assignment.Bistro,
-                getEmployeeColor(assignment.Bistro),
-                dateStr,
-                shiftKey,
-                'Bistro'
-              );
-              bistroSpan.dataset.originalName = assignment.Bistro;
-              bistroContainer.appendChild(bistroSpan);
-            } else if (Array.isArray(assignment.Bistro)) {
-              assignment.Bistro.forEach(emp => {
-                const empSpan = createEditableNameSpan(
-                  emp,
-                  getEmployeeColor(emp),
-                  dateStr,
-                  shiftKey,
-                  'Bistro'
-                );
-                empSpan.dataset.originalName = emp;
-                bistroContainer.appendChild(empSpan);
-              });
-            } else {
-              const unassigned = document.createElement('span');
-              unassigned.textContent = "Nicht besetzt";
-              unassigned.className = "text-red-400 text-xs";
-              bistroContainer.appendChild(unassigned);
-            }
-            svDiv.appendChild(bistroContainer);
-            shiftDiv.appendChild(svDiv);
-          }
-        } else {
-          shiftDiv.style.backgroundColor = "var(--color-canvas-inset)";
-          const noShift = document.createElement('div');
-          noShift.textContent = "Keine Schicht";
-          noShift.className = "text-xs text-[var(--color-fg-muted)]";
-          shiftDiv.appendChild(noShift);
+        // Leere Zelle für Tage außerhalb des Monats
+        if (dayIndex <= 0 || dayIndex > daysInMonth) {
+          const emptyCell = document.createElement('div');
+          emptyCell.className = "gh-calendar-cell gh-opacity-50";
+          weekGrid.appendChild(emptyCell);
+          continue;
         }
         
-        cell.appendChild(shiftDiv);
-      });
-      
-      grid.appendChild(cell);
-    }
-    
-    calendarContainer.appendChild(grid);
-    
-    // Stundenliste als Balkendiagramm
-    const hoursContainer = document.createElement('div');
-    hoursContainer.className = "mt-4 sm:mt-8 bg-[var(--color-canvas-subtle)] p-2 sm:p-4 rounded border border-[var(--color-border-default)]";
-    
-    const hoursDiv = document.createElement('div');
-    hoursDiv.className = "w-full";
-    
-    const hoursTitle = document.createElement('h3');
-    hoursTitle.textContent = "Arbeitsstunden pro Mitarbeiter";
-    hoursTitle.className = "text-lg sm:text-xl font-semibold mb-4 text-center";
-    hoursDiv.appendChild(hoursTitle);
-    
-    // Sortiere die Mitarbeiter nach Stunden
-    const sortedEmployees = Object.entries(planData.total_hours)
-      .sort(([,a], [,b]) => b - a);
-    
-    // Finde die maximalen Stunden für die Skalierung
-    const maxHours = sortedEmployees[0][1];
-    
-    const chartContainer = document.createElement('div');
-    chartContainer.className = "space-y-2";
-    
-    sortedEmployees.forEach(([name, hours], index) => {
-      const barContainer = document.createElement('div');
-      barContainer.className = "flex items-center gap-2 text-xs sm:text-sm";
-      
-      // Name und Stunden
-      const labelDiv = document.createElement('div');
-      labelDiv.className = "w-32 sm:w-40 truncate";
-      labelDiv.title = name;
-      labelDiv.textContent = name;
-      
-      // Balken-Container
-      const barWrapper = document.createElement('div');
-      barWrapper.className = "flex-1 bg-[var(--color-canvas-inset)] rounded-full h-6 relative";
-      
-      // Fortschrittsbalken
-      const bar = document.createElement('div');
-      bar.className = "h-full rounded-full transition-all duration-500";
-      bar.style.width = `${(hours / maxHours) * 100}%`;
-      bar.style.backgroundColor = getEmployeeColor(name);
-      
-      // Stundenzahl
-      const hoursLabel = document.createElement('div');
-      hoursLabel.className = "absolute inset-y-0 right-2 flex items-center text-xs font-bold";
-      hoursLabel.textContent = `${hours} Std`;
-      
-      // "King" Krone für den Spitzenreiter
-      if (index === 0) {
-        const crown = document.createElement('div');
-        crown.className = "absolute -top-3 right-0 text-lg";
-        crown.textContent = "👑";
-        crown.title = "Meiste Arbeitsstunden";
-        barWrapper.appendChild(crown);
-      }
-      
-      barWrapper.appendChild(bar);
-      barWrapper.appendChild(hoursLabel);
-      
-      barContainer.appendChild(labelDiv);
-      barContainer.appendChild(barWrapper);
-      chartContainer.appendChild(barContainer);
-    });
-    
-    hoursDiv.appendChild(chartContainer);
-    hoursContainer.appendChild(hoursDiv);
-    calendarContainer.appendChild(hoursContainer);
-  }
-  
-  // Funktion zum Generieren der persönlichen Übersicht
-  function generatePersonalView(assignments) {
-    const container = document.getElementById('personalView');
-    container.innerHTML = '';
-    
-    const currentUser = '{{ current_user.name }}';  // Dies ist bereits der volle Name
-    const userShiftsByDate = new Map(); // Gruppiere Schichten nach Datum
-    
-    // Sammle alle Schichten des Benutzers
-    for (const [date, dayShifts] of Object.entries(assignments)) {
-      for (const [shiftName, shift] of Object.entries(dayShifts)) {
-        if (!shift) continue;  // Überspringe, falls keine Schicht vorhanden
+        const day = dayIndex;
+        const dayStr = day < 10 ? "0" + day : "" + day;
+        const monthStr = month < 10 ? "0" + month : "" + month;
+        const dateStr = year + "-" + monthStr + "-" + dayStr;
+        const currentDate = new Date(year, month - 1, day);
         
-        const isVorfuehrer = shift.Vorfuehrer && shift.Vorfuehrer.trim() === currentUser.trim();
-        const isBistro = Array.isArray(shift.Bistro) 
-          ? shift.Bistro.some(name => name.trim() === currentUser.trim())
-          : shift.Bistro && shift.Bistro.trim() === currentUser.trim();
+        const cell = document.createElement('div');
+        const isFirstSat = isFirstSaturday(currentDate);
+        const isWorkingDay = isUserWorkingDay(dateStr);
         
-        if (isVorfuehrer || isBistro) {
-          if (!userShiftsByDate.has(date)) {
-            userShiftsByDate.set(date, []);
-          }
-          userShiftsByDate.get(date).push({
-            shift: shiftName,
-            role: isVorfuehrer ? 'Vorführer' : 'Bistro'
-          });
+        cell.className = `gh-calendar-cell ${isFirstSat ? 'gh-first-saturday' : ''} ${isWorkingDay ? 'gh-user-working-day' : ''}`;
+        cell.dataset.date = dateStr;
+        
+        // Zellenheader mit Datum und Wochentag
+        const cellHeader = document.createElement('div');
+        cellHeader.className = "gh-calendar-cell-header";
+        
+        const dateInfo = document.createElement('div');
+        
+        const dateSpan = document.createElement('span');
+        dateSpan.textContent = day;
+        dateSpan.className = "gh-calendar-date";
+        dateInfo.appendChild(dateSpan);
+        
+        const weekdaySpan = document.createElement('span');
+        weekdaySpan.textContent = " " + weekDays[currentDate.getDay()];
+        weekdaySpan.className = "gh-calendar-weekday";
+        dateInfo.appendChild(weekdaySpan);
+        
+        cellHeader.appendChild(dateInfo);
+        
+        // Füge das traurige Emoji für den ersten Samstag hinzu
+        if (isFirstSat) {
+          const sadEmoji = document.createElement('div');
+          sadEmoji.className = "text-lg";
+          sadEmoji.textContent = "😢";
+          sadEmoji.title = "Erster Samstag im Monat";
+          cellHeader.appendChild(sadEmoji);
         }
+        
+        cell.appendChild(cellHeader);
+        
+        // Füge Indikator für Schichten hinzu, wenn der Benutzer an diesem Tag arbeitet
+        if (isWorkingDay) {
+          const shiftsIndicator = document.createElement('div');
+          shiftsIndicator.className = "gh-text-center gh-mt-2";
+          shiftsIndicator.innerHTML = '<span class="octicon octicon-calendar-check text-success-fg text-xl"></span>';
+          shiftsIndicator.title = "Du arbeitest an diesem Tag";
+          cell.appendChild(shiftsIndicator);
+        }
+        
+        // Prüfe, ob die Mindestanzahl an Mitarbeitern erreicht ist
+        const isFullyStaffed = checkMinimumStaffing(dateStr);
+        
+        // Füge Warnindikator hinzu, wenn die Mindestanzahl nicht erreicht ist (nur für Supervisoren)
+        if (!isFullyStaffed && isSupervisor) {
+          const warningIndicator = document.createElement('div');
+          warningIndicator.className = 'gh-warning-indicator';
+          warningIndicator.innerHTML = '!';
+          warningIndicator.title = 'Mindestanzahl an Mitarbeitern nicht erreicht';
+          cell.appendChild(warningIndicator);
+        }
+        
+        // Füge Indikator für Notizen hinzu, wenn vorhanden
+        if (planData.notes && planData.notes[dateStr] && planData.notes[dateStr].day && planData.notes[dateStr].day.trim() !== '') {
+          const noteIndicator = document.createElement('div');
+          noteIndicator.className = 'gh-note-indicator';
+          noteIndicator.innerHTML = '!';
+          noteIndicator.title = 'Notiz vorhanden';
+          cell.appendChild(noteIndicator);
+        }
+        
+        // Event-Listener für Klick auf Zelle
+        cell.addEventListener('click', function() {
+          showDayDetails(dateStr);
+        });
+        
+        weekGrid.appendChild(cell);
       }
+      
+      calendarContainer.appendChild(weekGrid);
     }
     
-    // Sortiere die Daten
-    const sortedDates = Array.from(userShiftsByDate.keys()).sort();
-    
-    // Erstelle die Übersicht
-    const header = document.createElement('h2');
-    header.className = "text-2xl sm:text-3xl font-bold text-center mb-6";
-    header.textContent = `Meine Schichten - ${monthNames[month - 1]} ${year}`;
-    container.appendChild(header);
-    
-    if (sortedDates.length === 0) {
-      const noShifts = document.createElement('p');
-      noShifts.className = "text-center text-[var(--color-fg-muted)]";
-      noShifts.textContent = "Du hast in diesem Monat keine Schichten.";
-      container.appendChild(noShifts);
-      return;
-    }
-    
-    const list = document.createElement('div');
-    list.className = "space-y-3 max-w-2xl mx-auto";
-    
-    sortedDates.forEach(date => {
-      const dateObj = new Date(date);
-      const dayName = weekDays[dateObj.getDay()];
-      const day = dateObj.getDate();
+    // Stundenliste als Balkendiagramm - nur für Supervisoren anzeigen
+    if (isSupervisor) {
+      const hoursContainer = document.createElement('div');
+      hoursContainer.className = "gh-hours-container";
       
-      const dayContainer = document.createElement('div');
-      dayContainer.className = "bg-[var(--color-canvas-subtle)] rounded-lg shadow p-4 border border-[var(--color-border-default)]";
+      const hoursTitle = document.createElement('h3');
+      hoursTitle.textContent = "Arbeitsstunden pro Mitarbeiter";
+      hoursTitle.className = "gh-hours-title";
+      hoursContainer.appendChild(hoursTitle);
       
-      // Datum als Header
-      const dateHeader = document.createElement('div');
-      dateHeader.className = "font-bold text-lg mb-2";
-      dateHeader.textContent = `${day}. ${monthNames[month - 1]} (${dayName})`;
-      dayContainer.appendChild(dateHeader);
+      // Sortiere die Mitarbeiter nach Stunden
+      const sortedEmployees = Object.entries(planData.total_hours)
+        .sort(([,a], [,b]) => b - a);
       
-      // Container für die Schichten des Tages
-      const shiftsContainer = document.createElement('div');
-      shiftsContainer.className = "flex flex-wrap gap-2";
+      // Finde die maximalen Stunden für die Skalierung
+      const maxHours = sortedEmployees.length > 0 ? sortedEmployees[0][1] : 0;
       
-      userShiftsByDate.get(date).forEach(({shift, role}) => {
-        const shiftBadge = document.createElement('div');
-        shiftBadge.className = "flex items-center bg-[var(--color-canvas-inset)] rounded-lg p-2";
+      const chartContainer = document.createElement('div');
+      chartContainer.className = "gh-flex gh-flex-col gh-gap-2";
+      
+      sortedEmployees.forEach(([name, hours], index) => {
+        const barContainer = document.createElement('div');
+        barContainer.className = "gh-hours-bar-container";
         
-        const shiftInfo = document.createElement('span');
-        shiftInfo.className = "text-[var(--color-fg-muted)] mr-2";
-        shiftInfo.textContent = `${shift} - ${role}`;
+        // Name
+        const nameDiv = document.createElement('div');
+        nameDiv.className = "gh-hours-name";
+        nameDiv.title = name;
+        nameDiv.textContent = name;
         
-        const roleIcon = document.createElement('span');
-        roleIcon.className = "text-xl";
-        roleIcon.textContent = role === 'Vorführer' ? '🎬' : '🍿';
-        roleIcon.title = role;
+        // Balken-Container
+        const barWrapper = document.createElement('div');
+        barWrapper.className = "gh-hours-bar-wrapper";
         
-        shiftBadge.appendChild(shiftInfo);
-        shiftBadge.appendChild(roleIcon);
-        shiftsContainer.appendChild(shiftBadge);
+        // Fortschrittsbalken
+        const bar = document.createElement('div');
+        bar.className = "gh-hours-bar";
+        bar.style.width = maxHours > 0 ? `${(hours / maxHours) * 100}%` : '0%';
+        bar.style.backgroundColor = getEmployeeColor(name);
+        
+        // Stundenzahl
+        const hoursLabel = document.createElement('div');
+        hoursLabel.className = "gh-hours-value";
+        hoursLabel.textContent = `${hours} Std`;
+        
+        // "King" Krone für den Spitzenreiter
+        if (index === 0 && hours > 0) {
+          const crown = document.createElement('div');
+          crown.className = "absolute -top-3 right-0 text-lg";
+          crown.textContent = "👑";
+          crown.title = "Meiste Arbeitsstunden";
+          barWrapper.appendChild(crown);
+        }
+        
+        barWrapper.appendChild(bar);
+        barWrapper.appendChild(hoursLabel);
+        
+        barContainer.appendChild(nameDiv);
+        barContainer.appendChild(barWrapper);
+        chartContainer.appendChild(barContainer);
       });
       
-      dayContainer.appendChild(shiftsContainer);
-      list.appendChild(dayContainer);
-    });
-    
-    container.appendChild(list);
+      hoursContainer.appendChild(chartContainer);
+      calendarContainer.appendChild(hoursContainer);
+    }
   }
   
-  // Toggle-Funktionalität
-  const toggleButton = document.getElementById('toggleView');
+  // Toggle-Funktionalität entfernt
+  // const toggleButton = document.getElementById('toggleView');
   const calendarView = document.getElementById('calendar');
-  const personalView = document.getElementById('personalView');
-  let showingPersonalView = false;
-  
-  toggleButton.addEventListener('click', () => {
-    if (showingPersonalView) {
-      calendarView.classList.remove('hidden');
-      personalView.classList.add('hidden');
-      toggleButton.textContent = 'Wann arbeite ich?';
-    } else {
-      calendarView.classList.add('hidden');
-      personalView.classList.remove('hidden');
-      generatePersonalView(planData.assignments);
-      toggleButton.textContent = 'Zurück zur Übersicht';
-    }
-    showingPersonalView = !showingPersonalView;
-  });
   
   generateCalendar(year, month, planData.assignments);
+
+  // Funktion zum Schließen des Popups
+  function closeDayDetails() {
+    const popup = document.getElementById('dayDetailsPopup');
+    popup.classList.remove('active');
+  }
+  
+  // Schließen des Popups beim Klick auf den Hintergrund
+  document.getElementById('dayDetailsPopup').addEventListener('click', function(event) {
+    if (event.target === this) {
+      closeDayDetails();
+    }
+  });
 </script>
 {% endblock %}

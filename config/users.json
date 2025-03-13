@@ -60,6 +60,15 @@
                 "Vorfuehrer"
             ],
             "is_supervisor": false
+        },
+        "jakob.pakob": {
+            "password": "pbkdf2:sha256:600000$0z14KaRiZzXdHw4m$ba0ac60495a24b69a07dca28b1c2aceaca7fa29e751be3229812e9b32b234d8a",
+            "name": "Bitcheskiller9000",
+            "roles": [
+                "Bistro",
+                "Vorfuehrer"
+            ],
+            "is_supervisor": false
         }
     }
 }

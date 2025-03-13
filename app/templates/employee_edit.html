@@ -3,10 +3,28 @@
 <div class="gh-animate-fade-in">
   <div class="gh-flex gh-justify-between gh-items-center gh-mb-6">
     <h2 class="text-2xl font-semibold">Verfügbarkeit eintragen für: {{ draft_filename }}</h2>
-    <button type="button" onclick="saveEmployeeAvailability()" class="gh-button gh-button-success">
-      <span class="octicon octicon-check mr-2"></span>
-      Verfügbarkeit speichern
-    </button>
+    <div class="gh-flex gh-gap-2">
+      <button type="button" id="toggleAllButton" onclick="toggleAllAvailability()" class="gh-button gh-button-outline">
+        <span class="octicon octicon-check-circle mr-2"></span>
+        Alle Schichten auswählen
+      </button>
+      <button type="button" onclick="saveEmployeeAvailability()" class="gh-button gh-button-success">
+        <span class="octicon octicon-check mr-2"></span>
+        Verfügbarkeit speichern
+      </button>
+    </div>
+  </div>
+  
+  <div class="gh-card gh-mb-4">
+    <div class="gh-card-header">
+      <h3 class="gh-card-title">Hinweis</h3>
+    </div>
+    <div class="gh-card-body">
+      <p class="gh-text-muted">
+        Klicken Sie auf die Schichten, an denen Sie verfügbar sind. SV-Schichten sind rot umrandet und mit "SV" gekennzeichnet.
+        Mit dem Button "Alle Schichten auswählen/Keine Schichten auswählen" können Sie schnell alle Schichten markieren oder die Auswahl zurücksetzen.
+      </p>
+    </div>
   </div>
   
   <div class="gh-card">
@@ -17,14 +35,18 @@
       <div class="gh-flex gh-flex-wrap gh-gap-4">
         <div class="gh-flex gh-items-center">
           <div class="w-4 h-4 bg-[var(--color-success-subtle)] rounded mr-2"></div>
-          <span>Verfügbar</span>
+          <span>Verfügbar (normale Schicht)</span>
         </div>
         <div class="gh-flex gh-items-center">
-          <div class="w-4 h-4 bg-[var(--color-danger-subtle)] rounded mr-2"></div>
+          <div class="w-4 h-4 bg-[var(--color-danger-fg)] rounded mr-2"></div>
+          <span>Verfügbar (SV-Schicht)</span>
+        </div>
+        <div class="gh-flex gh-items-center">
+          <div class="w-4 h-4 border-2 border-[var(--color-border-default)] rounded mr-2"></div>
           <span>Nicht verfügbar</span>
         </div>
       </div>
-      <p class="gh-text-small gh-text-muted gh-mt-2">Klicken Sie auf einen Tag im Kalender, um Ihre Verfügbarkeit zu ändern.</p>
+      <p class="gh-text-small gh-text-muted gh-mt-2">Klicken Sie auf eine Schicht, um Ihre Verfügbarkeit zu ändern.</p>
     </div>
   </div>
   
@@ -82,6 +104,101 @@
         background-color: var(--color-danger-subtle) !important;
         border-color: var(--color-danger-fg) !important;
       }
+      
+      /* SV-Schicht Styling */
+      #employeeCalendar .sv-shift {
+        background-color: var(--color-canvas-subtle) !important;
+        border: 2px solid var(--color-danger-fg) !important;
+        color: var(--color-fg-default) !important;
+        position: relative;
+      }
+      
+      #employeeCalendar .sv-shift::after {
+        content: "SV";
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        font-size: 10px;
+        color: var(--color-danger-fg);
+        font-weight: bold;
+      }
+      
+      /* Styling für die Verfügbarkeits-Tabelle */
+      .availability-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      
+      .availability-table th, 
+      .availability-table td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid var(--color-border-default);
+      }
+      
+      .availability-table th {
+        background-color: var(--color-canvas-inset);
+        font-weight: 600;
+      }
+      
+      .emp-shift-btn {
+        padding: 8px 12px;
+        border-radius: 6px;
+        border: 1px solid var(--color-border-default);
+        background-color: var(--color-canvas-subtle);
+        color: var(--color-fg-default);
+        cursor: pointer;
+        transition: all 0.2s;
+        width: 100%;
+      }
+      
+      .emp-shift-btn.selected {
+        background-color: var(--color-success-subtle);
+        border-color: var(--color-success-fg);
+        color: var(--color-success-fg);
+        font-weight: 600;
+      }
+      
+      .emp-shift-btn.sv-shift {
+        background-color: var(--color-canvas-subtle);
+        border: 2px solid var(--color-danger-fg);
+        color: var(--color-fg-default);
+        position: relative;
+      }
+      
+      .emp-shift-btn.sv-shift::after {
+        content: "SV";
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        font-size: 10px;
+        color: var(--color-danger-fg);
+        font-weight: bold;
+      }
+      
+      .emp-shift-btn.sv-shift.selected {
+        background-color: var(--color-danger-fg);
+        border: 2px solid var(--color-danger-fg);
+        color: white;
+        font-weight: 600;
+      }
+      
+      .clear-day-btn {
+        padding: 8px 12px;
+        border-radius: 6px;
+        border: 1px solid var(--color-border-default);
+        background-color: var(--color-canvas-subtle);
+        color: var(--color-fg-default);
+        cursor: pointer;
+        transition: all 0.2s;
+        width: 100%;
+      }
+      
+      .clear-day-btn:hover {
+        background-color: var(--color-danger-subtle);
+        border-color: var(--color-danger-fg);
+        color: var(--color-danger-fg);
+      }
     </style>
     
     <div id="employeeCalendar"></div>
@@ -115,5 +232,48 @@
       });
     }, 500);
   });
+  
+  // Zustandsvariable für den Toggle-Button
+  let allShiftsSelected = false;
+  
+  // Funktion zum Umschalten aller Verfügbarkeiten
+  function toggleAllAvailability() {
+    const draft = JSON.parse('{{ draft | tojson | safe }}');
+    const toggleButton = document.getElementById('toggleAllButton');
+    
+    allShiftsSelected = !allShiftsSelected;
+    
+    if (allShiftsSelected) {
+      // Alle Schichten auswählen
+      Object.keys(draft.days).forEach(function(dateStr) {
+        const dayShifts = draft.days[dateStr].shifts;
+        const availableShifts = [];
+        
+        Object.keys(dayShifts).forEach(function(shift) {
+          if (dayShifts[shift].active) {
+            availableShifts.push(shift);
+          }
+        });
+        
+        window.employeeAvailability[dateStr] = availableShifts;
+      });
+      
+      toggleButton.innerHTML = '<span class="octicon octicon-x-circle mr-2"></span>Keine Schichten auswählen';
+      toggleButton.classList.remove('gh-button-outline');
+      toggleButton.classList.add('gh-button-danger');
+    } else {
+      // Keine Schichten auswählen
+      Object.keys(draft.days).forEach(function(dateStr) {
+        window.employeeAvailability[dateStr] = [];
+      });
+      
+      toggleButton.innerHTML = '<span class="octicon octicon-check-circle mr-2"></span>Alle Schichten auswählen';
+      toggleButton.classList.remove('gh-button-danger');
+      toggleButton.classList.add('gh-button-outline');
+    }
+    
+    // Kalender neu rendern
+    renderEmployeeCalendarUnified(draft);
+  }
 </script>
 {% endblock %}

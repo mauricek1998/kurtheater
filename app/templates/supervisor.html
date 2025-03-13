@@ -103,6 +103,12 @@
                             Plan erstellen
                         </button>
                     </form>
+                    <form method="post" action="{{ url_for('main.delete_draft', draft_filename=draft.filename) }}" class="inline">
+                        <button type="submit" onclick="return confirm('Wirklich löschen? Alle eingetragenen Verfügbarkeiten gehen verloren.')" class="gh-button gh-button-danger">
+                            <span class="octicon octicon-trashcan mr-1"></span>
+                            Löschen
+                        </button>
+                    </form>
                 </div>
                 
                 <div>
@@ -140,11 +146,19 @@
                             <span class="octicon octicon-calendar-check text-success-fg text-xl mr-3"></span>
                             <h4 class="font-medium">{{ plan.display_name }}</h4>
                         </div>
-                        <a href="{{ url_for('main.plan_view', plan_filename=plan.filename) }}"
-                           class="gh-button gh-button-primary">
-                            <span class="octicon octicon-eye mr-1"></span>
-                            Ansehen
-                        </a>
+                        <div class="gh-flex gh-gap-2">
+                            <a href="{{ url_for('main.plan_view', plan_filename=plan.filename) }}"
+                               class="gh-button gh-button-primary">
+                                <span class="octicon octicon-eye mr-1"></span>
+                                Ansehen
+                            </a>
+                            <form method="post" action="{{ url_for('main.delete_final_plan', plan_filename=plan.filename) }}" class="inline">
+                                <button type="submit" onclick="return confirm('Wirklich löschen? Dieser Plan wird dauerhaft entfernt.')" class="gh-button gh-button-danger">
+                                    <span class="octicon octicon-trashcan mr-1"></span>
+                                    Löschen
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </li>
                 {% endfor %}

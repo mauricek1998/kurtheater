@@ -1,0 +1,966 @@
+{
+    "days": {
+        "2090-05-01": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-02": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-03": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "sv"
+                }
+            }
+        },
+        "2090-05-04": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-05": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-06": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-07": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-08": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "sv"
+                }
+            }
+        },
+        "2090-05-09": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-10": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-11": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-12": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-13": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-14": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-15": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-16": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-17": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-18": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "sv"
+                }
+            }
+        },
+        "2090-05-19": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-20": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-21": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-22": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-23": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-24": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-25": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-26": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-27": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-28": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "mittags",
+                        "nachmittags",
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "mittags": {
+                    "active": true,
+                    "type": "normal"
+                },
+                "nachmittags": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-29": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-30": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        },
+        "2090-05-31": {
+            "availability": [
+                {
+                    "name": "Ranna Schmidt",
+                    "available_shifts": [
+                        "abends"
+                    ],
+                    "roles": [
+                        "Bistro",
+                        "Vorfuehrer"
+                    ]
+                }
+            ],
+            "shifts": {
+                "abends": {
+                    "active": true,
+                    "type": "normal"
+                }
+            }
+        }
+    },
+    "month": 5,
+    "status": "final",
+    "year": 2090,
+    "assignments": {
+        "2090-05-01": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-02": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-03": {
+            "abends": {
+                "Bistro": [
+                    "Ranna Schmidt"
+                ]
+            }
+        },
+        "2090-05-04": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-05": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-06": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            },
+            "mittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-07": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            },
+            "mittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-08": {
+            "abends": {
+                "Bistro": [
+                    "Ranna Schmidt"
+                ]
+            }
+        },
+        "2090-05-09": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-10": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-11": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-12": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-13": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            },
+            "mittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-14": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            },
+            "mittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-15": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-16": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-17": {
+            "abends": {
+                "Vorfuehrer": "Max Mustermann",
+                "Bistro": []
+            }
+        },
+        "2090-05-18": {
+            "abends": {
+                "Bistro": [
+                    "Ranna Schmidt"
+                ]
+            }
+        },
+        "2090-05-19": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-20": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            },
+            "mittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-21": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            },
+            "mittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-22": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-23": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-24": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-25": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-26": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-27": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            },
+            "mittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-28": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            },
+            "mittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            },
+            "nachmittags": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-29": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-30": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        },
+        "2090-05-31": {
+            "abends": {
+                "Vorfuehrer": "Ranna Schmidt",
+                "Bistro": []
+            }
+        }
+    },
+    "total_hours": {
+        "Ranna Schmidt": 144,
+        "Max Mustermann": 3
+    }
+}

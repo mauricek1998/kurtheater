@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Konfiguration
-PORT=8005
+PORT=8080
 
 # Wechsle in das Verzeichnis des Skripts
 cd "$(dirname "$0")"

@@ -24,9 +24,9 @@
   --color-success-subtle: rgba(46, 160, 67, 0.15);
   --color-success-muted: rgba(46, 160, 67, 0.4);
   
-  --color-attention-fg: #d29922;
-  --color-attention-emphasis: #9e6a03;
-  --color-attention-subtle: rgba(187, 128, 9, 0.15);
+  --color-attention-fg: #f00;
+  --color-attention-emphasis: #F50;
+  --color-attention-subtle: #F55;
   --color-attention-muted: rgba(187, 128, 9, 0.4);
   
   --color-danger-fg: #f85149;
@@ -139,8 +139,9 @@ html {
 }
 
 .gh-card-header {
+
   padding: 16px;
-  border-bottom: 1px solid var(--color-border-default);
+  border: 1px solid var(--color-border-default);
   background-color: var(--color-canvas-inset);
 }
 
@@ -197,6 +198,17 @@ html {
   background-color: #0969da;
   color: var(--color-fg-on-emphasis);
   border-color: transparent;
+}
+
+.gh-button-outline {
+  background-color: transparent;
+  color: var(--color-accent-fg);
+  border-color: var(--color-accent-muted);
+}
+
+.gh-button-outline:hover {
+  background-color: var(--color-accent-subtle);
+  border-color: var(--color-accent-fg);
 }
 
 .gh-button-danger {

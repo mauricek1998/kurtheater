@@ -2,7 +2,7 @@
 setlocal
 
 REM Definiere den Port
-set PORT=8000
+set PORT=8005
 
 REM Zeige die lokale IP-Adresse an
 echo Ermittle lokale IP-Adresse...

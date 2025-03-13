@@ -266,6 +266,9 @@
       var calendarDiv = document.getElementById("employeeCalendar");
       calendarDiv.innerHTML = "";
       
+      // Debug-Ausgabe für den Draft
+      console.log("Draft für Mitarbeiter-Kalender:", draft);
+      
       // Erlaubte Schichten (ohne "morgens")
       var allowedShifts = ["mittags", "nachmittags", "abends"];
       
@@ -339,13 +342,24 @@
             btn.textContent = shift;
             btn.dataset.day = dateStr;
             btn.dataset.shift = shift;
+            
+            // Prüfe, ob es sich um eine SV-Schicht handelt
+            var shiftType = draft.days[dateStr].shifts[shift].type || "normal";
+            console.log("Schichttyp für", dateStr, shift, ":", shiftType);
+            
+            if (shiftType === "sv") {
+              btn.classList.add("sv-shift");
+            }
+            
             if (window.employeeAvailability[dateStr].indexOf(shift) !== -1) {
               btn.classList.add("selected");
             }
+            
             btn.addEventListener("click", function() {
               var day = this.dataset.day;
               var shift = this.dataset.shift;
               var index = window.employeeAvailability[day].indexOf(shift);
+              
               if (index === -1) {
                 window.employeeAvailability[day].push(shift);
                 this.classList.add("selected");
